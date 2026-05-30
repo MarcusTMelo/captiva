@@ -95,6 +95,8 @@ html { scroll-behavior: smooth; }
   
   /* Parallax no scroll */
   pointer-events: none;
+  width: auto;
+  height: auto;
 }
 
 @keyframes carroRota {
@@ -1078,7 +1080,7 @@ html { scroll-behavior: smooth; }
 
 <!-- HERO SECTION -->
 <section class="hero">
-  <div class="carro-container">
+  <div class="carro-container" id="carro">
     <div class="carro-shadow"></div>
     <img src="captiva-material/carro/Carro.png" alt="Chevrolet Captiva 2011" class="carro-img">
     <div class="dust-particles">
@@ -1498,24 +1500,26 @@ function createLeaves() {
 }
 
 // ═══════════════════════════════════════
-// PARALLAX DO CARRO AO SCROLLAR
+// PARALLAX SUAVE DO CARRO NO SCROLL
 // ═══════════════════════════════════════
-let carroStartY = 0;
-const carroContainer = document.querySelector('.carro-container');
-const heroHeight = window.innerHeight;
-
-window.addEventListener('load', () => {
-  carroStartY = carroContainer.getBoundingClientRect().top + window.scrollY;
-});
+const carroEl = document.getElementById('carro');
 
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
+  const heroHeight = window.innerHeight;
   
-  // Parallax: sai da tela conforme scroll (horizontal lento)
-  if (scrollY > heroHeight * 0.5) {
-    const progress = (scrollY - heroHeight * 0.5) / heroHeight;
-    carroContainer.style.transform = `translateX(${progress * 800}px) scale(${Math.max(0.5, 1 - progress * 0.5)})`;
-    carroContainer.style.opacity = Math.max(0, 1 - progress * 1.5);
+  // Fade out do carro conforme scroll além do hero
+  if (scrollY > 100) {
+    const fadeProgress = Math.min(scrollY / (heroHeight * 0.5), 1);
+    
+    // Translada para cima e para a direita
+    const translateX = fadeProgress * 400; // 400px para a direita
+    const translateY = fadeProgress * -200; // 200px para cima
+    const scale = 1 - (fadeProgress * 0.3); // Diminui de tamanho
+    
+    carroEl.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    carroEl.style.opacity = Math.max(0, 1 - fadeProgress * 1.5);
+    carroEl.style.pointerEvents = 'none';
   }
 });
 
