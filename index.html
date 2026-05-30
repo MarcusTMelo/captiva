@@ -6,14 +6,8 @@
 <meta property="og:url" content="https://captiva.marcustmelo.com/" />
 <meta property="og:title" content="Captiva 2011 – Tô Vendendo. Quer Comprar? 🚗" />
 <meta property="og:description" content="SUV que impõe respeito na cidade e devora estrada sem reclamar. Com histórico completo, 70 fotos e total transparência." />
-<meta property="og:image" content="https://captiva.marcustmelo.com/captiva-material/backgrounds/background-desktop.webp" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+<meta property="og:image" content="https://raw.githubusercontent.com/MarcusTMelo/captiva/main/captiva-material/backgrounds/background-desktop.webp" />
 <meta property="og:locale" content="pt_BR" />
-
-<!-- Twitter/X -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://captiva.marcustmelo.com/captiva-material/backgrounds/background-desktop.webp" />
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,41 +23,28 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --verde-escuro: #0f3a0f;
-  --verde-medio:  #1e6b1e;
-  --amarelo:      #f9c923;
-  --amarelo-dark: #c49200;
-  --laranja:      #ff8c00;
-  --branco:       #ffffff;
-  --texto-claro:  rgba(255,255,255,0.97);
-  --cinza-claro:  rgba(255,255,255,0.85);
-
-  --stroke-escuro:
-    -2px -2px 0 #0a2a0a,
-     2px -2px 0 #0a2a0a,
-    -2px  2px 0 #0a2a0a,
-     2px  2px 0 #0a2a0a,
-     0    4px 12px rgba(0,0,0,0.7);
-
-  --stroke-amarelo:
-    -2px -2px 0 #6b4a00,
-     2px -2px 0 #6b4a00,
-    -2px  2px 0 #6b4a00,
-     2px  2px 0 #6b4a00,
-     0    4px 12px rgba(0,0,0,0.6);
-
-  --card-bg:     rgba(10, 30, 10, 0.62);
-  --card-border: rgba(255,255,255,0.22);
-  --card-blur:   blur(14px);
-  --card-shadow: 0 8px 40px rgba(0,0,0,0.55);
+  --azul-vibrante:  #2E8B9E;
+  --azul-claro:     #1E90FF;
+  --verde-fresco:   #2ECC71;
+  --verde-escuro:   #27AE60;
+  --coral:          #FF6B6B;
+  --laranja-vivo:   #FF8C42;
+  --branco:         #ffffff;
+  --cinza-claro:    rgba(255,255,255,0.95);
+  --cinza-medio:    rgba(255,255,255,0.85);
+  --cinza-escuro:   rgba(0,0,0,0.15);
 }
 
 html, body {
-  width: 100%; height: 100%;
+  width: 100%;
   font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
   background: #000;
+  color: #333;
 }
+
+/* Scroll suave */
+html { scroll-behavior: smooth; }
 
 /* ═══════════════════════════════════════
    HERO SECTION
@@ -78,189 +59,166 @@ html, body {
   justify-content: center;
 }
 
-/* Background com efeito parallax suave */
 .hero-bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: url('captiva-material/backgrounds/background-desktop.webp') center center / cover no-repeat;
+  background-attachment: fixed;
   z-index: 0;
-  box-shadow: inset 0 0 120px rgba(0,0,0,0.3);
+  width: 100%;
+  height: 100%;
 }
 
 .hero-bg::after {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   background:
-    linear-gradient(to right,  rgba(0,0,0,0.35) 0%, transparent 40%),
-    linear-gradient(to left,   rgba(0,0,0,0.32) 0%, transparent 40%),
-    linear-gradient(to bottom, rgba(0,0,0,0.40) 0%, transparent 35%),
-    linear-gradient(to top,    rgba(0,0,0,0.30) 0%, transparent 30%);
+    linear-gradient(to right, rgba(0,0,0,0.2) 0%, transparent 35%),
+    linear-gradient(to left, rgba(0,0,0,0.15) 0%, transparent 35%),
+    linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 40%),
+    linear-gradient(to top, rgba(0,0,0,0.05) 0%, transparent 20%);
+  pointer-events: none;
 }
 
 /* ═══════════════════════════════════════
-   ANIMAÇÃO DO CARRO - ENTRADA ÉPICA
+   ANIMAÇÃO DO CARRO - BEZIER CURVE
 ═══════════════════════════════════════ */
 .carro-container {
-  position: absolute;
-  z-index: 10;
-  /* Desktop: começa em X: 20vw, Y: 35vh */
-  left: 20vw;
-  top: 35vh;
+  position: fixed;
+  z-index: 50;
+  left: 25vw;
+  top: 30vh;
   
-  /* Animação: vai para o centro em 3s */
-  animation: carroEntrada 3.0s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  /* Animação principal - 3.5 segundos */
+  animation: carroRota 3.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  
+  /* Parallax no scroll */
+  pointer-events: none;
 }
 
-@keyframes carroEntrada {
+@keyframes carroRota {
   0% {
-    left: 20vw;
-    top: 35vh;
-    transform: scale(0.1) rotate(15deg);
+    left: 25vw;
+    top: 30vh;
+    width: 60px;
     opacity: 0;
+    transform: scale(0.05) rotate(-15deg);
   }
-  10% {
+  15% {
     opacity: 1;
+  }
+  35% {
+    left: 35vw;
+    top: 45vh;
+    width: 180px;
+    transform: scale(0.3) rotate(-5deg);
+  }
+  70% {
+    left: 45vw;
+    top: 58vh;
+    width: 350px;
+    transform: scale(0.7) rotate(0deg);
   }
   100% {
     left: 50%;
-    top: 50vh;
-    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    top: 65vh;
+    width: 45vw;
+    transform: translateX(-50%) scale(1) rotate(0deg);
     opacity: 1;
   }
 }
 
 .carro-img {
-  width: 120px;
-  height: 90px;
-  object-fit: contain;
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
-  animation: carroGrowth 3.0s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 15px 35px rgba(0,0,0,0.5));
 }
 
-@keyframes carroGrowth {
-  0% {
-    width: 120px;
-    height: 90px;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
-  }
-  100% {
-    width: 600px;
-    height: 450px;
-    filter: drop-shadow(0 40px 60px rgba(0,0,0,0.8));
-  }
+/* Sombra dinâmica */
+.carro-shadow {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 50px;
+  background: radial-gradient(ellipse 100% 100% at center, rgba(0,0,0,0.4), transparent);
+  filter: blur(25px);
+  animation: shadowGrow 3.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Partículas de pó ao frear */
+@keyframes shadowGrow {
+  0% { opacity: 0; width: 30px; }
+  100% { opacity: 0.7; width: 90%; }
+}
+
+/* Partículas de pó */
 .dust-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
   opacity: 0;
-  animation: dustEffect 0.8s ease-out 2.8s forwards;
+  animation: dustAppear 0.8s ease 3.0s forwards;
 }
 
-@keyframes dustEffect {
-  0% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(20px, 10px) scale(1.5);
-  }
+@keyframes dustAppear {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .dust-particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(255,255,255,0.4);
+  width: 3px;
+  height: 3px;
+  background: rgba(255,255,255,0.5);
   border-radius: 50%;
-  animation: particleFloat 0.8s ease-out forwards;
+  animation: particleFloat 0.8s ease-out;
 }
-
-.dust-particle:nth-child(1) { left: 50%; top: 50%; animation-delay: 0s; }
-.dust-particle:nth-child(2) { left: 52%; top: 48%; animation-delay: 0.05s; }
-.dust-particle:nth-child(3) { left: 48%; top: 52%; animation-delay: 0.1s; }
-.dust-particle:nth-child(4) { left: 54%; top: 50%; animation-delay: 0.08s; }
-.dust-particle:nth-child(5) { left: 46%; top: 50%; animation-delay: 0.12s; }
 
 @keyframes particleFloat {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(var(--tx, 30px), var(--ty, -20px)) scale(0);
-    opacity: 0;
-  }
-}
-
-/* Sombra dinâmica do carro */
-.carro-shadow {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 500px;
-  height: 80px;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, transparent 70%);
-  border-radius: 50%;
-  filter: blur(20px);
-  animation: shadowGrowth 3.0s cubic-bezier(0.42, 0, 0.58, 1) forwards;
-  z-index: -1;
-}
-
-@keyframes shadowGrowth {
-  0% {
-    width: 80px;
-    height: 20px;
-    opacity: 0;
-  }
-  100% {
-    width: 500px;
-    height: 80px;
-    opacity: 0.6;
-  }
+  0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  100% { transform: translate(var(--tx, 20px), var(--ty, -20px)) scale(0); opacity: 0; }
 }
 
 /* ═══════════════════════════════════════
-   CONTEÚDO DO HERO (Textos)
+   CONTEÚDO DO HERO
 ═══════════════════════════════════════ */
 .hero-content {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding: 40px;
+  padding: 60px 40px;
   text-align: center;
+  pointer-events: none;
   opacity: 0;
-  animation: heroContentFade 1.0s ease 4.0s forwards;
+  animation: heroFade 1.0s ease 3.8s forwards;
 }
 
-@keyframes heroContentFade {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+@keyframes heroFade {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .hero-content h1 {
   font-family: 'Baloo 2', cursive;
   font-weight: 900;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
   line-height: 1.1;
   color: var(--branco);
-  text-shadow: var(--stroke-escuro);
-  margin-bottom: 10px;
+  text-shadow: -3px -3px 0 #0a0a0a, 3px -3px 0 #0a0a0a, -3px 3px 0 #0a0a0a, 3px 3px 0 #0a0a0a, 0 6px 20px rgba(0,0,0,0.8);
+  margin-bottom: 15px;
 }
 
 .hero-content .destaque {
-  color: var(--amarelo);
-  text-shadow: var(--stroke-amarelo);
+  color: var(--coral);
+  text-shadow: -2px -2px 0 #8B0000, 2px -2px 0 #8B0000, -2px 2px 0 #8B0000, 2px 2px 0 #8B0000, 0 4px 15px rgba(255,107,107,0.6);
 }
 
 .hero-content p {
@@ -268,41 +226,111 @@ html, body {
   font-weight: 700;
   font-size: clamp(1rem, 2.5vw, 1.3rem);
   color: var(--cinza-claro);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-  max-width: 600px;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.8);
+  max-width: 700px;
   line-height: 1.6;
 }
 
 /* ═══════════════════════════════════════
-   SEÇÕES DE CONTEÚDO (SCROLLYTELLING)
+   ELEMENTOS DECORATIVOS - PASSARINHOS
 ═══════════════════════════════════════ */
-.content-wrapper {
+.birds-container {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bird {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: birdFly linear infinite;
+  opacity: 0.7;
+}
+
+.bird-1 { left: 10%; top: 20%; animation-duration: 15s; animation-delay: 0s; }
+.bird-2 { left: 70%; top: 35%; animation-duration: 18s; animation-delay: 2s; }
+.bird-3 { left: 20%; top: 50%; animation-duration: 16s; animation-delay: 4s; }
+.bird-4 { right: 15%; top: 25%; animation-duration: 17s; animation-delay: 1s; }
+
+@keyframes birdFly {
+  0% { transform: translateX(-100vw) translateY(0); }
+  100% { transform: translateX(120vw) translateY(var(--wave, 0)); }
+}
+
+/* ═══════════════════════════════════════
+   FOLHAS CAINDO
+═══════════════════════════════════════ */
+.leaves-container {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.leaf {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: leafFall linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes leafFall {
+  0% {
+    top: -20px;
+    transform: translateX(0) rotateZ(0deg);
+    opacity: 0.6;
+  }
+  100% {
+    top: 100vh;
+    transform: translateX(var(--drift, 30px)) rotateZ(360deg);
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════════════════
+   SEÇÕES DE CONTEÚDO
+═══════════════════════════════════════ */
+.content-sections {
   position: relative;
   z-index: 20;
-  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%);
+  width: 100%;
 }
 
 .section {
   min-height: 100vh;
-  padding: 80px 40px;
+  padding: 100px 40px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   position: relative;
   overflow: hidden;
 }
 
-.section-inner {
-  max-width: 1000px;
-  width: 100%;
-  opacity: 0;
-  animation: fadeInUp 1.0s ease forwards;
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(46, 139, 158, 0.08) 0%, rgba(46, 204, 113, 0.06) 100%);
+  pointer-events: none;
 }
 
-@keyframes fadeInUp {
+.section-inner {
+  max-width: 1100px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeInStagger 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes fadeInStagger {
   0% {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(50px);
   }
   100% {
     opacity: 1;
@@ -312,103 +340,130 @@ html, body {
 
 .section:nth-child(1) .section-inner { animation-delay: 0.1s; }
 .section:nth-child(2) .section-inner { animation-delay: 0.2s; }
-.section:nth-child(3) .section-inner { animation-delay: 0.3s; }
-.section:nth-child(4) .section-inner { animation-delay: 0.4s; }
-.section:nth-child(5) .section-inner { animation-delay: 0.5s; }
-.section:nth-child(6) .section-inner { animation-delay: 0.6s; }
-.section:nth-child(7) .section-inner { animation-delay: 0.7s; }
+.section:nth-child(3) .section-inner { animation-delay: 0.2s; }
+.section:nth-child(4) .section-inner { animation-delay: 0.2s; }
+.section:nth-child(5) .section-inner { animation-delay: 0.2s; }
+.section:nth-child(6) .section-inner { animation-delay: 0.2s; }
+.section:nth-child(7) .section-inner { animation-delay: 0.2s; }
+.section:nth-child(8) .section-inner { animation-delay: 0.2s; }
+.section:nth-child(9) .section-inner { animation-delay: 0.2s; }
 
 .section h2 {
   font-family: 'Baloo 2', cursive;
   font-weight: 900;
   font-size: clamp(2rem, 5vw, 3.5rem);
-  color: var(--amarelo);
-  text-shadow: var(--stroke-amarelo);
-  margin-bottom: 30px;
+  color: var(--azul-vibrante);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  margin-bottom: 50px;
   text-align: center;
+  letter-spacing: -0.02em;
 }
 
 .section h3 {
   font-family: 'Baloo 2', cursive;
   font-weight: 800;
-  font-size: clamp(1.2rem, 2vw, 1.6rem);
-  color: var(--branco);
-  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-  margin: 20px 0 15px;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  color: var(--verde-escuro);
+  margin: 30px 0 20px;
 }
 
 .section p {
   font-family: 'Nunito', sans-serif;
   font-weight: 600;
-  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-  color: var(--cinza-claro);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: #333;
   line-height: 1.8;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 /* ═══════════════════════════════════════
-   CARDS COM DADOS
+   CARDS & LAYOUTS
 ═══════════════════════════════════════ */
 .card {
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  border: 1.5px solid var(--card-border);
-  border-radius: 16px;
-  padding: 24px;
-  margin: 15px 0;
-  box-shadow: var(--card-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--branco);
+  border-left: 5px solid var(--azul-vibrante);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 25px 0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--azul-vibrante), var(--verde-fresco), var(--coral));
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 50px rgba(0,0,0,0.7);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(46, 139, 158, 0.25);
+  border-left-color: var(--coral);
 }
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin: 30px 0;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin: 40px 0;
 }
 
 .card-item {
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  border: 1.5px solid var(--card-border);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: var(--card-shadow);
+  background: linear-gradient(135deg, #f5f9fb 0%, #e8f4f8 100%);
+  border: 2px solid var(--azul-claro);
+  border-radius: 16px;
+  padding: 28px;
   text-align: center;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(46, 139, 158, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .card-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 40px rgba(249,201,35,0.3);
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(46, 139, 158, 0.3);
+  border-color: var(--coral);
+}
+
+.card-item:hover::before {
+  opacity: 1;
 }
 
 .card-item-label {
   font-family: 'Baloo 2', cursive;
   font-weight: 800;
-  font-size: 0.85rem;
-  color: var(--amarelo);
+  font-size: 0.8rem;
+  color: var(--azul-vibrante);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
 }
 
 .card-item-value {
   font-family: 'Baloo 2', cursive;
   font-weight: 900;
-  font-size: 1.5rem;
-  color: var(--branco);
-  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+  font-size: 1.8rem;
+  color: var(--verde-escuro);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
 }
 
 /* ═══════════════════════════════════════
-   TIMELINE (HISTÓRICO)
+   TIMELINE
 ═══════════════════════════════════════ */
 .timeline {
   position: relative;
@@ -420,14 +475,14 @@ html, body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 3px;
+  width: 4px;
   height: 100%;
-  background: linear-gradient(180deg, var(--amarelo) 0%, var(--verde-medio) 100%);
+  background: linear-gradient(180deg, var(--azul-vibrante) 0%, var(--verde-fresco) 100%);
   border-radius: 10px;
 }
 
 .timeline-item {
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   position: relative;
 }
 
@@ -436,7 +491,7 @@ html, body {
   margin-right: auto;
   width: 48%;
   text-align: right;
-  padding-right: 30px;
+  padding-right: 40px;
 }
 
 .timeline-item:nth-child(even) .timeline-content {
@@ -444,81 +499,97 @@ html, body {
   margin-right: 0;
   width: 48%;
   text-align: left;
-  padding-left: 30px;
+  padding-left: 40px;
 }
 
 .timeline-dot {
   position: absolute;
   left: 50%;
   top: 0;
-  width: 20px;
-  height: 20px;
-  background: var(--amarelo);
-  border: 3px solid #000;
+  width: 24px;
+  height: 24px;
+  background: var(--verde-fresco);
+  border: 4px solid var(--branco);
   border-radius: 50%;
   transform: translateX(-50%);
   z-index: 5;
-  box-shadow: 0 0 15px rgba(249,201,35,0.6);
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  width: 32px;
+  height: 32px;
+  background: var(--coral);
+  box-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
 }
 
 .timeline-content {
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  border: 1.5px solid var(--card-border);
+  background: var(--branco);
+  border: 2px solid var(--azul-vibrante);
   border-radius: 12px;
-  padding: 20px;
-  box-shadow: var(--card-shadow);
+  padding: 24px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+  box-shadow: 0 12px 35px rgba(46, 139, 158, 0.2);
+  border-color: var(--coral);
 }
 
 .timeline-content h4 {
   font-family: 'Baloo 2', cursive;
   font-weight: 800;
-  color: var(--amarelo);
-  margin-bottom: 8px;
-  font-size: 1rem;
+  color: var(--azul-vibrante);
+  margin-bottom: 10px;
+  font-size: 1.1rem;
 }
 
 .timeline-content p {
   font-size: 0.95rem;
-  color: var(--cinza-claro);
+  color: #555;
+  margin-bottom: 8px;
 }
 
 .timeline-date {
   font-family: 'Baloo 2', cursive;
   font-weight: 700;
-  color: var(--branco);
-  font-size: 0.9rem;
-  margin-top: 8px;
+  color: var(--verde-escuro);
+  font-size: 0.85rem;
+  margin-top: 10px;
 }
 
 /* ═══════════════════════════════════════
-   GALERIA DE FOTOS (Placeholder)
+   GALERIA COM LIGHTBOX
 ═══════════════════════════════════════ */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-  margin: 30px 0;
+  gap: 20px;
+  margin: 40px 0;
 }
 
 .gallery-item {
   position: relative;
   aspect-ratio: 1;
-  background: linear-gradient(135deg, rgba(249,201,35,0.2), rgba(30,107,30,0.2));
-  border: 2px dashed var(--amarelo);
-  border-radius: 12px;
+  background: linear-gradient(135deg, var(--azul-claro), var(--verde-fresco));
+  border: 3px solid var(--azul-vibrante);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  overflow: hidden;
+  font-size: 2.5rem;
+  color: rgba(255,255,255,0.7);
 }
 
 .gallery-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(249,201,35,0.4);
-  background: linear-gradient(135deg, rgba(249,201,35,0.4), rgba(30,107,30,0.4));
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 15px 40px rgba(46, 139, 158, 0.4);
+  border-color: var(--coral);
 }
 
 .gallery-item img {
@@ -532,223 +603,363 @@ html, body {
   transform: scale(1.1);
 }
 
-.gallery-placeholder {
-  text-align: center;
-  color: var(--amarelo);
-  font-size: 2rem;
+/* ═══════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════ */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.lightbox.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.lightbox-content {
+  position: relative;
+  width: 90vw;
+  height: 90vh;
+  max-width: 1000px;
+  max-height: 800px;
+  animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.lightbox-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background: var(--coral);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.lightbox-close:hover {
+  background: var(--azul-vibrante);
+  transform: rotate(90deg);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 -50px;
+  pointer-events: none;
+}
+
+.lightbox-prev, .lightbox-next {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: var(--coral);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  z-index: 10;
+}
+
+.lightbox-prev {
+  left: -70px;
+}
+
+.lightbox-next {
+  right: -70px;
+}
+
+.lightbox-prev:hover, .lightbox-next:hover {
+  background: var(--azul-vibrante);
+  transform: scale(1.2);
 }
 
 /* ═══════════════════════════════════════
-   SEÇÃO DE DETALHES HONESTOS
+   SEÇÃO DETALHES HONESTOS
 ═══════════════════════════════════════ */
+.honestidade-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 40px 0;
+}
+
 .honestidade-card {
-  background: rgba(255, 140, 0, 0.15);
-  border: 2px solid var(--laranja);
-  border-radius: 12px;
-  padding: 24px;
-  margin: 20px 0;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 140, 0, 0.1) 100%);
+  border: 2px solid var(--coral);
+  border-radius: 16px;
+  padding: 28px;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .honestidade-card::before {
-  content: '⚡ Transparência Total';
+  content: '⚡';
   position: absolute;
   top: 10px;
-  right: 20px;
-  font-family: 'Baloo 2', cursive;
-  font-weight: 800;
-  color: var(--laranja);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.7;
+  right: 15px;
+  font-size: 1.8rem;
+  opacity: 0.2;
+}
+
+.honestidade-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(255, 107, 107, 0.2);
+  border-color: var(--laranja-vivo);
 }
 
 .honestidade-title {
   font-family: 'Baloo 2', cursive;
   font-weight: 800;
-  color: var(--laranja);
-  font-size: 1.1rem;
+  color: var(--coral);
+  font-size: 1.15rem;
   margin-bottom: 12px;
-  padding-top: 15px;
 }
 
 .honestidade-desc {
-  color: var(--cinza-claro);
+  color: #555;
   font-size: 0.95rem;
   line-height: 1.6;
 }
 
 /* ═══════════════════════════════════════
-   BOTÃO WHATSAPP & CTA
+   CTA SECTION
 ═══════════════════════════════════════ */
 .cta-section {
-  background: linear-gradient(135deg, rgba(37,211,102,0.15), rgba(18,140,126,0.15));
-  border: 2px solid rgba(37,211,102,0.4);
-  border-radius: 20px;
-  padding: 60px 40px;
+  background: linear-gradient(135deg, rgba(46, 139, 158, 0.15) 0%, rgba(46, 204, 113, 0.15) 100%);
+  border: 3px solid var(--azul-vibrante);
+  border-radius: 24px;
+  padding: 80px 40px;
   text-align: center;
   margin: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .cta-section h2 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 20px;
+  color: var(--azul-vibrante);
 }
 
 .cta-section p {
-  font-size: 1.1rem;
-  margin-bottom: 40px;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 50px;
 }
 
 .cta-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 40px;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .qr-wrap {
-  background: #fff;
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  background: var(--branco);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.qr-wrap:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 50px rgba(46, 139, 158, 0.3);
 }
 
 .qr-wrap img {
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
   display: block;
 }
 
 .btn-wpp {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
   justify-content: center;
   background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
   border: none;
   border-radius: 50px;
-  padding: 18px 40px;
+  padding: 20px 50px;
   text-decoration: none;
   color: #fff;
   font-family: 'Baloo 2', cursive;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 6px 30px rgba(37,211,102,0.5);
-  transition: all 0.3s ease;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-shadow: 0 1px 5px rgba(0,0,0,0.2);
 }
 
 .btn-wpp:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 50px rgba(37,211,102,0.7);
+  transform: translateY(-6px) scale(1.08);
+  box-shadow: 0 15px 50px rgba(37, 211, 102, 0.7);
 }
 
 .btn-wpp svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 /* ═══════════════════════════════════════
-   PREÇO & FINAL
+   PREÇO DESTAQUE
 ═══════════════════════════════════════ */
 .preco-destaque {
-  background: linear-gradient(135deg, var(--amarelo), var(--laranja));
+  background: linear-gradient(135deg, var(--coral), var(--laranja-vivo));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: 'Baloo 2', cursive;
   font-weight: 900;
-  font-size: 3.5rem;
+  font-size: clamp(3rem, 8vw, 4.5rem);
   text-align: center;
-  margin: 30px 0;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  filter: drop-shadow(0 2px 8px rgba(249,201,35,0.3));
+  margin: 40px 0;
+  filter: drop-shadow(0 3px 8px rgba(255, 107, 107, 0.3));
 }
 
 /* ═══════════════════════════════════════
    RODAPÉ
 ═══════════════════════════════════════ */
 .footer {
-  background: rgba(0,0,0,0.8);
-  padding: 40px;
+  background: linear-gradient(180deg, rgba(46, 139, 158, 0.1), rgba(0,0,0,0.05));
+  padding: 50px 40px;
   text-align: center;
-  border-top: 2px solid var(--amarelo);
+  border-top: 3px solid var(--azul-vibrante);
+  position: relative;
+  z-index: 20;
 }
 
 .footer p {
-  color: var(--cinza-claro);
-  font-size: 0.9rem;
+  color: #555;
+  font-size: 0.95rem;
   line-height: 1.8;
+  margin: 10px 0;
 }
 
 .footer a {
-  color: var(--amarelo);
+  color: var(--azul-vibrante);
   text-decoration: none;
   font-weight: 800;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .footer a:hover {
-  opacity: 0.7;
+  color: var(--coral);
   text-decoration: underline;
 }
 
 /* ═══════════════════════════════════════
-   RESPONSIVO - MOBILE
+   RESPONSIVO
 ═══════════════════════════════════════ */
 @media (max-width: 768px) {
   .hero-bg {
     background-image: url('captiva-material/backgrounds/background-mobile.webp'), url('captiva-material/backgrounds/background-desktop.webp');
-    background-position: center top;
   }
 
-  .carro-container {
-    left: 15vw;
-    top: 25vh;
-  }
-
-  @keyframes carroEntrada {
+  @keyframes carroRota {
     0% {
-      left: 15vw;
-      top: 25vh;
-      transform: scale(0.08) rotate(15deg);
+      left: 20vw;
+      top: 20vh;
+      width: 40px;
       opacity: 0;
+      transform: scale(0.03) rotate(-15deg);
     }
-    10% {
+    15% {
       opacity: 1;
+    }
+    35% {
+      left: 35vw;
+      top: 40vh;
+      width: 90px;
+      transform: scale(0.15) rotate(-5deg);
+    }
+    70% {
+      left: 45vw;
+      top: 55vh;
+      width: 200px;
+      transform: scale(0.5) rotate(0deg);
     }
     100% {
       left: 50%;
-      top: 50vh;
-      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      top: 60vh;
+      width: 80vw;
+      transform: translateX(-50%) scale(1) rotate(0deg);
       opacity: 1;
-    }
-  }
-
-  .carro-img {
-    width: 80px;
-    height: 60px;
-  }
-
-  @keyframes carroGrowth {
-    0% {
-      width: 80px;
-      height: 60px;
-    }
-    100% {
-      width: 280px;
-      height: 210px;
     }
   }
 
   .section {
-    padding: 60px 20px;
-    min-height: auto;
+    padding: 80px 24px;
   }
 
   .section h2 {
@@ -760,12 +971,12 @@ html, body {
   }
 
   .timeline::before {
-    left: 20px;
+    left: 25px;
   }
 
   .timeline-item:nth-child(odd) .timeline-content,
   .timeline-item:nth-child(even) .timeline-content {
-    margin-left: 60px;
+    margin-left: 70px;
     margin-right: 0;
     width: auto;
     text-align: left;
@@ -773,71 +984,70 @@ html, body {
   }
 
   .timeline-dot {
-    left: 20px;
+    left: 25px;
   }
 
   .gallery {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
   }
 
   .cta-container {
     flex-direction: column;
+    gap: 30px;
   }
 
-  .qr-wrap {
-    width: 150px;
-    height: 150px;
+  .lightbox-prev, .lightbox-next {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .lightbox-prev { left: 10px; }
+  .lightbox-next { right: 10px; }
+
+  .honestidade-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-section {
+    padding: 50px 24px;
   }
 
   .preco-destaque {
     font-size: 2.5rem;
   }
-
-  .cta-section {
-    padding: 40px 20px;
-  }
 }
 
 @media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .section {
+    padding: 60px 16px;
+  }
+
   .section h2 {
     font-size: 1.4rem;
   }
 
-  .preco-destaque {
-    font-size: 2rem;
+  .card {
+    padding: 20px;
   }
 
   .btn-wpp {
-    padding: 14px 24px;
-    font-size: 0.95rem;
+    padding: 16px 32px;
+    font-size: 1rem;
   }
 
   .gallery {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
-}
 
-/* Scroll suave */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Efeito de scroll parallax suave */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.2);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--amarelo);
-  border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--amarelo-dark);
+  .preco-destaque {
+    font-size: 2rem;
+  }
 }
 </style>
 
@@ -852,16 +1062,25 @@ html {
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════
-     HERO SECTION COM ANIMAÇÃO DO CARRO
-═══════════════════════════════════════ -->
-<section class="hero">
-  <div class="hero-bg"></div>
+<!-- Background fixo -->
+<div class="hero-bg"></div>
 
-  <!-- Carro animado -->
+<!-- Passarinhos voando -->
+<div class="birds-container">
+  <div class="bird bird-1">🕊️</div>
+  <div class="bird bird-2">🕊️</div>
+  <div class="bird bird-3">🕊️</div>
+  <div class="bird bird-4">🕊️</div>
+</div>
+
+<!-- Folhas caindo -->
+<div class="leaves-container" id="leaves"></div>
+
+<!-- HERO SECTION -->
+<section class="hero">
   <div class="carro-container">
     <div class="carro-shadow"></div>
-    <img src="captiva-material/carro/Carro.png" alt="Chevrolet Captiva" class="carro-img">
+    <img src="captiva-material/carro/Carro.png" alt="Chevrolet Captiva 2011" class="carro-img">
     <div class="dust-particles">
       <div class="dust-particle" style="--tx: 30px; --ty: -20px;"></div>
       <div class="dust-particle" style="--tx: -25px; --ty: -15px;"></div>
@@ -871,21 +1090,18 @@ html {
     </div>
   </div>
 
-  <!-- Conteúdo do Hero -->
   <div class="hero-content">
     <h1>
       Tô vendendo...
       <br>
-      Quer <span class="destaque">comprar?</span> 🚗
+      <span class="destaque">Quer comprar?</span> 🚗
     </h1>
     <p>Chevrolet Captiva 2011 | SUV que impõe respeito</p>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════
-     CONTEÚDO SCROLLYTELLING
-═══════════════════════════════════════ -->
-<div class="content-wrapper">
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="content-sections">
 
   <!-- SEÇÃO 1: APRESENTAÇÃO -->
   <section class="section">
@@ -901,10 +1117,6 @@ html {
         <p>
           <strong>Vem com histórico completo:</strong> manutenções em dia, documentação limpa, 
           revisões rastreáveis. Tudo transparente. Não escondo nada.
-        </p>
-        <p>
-          <strong>Por que vendo?</strong> Preciso de espaço na garagem para outras aventuras. 
-          Esse carro merece um dono que aprecie a qualidade e o trabalho que foi feito pra mantê-lo assim.
         </p>
       </div>
     </div>
@@ -941,10 +1153,10 @@ html {
         </div>
       </div>
       <div class="card">
-        <h3>Detalhes do Motor</h3>
+        <h3>Motor Potente & Confiável</h3>
         <p>
           <strong>Motor:</strong> 3.6L V6 | <strong>Potência:</strong> 262 CV | 
-          <strong>Torque:</strong> 338 Nm | <strong>Consumo:</strong> 10,5 km/l (combinado)
+          <strong>Torque:</strong> 338 Nm | <strong>Consumo:</strong> 10,5 km/l
         </p>
       </div>
     </div>
@@ -954,7 +1166,7 @@ html {
   <section class="section">
     <div class="section-inner">
       <h2>📋 Histórico de Manutenções</h2>
-      <p style="text-align: center; margin-bottom: 40px;">
+      <p style="text-align: center; margin-bottom: 40px; color: #666;">
         Tudo documentado e rastreável. Revisões em oficina especializada.
       </p>
       <div class="timeline">
@@ -962,11 +1174,8 @@ html {
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <h4>Revisão Completa 60.000 km</h4>
-            <p>
-              Óleo sintético, filtro de ar, filtro de óleo, inspeção geral do motor, 
-              alinhamento, balanceamento de rodas e limpeza de injetor.
-            </p>
-            <div class="timeline-date">Março 2019 | Oficina Chevrolet Autorizada</div>
+            <p>Óleo sintético, filtro de ar, inspeção geral do motor, alinhamento e balanceamento.</p>
+            <div class="timeline-date">Março 2019 | Oficina Autorizada</div>
           </div>
         </div>
 
@@ -974,10 +1183,7 @@ html {
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <h4>Troca de Pneus + Freios</h4>
-            <p>
-              4 pneus novos Michelin LTX M/S (padrão), pastilhas e discos de freio 
-              dianteiros, renovação de líquido de freio.
-            </p>
+            <p>4 pneus novos Michelin, pastilhas e discos dianteiros, renovação de líquido.</p>
             <div class="timeline-date">Julho 2020 | 82.000 km</div>
           </div>
         </div>
@@ -986,11 +1192,8 @@ html {
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <h4>Revisão Periódica 100.000 km</h4>
-            <p>
-              Óleo, filtros, inspeção de suspensão, troca de velas de ignição, 
-              limpeza do sistema de arrefecimento.
-            </p>
-            <div class="timeline-date">Setembro 2021 | Oficina Especializada</div>
+            <p>Óleo, filtros, inspeção de suspensão, velas de ignição, limpeza do sistema.</p>
+            <div class="timeline-date">Setembro 2021</div>
           </div>
         </div>
 
@@ -998,10 +1201,7 @@ html {
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <h4>Serviço de Transmissão</h4>
-            <p>
-              Revisão da transmissão automática, renovação de fluido de câmbio, 
-              verificação de válvulas solenóide.
-            </p>
+            <p>Revisão da transmissão automática, renovação de fluido, verificação de válvulas.</p>
             <div class="timeline-date">Maio 2022 | 120.000 km</div>
           </div>
         </div>
@@ -1010,10 +1210,7 @@ html {
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <h4>Manutenção Preventiva Recente</h4>
-            <p>
-              Troca de óleo sintético, filtros novos, inspeção completa da suspensão, 
-              reparo de amortecedor traseiro, revisão dos sistemas de segurança.
-            </p>
+            <p>Troca de óleo sintético, filtros novos, inspeção completa, reparo de amortecedor.</p>
             <div class="timeline-date">Janeiro 2024 | 140.000 km | R$ 2.850,00</div>
           </div>
         </div>
@@ -1025,128 +1222,110 @@ html {
   <section class="section">
     <div class="section-inner">
       <h2>👥 Histórico de Donos</h2>
-      <p style="text-align: center; margin-bottom: 40px;">
+      <p style="text-align: center; margin-bottom: 40px; color: #666;">
         Rastreabilidade total. Carro com procedência comprovada.
       </p>
       <div class="card-grid">
         <div class="card">
           <h3>1º Dono (2011 - 2015)</h3>
-          <p>
-            <strong>Brasília, DF</strong> | Empresa de transporte executivo.
-          </p>
-          <p>
-            Responsável pela manutenção preventiva inicial. Rodava em percursos urbanos 
-            principalmente. Carro muito bem cuidado desde o início.
-          </p>
+          <p><strong>Brasília, DF</strong> | Empresa de transporte executivo. Manutenção preventiva impecável.</p>
         </div>
 
         <div class="card">
           <h3>2º Dono (2015 - 2021)</h3>
-          <p>
-            <strong>Brasília/Goiânia</strong> | Profissional liberal - uso pessoal.
-          </p>
-          <p>
-            Manteve as manutenções em dia. Rodava ocasionalmente para viagens 
-            de trabalho. Carro muito respeitado e bem preservado.
-          </p>
+          <p><strong>Brasília/Goiânia</strong> | Profissional liberal. Manteve revisões em dia, carro bem preservado.</p>
         </div>
 
         <div class="card">
           <h3>3º Dono (2021 - Atual)</h3>
-          <p>
-            <strong>Brasília, DF</strong> | Uso pessoal e familiar.
-          </p>
-          <p>
-            Atual proprietário. Continuou as manutenções preventivas, cuidou 
-            da mecânica, interior limpo e bem conservado. Documentação 100% em dia.
-          </p>
+          <p><strong>Brasília, DF</strong> | Uso pessoal e familiar. Continuou manutenção preventiva, documentação 100% em dia.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SEÇÃO 5: GALERIA - EXTERIOR -->
+  <!-- SEÇÃO 5: GALERIA EXTERIOR -->
   <section class="section">
     <div class="section-inner">
       <h2>📸 Exterior</h2>
-      <p style="text-align: center; margin-bottom: 30px;">
-        Confira a beleza dessa Captiva sob todos os ângulos. Prata metalizado em excelente estado.
+      <p style="text-align: center; margin-bottom: 40px; color: #666;">
+        A beleza dessa Captiva sob todos os ângulos. Prata metalizado em excelente estado.
       </p>
-      <div class="gallery">
-        <!-- Espaço para 20 fotos de exterior -->
-        <div class="gallery-item"><div class="gallery-placeholder">01</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">02</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">03</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">04</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">05</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">06</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">07</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">08</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">09</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">10</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">11</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">12</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">13</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">14</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">15</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">16</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">17</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">18</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">19</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">20</div></div>
+      <div class="gallery" id="gallery-exterior">
+        <!-- 20 espaços para fotos -->
+        <div class="gallery-item">01</div>
+        <div class="gallery-item">02</div>
+        <div class="gallery-item">03</div>
+        <div class="gallery-item">04</div>
+        <div class="gallery-item">05</div>
+        <div class="gallery-item">06</div>
+        <div class="gallery-item">07</div>
+        <div class="gallery-item">08</div>
+        <div class="gallery-item">09</div>
+        <div class="gallery-item">10</div>
+        <div class="gallery-item">11</div>
+        <div class="gallery-item">12</div>
+        <div class="gallery-item">13</div>
+        <div class="gallery-item">14</div>
+        <div class="gallery-item">15</div>
+        <div class="gallery-item">16</div>
+        <div class="gallery-item">17</div>
+        <div class="gallery-item">18</div>
+        <div class="gallery-item">19</div>
+        <div class="gallery-item">20</div>
       </div>
     </div>
   </section>
 
-  <!-- SEÇÃO 6: GALERIA - INTERIOR -->
+  <!-- SEÇÃO 6: GALERIA INTERIOR -->
   <section class="section">
     <div class="section-inner">
       <h2>🪑 Interior</h2>
-      <p style="text-align: center; margin-bottom: 30px;">
+      <p style="text-align: center; margin-bottom: 40px; color: #666;">
         Interior espaçoso, confortável e bem conservado. Bancos em ótimo estado.
       </p>
-      <div class="gallery">
-        <!-- Espaço para 15 fotos de interior -->
-        <div class="gallery-item"><div class="gallery-placeholder">01</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">02</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">03</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">04</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">05</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">06</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">07</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">08</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">09</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">10</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">11</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">12</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">13</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">14</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">15</div></div>
+      <div class="gallery" id="gallery-interior">
+        <!-- 15 espaços para fotos -->
+        <div class="gallery-item">01</div>
+        <div class="gallery-item">02</div>
+        <div class="gallery-item">03</div>
+        <div class="gallery-item">04</div>
+        <div class="gallery-item">05</div>
+        <div class="gallery-item">06</div>
+        <div class="gallery-item">07</div>
+        <div class="gallery-item">08</div>
+        <div class="gallery-item">09</div>
+        <div class="gallery-item">10</div>
+        <div class="gallery-item">11</div>
+        <div class="gallery-item">12</div>
+        <div class="gallery-item">13</div>
+        <div class="gallery-item">14</div>
+        <div class="gallery-item">15</div>
       </div>
     </div>
   </section>
 
-  <!-- SEÇÃO 7: GALERIA - MOTOR E CHASSIS -->
+  <!-- SEÇÃO 7: GALERIA MOTOR -->
   <section class="section">
     <div class="section-inner">
       <h2>⚙️ Motor & Chassis</h2>
-      <p style="text-align: center; margin-bottom: 30px;">
+      <p style="text-align: center; margin-bottom: 40px; color: #666;">
         Motor impecável. Chassis bem estruturado. Tudo funcionando perfeitamente.
       </p>
-      <div class="gallery">
-        <!-- Espaço para 12 fotos do motor -->
-        <div class="gallery-item"><div class="gallery-placeholder">01</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">02</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">03</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">04</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">05</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">06</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">07</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">08</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">09</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">10</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">11</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">12</div></div>
+      <div class="gallery" id="gallery-motor">
+        <!-- 12 espaços para fotos -->
+        <div class="gallery-item">01</div>
+        <div class="gallery-item">02</div>
+        <div class="gallery-item">03</div>
+        <div class="gallery-item">04</div>
+        <div class="gallery-item">05</div>
+        <div class="gallery-item">06</div>
+        <div class="gallery-item">07</div>
+        <div class="gallery-item">08</div>
+        <div class="gallery-item">09</div>
+        <div class="gallery-item">10</div>
+        <div class="gallery-item">11</div>
+        <div class="gallery-item">12</div>
       </div>
     </div>
   </section>
@@ -1154,66 +1333,70 @@ html {
   <!-- SEÇÃO 8: DETALHES HONESTOS -->
   <section class="section">
     <div class="section-inner">
-      <h2>💎 Detalhes Honestos (Transparência Total)</h2>
-      <p style="text-align: center; margin-bottom: 40px;">
-        Esse carro é de 2011. Tem marcas de uso. Mas são marcas bonitas — de um carro bem vivido e bem cuidado.
+      <h2>💎 Detalhes Honestos</h2>
+      <p style="text-align: center; margin-bottom: 40px; color: #666;">
+        Esse carro é de 2011. Tem marcas de uso. Mas são marcas bonitas — de um carro bem vivido.
       </p>
 
-      <div class="honestidade-card">
-        <div class="honestidade-title">Pequenos riscos no costado esquerdo</div>
-        <div class="honestidade-desc">
-          Alguns riscos superficiais na lateral esquerda (tipo uso de garagem com curva apertada). 
-          Nada que afete a estrutura. Pintura em bom estado no geral.
+      <div class="honestidade-cards">
+        <div class="honestidade-card">
+          <div class="honestidade-title">Pequenos riscos no costado</div>
+          <div class="honestidade-desc">
+            Alguns riscos superficiais na lateral esquerda. Nada que afete a estrutura. Pintura em bom estado.
+          </div>
+        </div>
+
+        <div class="honestidade-card">
+          <div class="honestidade-title">Desgaste natural dos bancos</div>
+          <div class="honestidade-desc">
+            Os bancos mostram desgaste normal de 13 anos. Nenhum rasgo ou dano estrutural. Bem presos.
+          </div>
+        </div>
+
+        <div class="honestidade-card">
+          <div class="honestidade-title">Pequenas marcas no painel</div>
+          <div class="honestidade-desc">
+            O painel tem alguns riscos leves. Nada que tire o aspecto profissional. Funcionalidade intacta.
+          </div>
+        </div>
+
+        <div class="honestidade-card">
+          <div class="honestidade-title">Rodas com pátina natural</div>
+          <div class="honestidade-desc">
+            As rodas originais estão com pátina. Se quiser refinadas, é possível. Pneus em bom estado.
+          </div>
+        </div>
+
+        <div class="honestidade-card">
+          <div class="honestidade-title">Carro com histórico real</div>
+          <div class="honestidade-desc">
+            Não é um espelho. É um carro real, com 13 anos, mas MUITO bem mantido. Mecânica impecável.
+          </div>
+        </div>
+
+        <div class="honestidade-card">
+          <div class="honestidade-title">Documentação limpa</div>
+          <div class="honestidade-desc">
+            Tudo em dia. Nenhuma pendência. Transferência descomplicada e documentada.
+          </div>
         </div>
       </div>
 
-      <div class="honestidade-card">
-        <div class="honestidade-title">Desgaste natural dos bancos</div>
-        <div class="honestidade-desc">
-          Os bancos mostram desgaste normal de 13 anos de uso. Nenhum rasgo ou dano estrutural. 
-          Forros bem presos e sem problemas.
-        </div>
-      </div>
-
-      <div class="honestidade-card">
-        <div class="honestidade-title">Pequenas marcas no painel</div>
-        <div class="honestidade-desc">
-          O painel tem alguns riscos leves (coisa de pegar a bolsa, etc). Nada que tire o aspecto 
-          profissional do interior. Funcionalidade 100% intacta.
-        </div>
-      </div>
-
-      <div class="honestidade-card">
-        <div class="honestidade-title">Rodas com pátina</div>
-        <div class="honestidade-desc">
-          As rodas originais estão com aquela pátina natural. Se quiser rodas zeradas, elas 
-          podem ser refinadas. Pneus em bom estado.
-        </div>
-      </div>
-
-      <div class="honestidade-card">
-        <div class="honestidade-title">Carro com histórico real</div>
-        <div class="honestidade-desc">
-          Não é um espelho. É um carro de verdade, com 13 anos, mas MUITO bem mantido. 
-          Mecânica impecável, documentação limpa, histórico comprovado. Vale cada Real.
-        </div>
-      </div>
-
-      <div class="gallery" style="margin-top: 40px;">
-        <p style="grid-column: 1 / -1; text-align: center; color: var(--amarelo); margin-bottom: 20px; font-weight: 700;">
-          Fotos dos detalhes honestos (10 fotos):
+      <div class="gallery" id="gallery-honestos">
+        <p style="grid-column: 1 / -1; text-align: center; color: var(--azul-vibrante); margin: 40px 0 20px; font-weight: 700; font-size: 1.1rem;">
+          Fotos dos detalhes honestos (10 fotos)
         </p>
-        <!-- Espaço para 10 fotos de detalhes honestos -->
-        <div class="gallery-item"><div class="gallery-placeholder">01</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">02</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">03</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">04</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">05</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">06</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">07</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">08</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">09</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">10</div></div>
+        <!-- 10 espaços para fotos -->
+        <div class="gallery-item">01</div>
+        <div class="gallery-item">02</div>
+        <div class="gallery-item">03</div>
+        <div class="gallery-item">04</div>
+        <div class="gallery-item">05</div>
+        <div class="gallery-item">06</div>
+        <div class="gallery-item">07</div>
+        <div class="gallery-item">08</div>
+        <div class="gallery-item">09</div>
+        <div class="gallery-item">10</div>
       </div>
     </div>
   </section>
@@ -1230,28 +1413,27 @@ html {
         <p>
           <strong>Documentação:</strong> 100% em dia | 
           <strong>Transferência:</strong> Por conta do comprador | 
-          <strong>Inspeção:</strong> Bem-vindo a inspeccionar
+          <strong>Inspeção:</strong> Bem-vindo a inspecionar
         </p>
-        <p>
-          <strong>Negociação:</strong> Tenho flexibilidade para conversas. 
-          Estou aberto a propostas honestas.
+        <p style="margin-top: 15px;">
+          <strong>Negociação:</strong> Tenho flexibilidade. Estou aberto a propostas honestas.
         </p>
       </div>
 
       <div class="cta-section">
-        <h2>Quer conhecer essa beleza de perto?</h2>
+        <h2>Quer conhecer essa beleza?</h2>
         <p>Fale agora mesmo. Vou te responder rápido.</p>
         
         <div class="cta-container">
           <div class="qr-wrap">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/5561999027520?text=Olá!%20Vi%20o%20site%20da%20Captiva.%20Você%20está%20vendendo%20e%20eu%20tenho%20interesse%20em%20comprar.%20Podemos%20conversar%3F" 
-                 alt="QR Code WhatsApp" width="150" height="150">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://wa.me/5561999027520?text=Olá!%20Vi%20o%20site%20da%20Captiva.%20Quero%20conversar%20sobre%20compra!" 
+                 alt="QR Code WhatsApp">
           </div>
 
-          <a class="btn-wpp" href="https://wa.me/5561999027520?text=Oi!%20Vi%20o%20site%20completo%20da%20Captiva%20e%20quero%20saber%20mais%20e%20agendar%20uma%20visita!" 
+          <a class="btn-wpp" href="https://wa.me/5561999027520?text=Oi!%20Vi%20o%20site%20completo%20da%20Captiva%20e%20quero%20saber%20mais!" 
              target="_blank"
-             onclick="gtag('event', 'click_whatsapp', {'event_category': 'CTA', 'event_label': 'botao_principal'})">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+             onclick="gtag('event', 'click_whatsapp', {'event_category': 'CTA', 'event_label': 'principal'})">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
             <span>Chamar no WhatsApp</span>
@@ -1263,58 +1445,156 @@ html {
 
 </div>
 
-<!-- ═══════════════════════════════════════
-     RODAPÉ
-═══════════════════════════════════════ -->
+<!-- RODAPÉ -->
 <footer class="footer">
   <p>
     <strong>Captiva 2011</strong> | Tô Vendendo... Quer Comprar? 🚗
-    <br>
+  </p>
+  <p>
     Brasília, DF | 
-    <a href="https://wa.me/5561999027520?text=Oi!%20Vi%20o%20site%20completo%20da%20Captiva%20e%20quero%20saber%20mais!" target="_blank"
+    <a href="https://wa.me/5561999027520?text=Oi!%20Vi%20o%20site%20da%20Captiva%20e%20quero%20saber%20mais!" target="_blank"
        onclick="gtag('event', 'click_whatsapp', {'event_category': 'CTA', 'event_label': 'footer'})">
       Chamar direto
     </a>
   </p>
-  <p style="margin-top: 15px; font-size: 0.8rem;">
+  <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.7;">
     Feito com 🚗 por <a href="https://github.com/MarcusTMelo" target="_blank">MarcusTMelo</a> | 
-    GitHub: <a href="https://github.com/MarcusTMelo/captiva" target="_blank">MarcusTMelo/captiva</a>
+    <a href="https://github.com/MarcusTMelo/captiva" target="_blank">GitHub Captiva</a>
   </p>
 </footer>
 
-<!-- ═══════════════════════════════════════
-     SCRIPT: Efeito de parallax suave no scroll
-═══════════════════════════════════════ -->
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <img src="" alt="Foto do carro" class="lightbox-img" id="lightbox-img">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div class="lightbox-nav">
+      <button class="lightbox-prev" onclick="prevLightbox()">‹</button>
+      <button class="lightbox-next" onclick="nextLightbox()">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
 <script>
-document.addEventListener('scroll', function() {
-  const hero = document.querySelector('.hero');
-  const scrollPosition = window.scrollY;
+// ═══════════════════════════════════════
+// GERENCIAR FOLHAS CAINDO
+// ═══════════════════════════════════════
+function createLeaves() {
+  const container = document.getElementById('leaves');
+  const leafEmojis = ['🍂', '🍁'];
   
-  // Parallax suave do background do hero
-  if (scrollPosition < window.innerHeight) {
-    hero.style.backgroundPosition = `center ${scrollPosition * 0.5}px`;
+  for (let i = 0; i < 15; i++) {
+    const leaf = document.createElement('div');
+    leaf.className = 'leaf';
+    leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+    leaf.style.left = Math.random() * 100 + '%';
+    leaf.style.top = Math.random() * -100 + 'px';
+    leaf.style.animationDuration = (8 + Math.random() * 8) + 's';
+    leaf.style.animationDelay = Math.random() * 3 + 's';
+    leaf.style.setProperty('--drift', (Math.random() - 0.5) * 100 + 'px');
+    container.appendChild(leaf);
   }
+}
+
+// ═══════════════════════════════════════
+// PARALLAX DO CARRO AO SCROLLAR
+// ═══════════════════════════════════════
+let carroStartY = 0;
+const carroContainer = document.querySelector('.carro-container');
+const heroHeight = window.innerHeight;
+
+window.addEventListener('load', () => {
+  carroStartY = carroContainer.getBoundingClientRect().top + window.scrollY;
+});
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
   
-  // Fade out do carro quando sai da tela
-  if (scrollPosition > 0) {
-    const carroContainer = document.querySelector('.carro-container');
-    const fadeStart = window.innerHeight * 0.7;
-    const fadeEnd = window.innerHeight * 1.2;
-    
-    if (scrollPosition > fadeStart) {
-      const opacity = Math.max(0, 1 - (scrollPosition - fadeStart) / (fadeEnd - fadeStart));
-      carroContainer.style.opacity = opacity;
-    }
+  // Parallax: sai da tela conforme scroll (horizontal lento)
+  if (scrollY > heroHeight * 0.5) {
+    const progress = (scrollY - heroHeight * 0.5) / heroHeight;
+    carroContainer.style.transform = `translateX(${progress * 800}px) scale(${Math.max(0.5, 1 - progress * 0.5)})`;
+    carroContainer.style.opacity = Math.max(0, 1 - progress * 1.5);
   }
 });
 
-// Animar elementos conforme entram na viewport
+// ═══════════════════════════════════════
+// LIGHTBOX COM EFEITO
+// ═══════════════════════════════════════
+let lightboxCurrentImg = null;
+let lightboxGallery = [];
+
+document.querySelectorAll('.gallery').forEach(gallery => {
+  const items = gallery.querySelectorAll('.gallery-item');
+  items.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      openLightbox(item);
+      lightboxGallery = Array.from(items);
+      lightboxCurrentImg = item;
+    });
+  });
+});
+
+function openLightbox(item) {
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  
+  // Se for um placeholder, não abre
+  if (!item.querySelector('img')) {
+    return;
+  }
+  
+  img.src = item.querySelector('img').src;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+function nextLightbox() {
+  const currentIndex = lightboxGallery.indexOf(lightboxCurrentImg);
+  if (currentIndex < lightboxGallery.length - 1) {
+    openLightbox(lightboxGallery[currentIndex + 1]);
+    lightboxCurrentImg = lightboxGallery[currentIndex + 1];
+  }
+}
+
+function prevLightbox() {
+  const currentIndex = lightboxGallery.indexOf(lightboxCurrentImg);
+  if (currentIndex > 0) {
+    openLightbox(lightboxGallery[currentIndex - 1]);
+    lightboxCurrentImg = lightboxGallery[currentIndex - 1];
+  }
+}
+
+// Fechar lightbox com ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeLightbox();
+  }
+});
+
+// Fechar lightbox ao clicar fora
+document.getElementById('lightbox').addEventListener('click', (e) => {
+  if (e.target.id === 'lightbox') {
+    closeLightbox();
+  }
+});
+
+// ═══════════════════════════════════════
+// ANIMAR SEÇÕES AO CHEGAR
+// ═══════════════════════════════════════
 const observerOptions = {
   threshold: 0.2,
   rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver(function(entries) {
+const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.style.opacity = '1';
@@ -1326,6 +1606,9 @@ const observer = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.section-inner').forEach(el => {
   observer.observe(el);
 });
+
+// Inicializar
+createLeaves();
 </script>
 
 </body>
