@@ -1,0 +1,69 @@
+ESPECIFICAÇÕES DO CARRO ANIMADO: DESKTOP
+================================
+
+DIMENSÕES:
+
+Tamanho inicial (canto esquerdo): 120x90 pixels
+
+Tamanho final (centro): 600x450 pixels (ou 40% da largura da viewport)
+
+Resolução do PNG do carro: 1200x900 pixels
+
+POSIÇÕES:
+
+Ponto de saída (canto superior esquerdo): X: 20vw, Y: 35vh
+
+Ponto de chegada (centro): X: 50vw, Y: 60vh
+
+Profundidade em relação ao background: Frente
+
+TIMING:
+
+Duração da animação: 3.0 segundos
+
+Easing desejado: cubic-bezier(0.42, 0, 0.58, 1)
+
+Delay antes dos textos aparecerem: 1.0 segundo
+
+EXTRAS:
+
+Som ao chegar? Não
+
+Efeito de pó/partículas? Sim
+
+Sombra dinâmica? Sim
+
+ESPECIFICAÇÕES DO CARRO ANIMADO: MOBILE
+================================
+
+DIMENSÕES:
+
+Tamanho inicial (canto esquerdo): 80x60 pixels
+
+Tamanho final (centro): 70% da largura da viewport (vw)
+
+Resolução do PNG do carro: 1200x900 pixels
+
+POSIÇÕES:
+
+Ponto de saída (canto superior esquerdo): X: 15vw, Y: 25vh
+
+Ponto de chegada (centro): X: 50vw, Y: 55vh
+
+Profundidade em relação ao background: Frente
+
+TIMING:
+
+Duração da animação: 2.0 segundos
+
+Easing desejado: cubic-bezier(0.42, 0, 0.58, 1)
+
+Delay antes dos textos aparecerem: 1.0 segundo
+
+EXTRAS:
+
+Som ao chegar? Não
+
+Efeito de pó/partículas? Sim
+
+Sombra dinâmica? Sim
