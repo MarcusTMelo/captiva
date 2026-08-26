@@ -12,6 +12,82 @@
   var gsapReady = (typeof window.gsap !== 'undefined') && (typeof window.ScrollTrigger !== 'undefined') && (typeof window.MotionPathPlugin !== 'undefined');
   if (!gsapReady || prefersReduced) document.documentElement.classList.add('no-motion');
 
+  /* ══════════════════════════════════════
+     ETAPA 2 (refatoração) — CONFIG DE CENAS
+     ══════════════════════════════════════
+     Substitui, para as cenas abaixo, o que antes era: (a) uma classe
+     de cor hardcoded no HTML (ex. `class="scene scene--verde2"`), e
+     (b) uma regra `--scene-vh` por #id em CSS (desktop + variante
+     @media mobile) — por UM array de dados. `buildScene()` (mais
+     abaixo) já era genérico antes disso (lê `data-fx` de qualquer
+     `.scene` e monta pin/scrub igual pra todas); o que faltava
+     generalizar era só a ATRIBUIÇÃO de paleta/altura/flash, que hoje
+     é feita aqui em vez de duplicada em HTML/CSS por cena.
+
+     Escopo INTENCIONALMENTE de fora desta config (decisão registrada
+     na Etapa 2): os 10 "ecos de transição" entre cenas (glow que
+     atravessa a fronteira, ícone/pássaro que persiste, etc.) — cada
+     um é uma solução bespoke, ajustada manualmente com testes de
+     scroll reais ao longo de várias rodadas anteriores; forçá-los num
+     formato genérico {fromColor,toColor} arriscaria reintroduzir bugs
+     de timing/legibilidade já corrigidos, sem reduzir código de
+     verdade (cada um ainda precisaria de wiring específico). Eles
+     continuam implementados como código dedicado, já existente mais
+     abaixo (`buildAct1()` e os blocos "Transição N" no CSS/JS),
+     inalterados por esta refatoração.
+
+     `colorScheme` referencia as classes `.scene--*` já existentes
+     (não duplica os valores de cor aqui) — essas classes já fazem
+     mais que só o fundo (cor de texto padrão, cor de destaque, tint
+     dos glows ambiente: 5 paletas reaproveitadas em 12 cenas, o que
+     já era razoável, não duplicado). `photoBg` corresponde à classe
+     modificadora `.scene--photo-bg`. `scrollVh` substitui a
+     `--scene-vh` (mesmos valores exatos de antes, desktop/mobile).
+     `flashAt` substitui o atributo `data-flash-at`. */
+  var SCENES = [
+    { id: 'cap-2b',        colorScheme: 'creme',    scrollVh: { desktop: 300, mobile: 260 } },
+    { id: 'cap-3',         colorScheme: 'verde2',   scrollVh: { desktop: 340, mobile: 320 } },
+    { id: 'cap-4',         colorScheme: 'preto',    photoBg: true, flashAt: 0.5,  scrollVh: { desktop: 300, mobile: 260 } },
+    { id: 'cap-5',         colorScheme: 'creme',    scrollVh: { desktop: 280, mobile: 250 } },
+    { id: 'cap-6',         colorScheme: 'preto',    flashAt: 0.46, scrollVh: { desktop: 320, mobile: 300 } },
+    { id: 'cap-estado',    colorScheme: 'verde2',   scrollVh: { desktop: 280, mobile: 240 } },
+    { id: 'cap-7',         colorScheme: 'verde',    photoBg: true, scrollVh: { desktop: 145, mobile: 135 } },
+    { id: 'cap-historico', colorScheme: 'verde',    photoBg: true, scrollVh: { desktop: 230, mobile: 230 } },
+    { id: 'cap-quem',      colorScheme: 'preto',    scrollVh: { desktop: 155, mobile: 150 } },
+    { id: 'cap-final',     colorScheme: 'amarelo',  photoBg: true, scrollVh: { desktop: 220, mobile: 200 } }
+  ];
+  /* Etapa 2 (parcial/POC): só cap-quem e cap-4 já tiveram a classe/CSS
+     hardcoded removidos do HTML/CSS — as outras 8 entradas acima
+     documentam os valores corretos, mas o HTML/CSS delas ainda tem a
+     versão antiga em paralelo (harmless: `applySceneConfig` abaixo
+     simplesmente reafirma o mesmo valor que já estava lá pra essas 8,
+     então não há conflito) até a próxima migração confirmada. */
+  var mobileMq = window.matchMedia('(max-width: 768px)');
+  function applySceneConfig(){
+    SCENES.forEach(function(cfg){
+      var el = document.getElementById(cfg.id);
+      if (!el) return;
+      el.classList.add('scene--' + cfg.colorScheme);
+      if (cfg.photoBg) el.classList.add('scene--photo-bg');
+      if (cfg.flashAt !== undefined) el.setAttribute('data-flash-at', cfg.flashAt);
+      var vh = mobileMq.matches ? cfg.scrollVh.mobile : cfg.scrollVh.desktop;
+      el.style.setProperty('--scene-vh', vh);
+    });
+  }
+  applySceneConfig();
+  /* mesma reatividade que a regra @media do CSS já dava de graça antes
+     (redimensionar a janela pelo breakpoint mobile recalculava
+     --scene-vh sozinho) — como agora o valor é aplicado via JS, listen
+     explícito no breakpoint + refresh do ScrollTrigger (ele já teria
+     recalculado por conta do resize, mas só depois do --scene-vh já
+     estar atualizado é que o novo offsetHeight fica correto). */
+  if (mobileMq.addEventListener) {
+    mobileMq.addEventListener('change', function(){
+      applySceneConfig();
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+  }
+
   /* ── "words": quebra o texto em spans ── */
   var scenesAll = Array.prototype.slice.call(document.querySelectorAll('.scene'));
   scenesAll.forEach(function(scene){
