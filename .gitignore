@@ -1,0 +1,19 @@
+# Backups automáticos de rodadas de trabalho (histórico já fica no git)
+index-backup-*.html
+
+# Experimentos abandonados / não referenciados pelo index.html atual
+bg-cap1.webp
+bg-cap2.webp
+bg-skyline-strip.webp
+bg-torre-icon.webp
+
+# Material de referência / rascunho, não faz parte do site publicado
+Captiva – Tô Vendendo... Quer Comprar__files/
+CarronoMorro.png
+Estilo Cartoon/
+Manutenções/
+manual-captiva-2011.pdf
+videos-referencia/
+
+# Config local do Claude Code (agentes de projeto ficam versionados à parte, se desejado)
+.claude/
