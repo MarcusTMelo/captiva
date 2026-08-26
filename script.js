@@ -44,6 +44,10 @@
      modificadora `.scene--photo-bg`. `scrollVh` substitui a
      `--scene-vh` (mesmos valores exatos de antes, desktop/mobile).
      `flashAt` substitui o atributo `data-flash-at`. */
+  /* Etapa 2: as 10 cenas abaixo já tiveram a classe/CSS hardcoded
+     removidos do HTML/CSS (classe `scene--*`/`scene--photo-bg` no
+     elemento, regra `--scene-vh` por #id em CSS, `data-flash-at`
+     hardcoded) — este array é a única fonte de verdade agora. */
   var SCENES = [
     { id: 'cap-2b',        colorScheme: 'creme',    scrollVh: { desktop: 300, mobile: 260 } },
     { id: 'cap-3',         colorScheme: 'verde2',   scrollVh: { desktop: 340, mobile: 320 } },
@@ -56,12 +60,6 @@
     { id: 'cap-quem',      colorScheme: 'preto',    scrollVh: { desktop: 155, mobile: 150 } },
     { id: 'cap-final',     colorScheme: 'amarelo',  photoBg: true, scrollVh: { desktop: 220, mobile: 200 } }
   ];
-  /* Etapa 2 (parcial/POC): só cap-quem e cap-4 já tiveram a classe/CSS
-     hardcoded removidos do HTML/CSS — as outras 8 entradas acima
-     documentam os valores corretos, mas o HTML/CSS delas ainda tem a
-     versão antiga em paralelo (harmless: `applySceneConfig` abaixo
-     simplesmente reafirma o mesmo valor que já estava lá pra essas 8,
-     então não há conflito) até a próxima migração confirmada. */
   var mobileMq = window.matchMedia('(max-width: 768px)');
   function applySceneConfig(){
     SCENES.forEach(function(cfg){

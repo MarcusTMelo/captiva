@@ -562,30 +562,10 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    distância de scroll, já que buildScene() sempre pinava por
    `offsetHeight - innerHeight`, ou seja "altura antiga − 100vh") —
    preserva o timing/ritmo exato de cada shot, só muda o mecanismo. */
-/* cap-4 e cap-quem: REMOVIDOS daqui (Etapa 2, POC) — --scene-vh agora
-   vem de SCENES config em script.js, aplicado via JS antes do
-   buildScene() ler scene.offsetHeight. As demais 8 cenas abaixo ainda
-   não foram migradas (próximo commit desta mesma etapa); o valor
-   delas aqui e no array de config é idêntico de propósito — nenhum
-   conflito enquanto a migração das duas listas não estiver completa. */
-#cap-2b       { --scene-vh: 300; }
-#cap-3        { --scene-vh: 340; }
-#cap-5        { --scene-vh: 280; }
-#cap-6        { --scene-vh: 320; }
-#cap-estado   { --scene-vh: 280; }
-#cap-7        { --scene-vh: 145; }
-#cap-historico{ --scene-vh: 230; }
-#cap-final    { --scene-vh: 220; }
-@media (max-width: 768px) {
-  #cap-2b       { --scene-vh: 260; }
-  #cap-3        { --scene-vh: 320; }
-  #cap-5        { --scene-vh: 250; }
-  #cap-6        { --scene-vh: 300; }
-  #cap-estado   { --scene-vh: 240; }
-  #cap-7        { --scene-vh: 135; }
-  #cap-historico{ --scene-vh: 230; }
-  #cap-final    { --scene-vh: 200; }
-}
+/* Todas as 10 cenas (cap-2b, cap-3, cap-4, cap-5, cap-6, cap-estado,
+   cap-7, cap-historico, cap-quem, cap-final): --scene-vh REMOVIDO
+   daqui (Etapa 2, completa) — vem de SCENES config em script.js,
+   aplicado via JS antes do buildScene() ler scene.offsetHeight. */
 
 /* ═══════════════════════════════════════
    ATO 1 UNIFICADO — hero + cap-1 + cap-2
