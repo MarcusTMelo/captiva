@@ -17,3 +17,8 @@ videos-referencia/
 
 # Config local do Claude Code (agentes de projeto ficam versionados à parte, se desejado)
 .claude/
+
+# Seguro pra caso alguma ferramenta de build entre no projeto futuramente
+node_modules/
+.env
+.DS_Store
