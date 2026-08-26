@@ -1,0 +1,2597 @@
+/* ══════════════════════════════════════════════════════════════
+   CAPTIVA — style.css
+   Extraído de index.html (Etapa 1 da refatoração estrutural).
+
+   AVISO IMPORTANTE: a ORDEM FÍSICA das regras abaixo foi preservada
+   EXATAMENTE como estava no index.html original — não foi
+   reorganizada nas seções descritas na Etapa 1 do plano de
+   refatoração. Isso é intencional: o arquivo tem múltiplas
+   "guerras de especificidade" resolvidas manualmente ao longo de
+   dezenas de rodadas (regras de especificidade IGUAL onde quem
+   vence depende da ORDEM em que aparecem no arquivo, não só de
+   quão específico é o seletor). Reordenar fisicamente agora, antes
+   do motor de cenas orientado por configuração (Etapa 2) resolver
+   essas dependências de forma explícita, arriscaria inverter
+   silenciosamente alguma dessas resoluções e causar regressão
+   visual — o que é inegociável nesta etapa.
+
+   Os comentários de cabeçalho abaixo (▶ SEÇÃO: ...) marcam os
+   limites REAIS já existentes no arquivo entre os grupos lógicos
+   (reset/variáveis, base, hero, sistema de cenas, decoração,
+   transições, cenas individuais, rodapé) — mas as seções de
+   "transições" e "cenas individuais" continuam INTERCALADAS entre
+   si, refletindo como o arquivo genuinamente é hoje. A reorganização
+   física completa fica pra depois da Etapa 2.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --verde-escuro:   #0f3a0f;
+  --verde-medio:    #1e6b1e;
+  --verde-profundo: #0a2410;
+  --preto-verde:    #050d05;
+  --amarelo:        #f9c923;
+  --amarelo-dark:   #c49200;
+  --laranja:        #ff8c00;
+  --creme:          #f7ecd3;
+  --creme-texto:    #21300f;
+  --branco:         #ffffff;
+  --texto-claro:  rgba(255,255,255,0.97);
+
+  --stroke-escuro:
+    -2px -2px 0 #0a2a0a,
+     2px -2px 0 #0a2a0a,
+    -2px  2px 0 #0a2a0a,
+     2px  2px 0 #0a2a0a,
+     0    4px 12px rgba(0,0,0,0.7);
+
+  --stroke-amarelo:
+    -2px -2px 0 #6b4a00,
+     2px -2px 0 #6b4a00,
+    -2px  2px 0 #6b4a00,
+     2px  2px 0 #6b4a00,
+     0    4px 12px rgba(0,0,0,0.6);
+
+  --card-bg:     rgba(10, 30, 10, 0.62);
+  --card-border: rgba(255,255,255,0.22);
+  --card-blur:   blur(14px);
+  --card-shadow: 0 8px 40px rgba(0,0,0,0.55);
+}
+
+html, body {
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+  /* altura NÃO é fixa: o motor de scroll (GSAP ScrollTrigger) insere
+     spacers pros capítulos pinados, e o documento precisa crescer
+     além da viewport pra acomodá-los. */
+}
+
+/* ═══════════════════════════════════════
+   HERO — porta de entrada cinematográfica
+═══════════════════════════════════════ */
+.bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: url('Background.webp') center center / cover no-repeat;
+  box-shadow: inset 0 0 120px rgba(0,0,0,0.25);
+  transform-origin: center center;
+  will-change: transform, filter;
+}
+.bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right,  rgba(0,0,0,0.42) 0%, transparent 38%),
+    linear-gradient(to left,   rgba(0,0,0,0.38) 0%, transparent 38%),
+    linear-gradient(to bottom, rgba(0,0,0,0.40) 0%, transparent 30%),
+    linear-gradient(to top,    rgba(0,0,0,0.35) 0%, transparent 25%);
+}
+
+/* transição hero→cap-1 (Lote 1, transição 1): vinheta que nasce
+   invisível e se aprofunda no verde-escuro do cap.01 conforme o hero
+   sai de quadro — controlada pela MESMA timeline scrub do hero
+   (trigger:.page, end:'bottom top'), não um elemento novo/isolado, pra
+   que a cor já esteja "chegando" no verde antes do corte binário
+   acontecer. Fica acima do .bg mas abaixo do conteúdo do hero. */
+#heroDarkenEcho {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to bottom, transparent 40%, rgba(15,58,15,0.85) 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* wake-up dos pássaros do hero (Lote 1, transição 1): a arte do
+   Background.webp já mostra pássaros decolando no gramado (asas
+   abertas, linhas de movimento) — pousamos uma pequena silhueta extra
+   (mesmo desenho de .bird-silhouette) numa área de grama vazia ao lado
+   deles, não sobre um pássaro já ilustrado (evita duplicar/confundir a
+   arte existente), invisível em repouso, que ganha um "bater de asas"
+   crescente perto do fim do hero (ver heroTl no <script>) — sugere mais
+   um do bando se juntando à decolagem ANTES do corte pro cap-1, onde os
+   pássaros animados de fato alçam voo (.bird-silhouette). */
+.hero-bird-wakeup {
+  position: absolute;
+  width: clamp(18px, 2.3vw, 30px); height: auto;
+  color: rgba(35,35,35,0.85);
+  opacity: 0;
+  transform-origin: 50% 60%;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-bird-wakeup--1 { left: 15%; bottom: 6.5%; }
+.hero-bird-wakeup--2 { left: 34%; bottom: 12%; width: clamp(14px, 1.8vw, 23px); }
+@media (max-width: 768px) { .hero-bird-wakeup { display: none; } }
+
+.deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  animation: floatDeco ease-in-out infinite;
+}
+.deco-1 { font-size: 1.8rem; top: 14%; left: 50%; animation-duration: 4.2s; animation-delay: 2.5s; }
+.deco-2 { font-size: 1.2rem; top:  8%; left: 62%; animation-duration: 5.1s; animation-delay: 3.2s; }
+.deco-3 { font-size: 1.0rem; top: 20%; left: 44%; animation-duration: 3.8s; animation-delay: 4.0s; }
+
+@keyframes floatDeco {
+  0%   { opacity: 0;    transform: translateY(10px); }
+  15%  { opacity: 0.55; }
+  85%  { opacity: 0.55; }
+  100% { opacity: 0;    transform: translateY(-14px); }
+}
+
+.page {
+  position: relative; z-index: 2;
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "titulo titulo"
+    "hint   wpp";
+  padding: 34px 36px 40px;
+  gap: 0;
+}
+
+.titulo-bloco {
+  grid-area: titulo;
+  align-self: start;
+  opacity: 0;
+  animation: slideInLeft 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards;
+}
+.titulo-bloco h1 {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: clamp(2.6rem, 6vw, 5.4rem);
+  line-height: 0.98;
+  color: var(--branco);
+  text-shadow: var(--stroke-escuro);
+}
+.titulo-bloco h1 .linha-2 {
+  color: var(--amarelo);
+  text-shadow: var(--stroke-amarelo);
+  display: block;
+}
+
+/* Dica de scroll — convite central: fica ancorada no centro inferior
+   da tela (não mais na coluna da esquerda), com seta animada, pra
+   deixar óbvio que a página é vertical e convidar o primeiro scroll. */
+.scroll-hint {
+  /* SEM grid-area aqui de propósito: como item de grid absolutamente
+     posicionado, "left: 50%" passaria a ser resolvido contra a célula
+     "hint" (só a coluna esquerda) em vez da tela inteira. */
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.4s forwards;
+}
+.scroll-hint span {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: clamp(0.9rem, 1.5vw, 1.08rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.75), 0 0 20px rgba(0,0,0,0.4);
+}
+.scroll-hint .seta {
+  color: rgba(255,255,255,0.95);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.55));
+  animation: setaBounce 1.7s ease-in-out infinite;
+}
+/* anel de luz sutil atrás da seta — dá presença sem chamar mais
+   atenção que o hero em si (opacity baixa, blur alto) */
+.scroll-hint::before {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: -6px;
+  transform: translateX(-50%);
+  width: 78px; height: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 68%);
+  filter: blur(2px);
+  animation: hintPulse 1.7s ease-in-out infinite;
+  z-index: -1;
+}
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(0.9); }
+  50%      { opacity: 0.9; transform: translateX(-50%) scale(1.08); }
+}
+@keyframes setaBounce {
+  0%, 100% { transform: translateY(0);   opacity: 0.7; }
+  50%      { transform: translateY(11px); opacity: 1; }
+}
+@media (max-width: 768px) {
+  .scroll-hint { position: relative; left: auto; bottom: auto; transform: none; grid-area: hint; }
+}
+
+.card-whatsapp {
+  grid-area: wpp;
+  justify-self: end;
+  align-self: end;
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border: 1.5px solid var(--card-border);
+  border-radius: 20px;
+  padding: 18px 20px;
+  width: clamp(260px, 22vw, 310px);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  opacity: 0;
+  animation: slideInRight 0.7s cubic-bezier(0.34,1.3,0.64,1) 0.9s forwards;
+}
+.wpp-label {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: clamp(0.75rem, 1.05vw, 0.88rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+}
+.qr-wrap {
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px;
+  width: 110px; height: 110px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  flex-shrink: 0;
+}
+.btn-wpp {
+  display: flex; align-items: center; gap: 10px;
+  justify-content: center;
+  width: 100%;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  border-radius: 50px;
+  padding: 13px 22px;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.50), 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+}
+.btn-wpp:hover { transform: translateY(-3px) scale(1.04); }
+.btn-wpp svg { flex-shrink: 0; }
+.btn-wpp span {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* rodapé — última cena da experiência, não uma linha de crédito
+   esquecida no fim da página. Fundo escuro contrasta com a cena
+   amarela anterior, dá o "fecho de cortina". */
+.rodape {
+  position: relative; z-index: 2;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--preto-verde) 0%, var(--verde-escuro) 58%, var(--amarelo-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 90px 20px 140px;
+  min-height: 62vh;
+}
+.rodape-inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 22px;
+  text-align: center;
+}
+
+/* ── cena de encerramento: estrada ao entardecer, a Captiva indo
+   embora rumo ao horizonte — ativada por IntersectionObserver
+   (.in-view), sem GSAP/pin (o rodapé é o fim natural do scroll). ── */
+.rodape-scene { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.rodape-hill { position: absolute; left: -6%; width: 112%; border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+.rodape-hill--1 { bottom: -4%; height: 20%; background: rgba(10,36,16,0.55); }
+.rodape-hill--2 { bottom: -8%; height: 15%; background: rgba(5,13,5,0.72); }
+.rodape-road { position: absolute; left: 0; right: 0; bottom: 0; height: 11%; background: rgba(5,13,5,0.88); }
+.rodape-road-line {
+  position: absolute; left: 0; right: 0; bottom: 5.2%; height: 3px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.55) 0 20px, transparent 20px 42px);
+  opacity: 0;
+  transition: opacity 0.7s ease 0.15s;
+}
+.rodape-car {
+  /* entra pela direita, segue a estrada rumo ao horizonte à esquerda
+     (a frente do cartoon já é voltada pra esquerda na arte-fonte, então
+     esse sentido é o que faz ela "andar pra frente", não de ré) */
+  position: absolute; right: 2%; bottom: 6%;
+  width: 130px;
+  transform-origin: bottom right;
+  opacity: 0;
+  transition: opacity 1s ease, right 7s linear 0.35s, transform 7s linear 0.35s;
+}
+.rodape-car img { width: 100%; height: auto; display: block; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.5)); }
+/* Transição 14 (Lote 3, cap-final→rodapé): SEM transition-delay (era
+   0.6s) — os pássaros do #cap-final (.cap-final-bird-wrap, scroll-
+   scrubbed via GSAP) já ficam visíveis e em voo até o fim exato do pin
+   daquela cena; o delay aqui atrasava a entrada destes o suficiente pra
+   arriscar um instante sem NENHUM pássaro em quadro entre um sistema e
+   outro. Entrada imediata (só a duração do fade) garante sobreposição
+   real entre os dois conjuntos em vez de um vazio no meio. */
+.rodape-bird { position: absolute; width: 24px; height: auto; color: rgba(255,255,255,0.55); opacity: 0; transition: opacity 1s ease; }
+.rodape-bird--1 { top: 16%; left: 20%; animation: birdFloat 5s ease-in-out infinite; }
+.rodape-bird--2 { top: 24%; left: 34%; width: 19px; animation: birdFloat 6.4s ease-in-out infinite 0.6s; }
+.rodape-bird--3 { top: 11%; left: 46%; width: 21px; animation: birdFloat 5.6s ease-in-out infinite 1.2s; }
+@keyframes birdFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.rodape.in-view .rodape-road-line { opacity: 0.5; }
+.rodape.in-view .rodape-car { opacity: 1; right: 62%; transform: scale(0.46); }
+.rodape.in-view .rodape-bird { opacity: 1; }
+@media (max-width: 640px) {
+  .rodape { padding-bottom: 110px; }
+  .rodape-car { width: 96px; right: 4%; }
+  .rodape.in-view .rodape-car { right: 52%; }
+}
+.rodape-kicker {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  color: var(--texto-claro);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  max-width: 20ch;
+}
+/* despedida da história (carro) — distinta do crédito autoral abaixo:
+   fonte/peso mais leve que o kicker, cor de destaque, sem borda/divisor
+   (o divisor é só da assinatura), lê como um respiro entre os dois. */
+.rodape-farewell {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--amarelo);
+  margin-top: 2px;
+}
+
+/* assinatura autoral — crédito final de obra, não bloco publicitário */
+.rodape-assinatura {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  max-width: 380px;
+}
+.rodape-assinatura-linha {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  font-size: clamp(0.84rem, 1.1vw, 0.95rem);
+  color: rgba(255,255,255,0.78);
+}
+.rodape-assinatura-linha strong { color: var(--amarelo); font-weight: 800; }
+.rodape-assinatura-tagline {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.7rem, 0.95vw, 0.78rem);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+}
+.rodape-assinatura-links { display: flex; gap: 10px; margin-top: 8px; }
+.rodape-assinatura-links a {
+  color: rgba(255,255,255,0.55);
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  transition: color 0.2s, background 0.2s;
+}
+.rodape-assinatura-links a:hover,
+.rodape-assinatura-links a:focus-visible { color: var(--amarelo); background: rgba(255,255,255,0.08); }
+
+@keyframes slideInLeft  { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(36px); }  to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeIn       { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 768px) {
+  .bg {
+    background-image: url('Background-mobile.webp'), url('Background.webp');
+    background-position: center top;
+    background-size: cover;
+  }
+  html, body { overflow-y: auto; }
+  .page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "titulo" "hint" "wpp";
+    padding: 22px 18px 30px;
+    min-height: 100svh;
+    gap: 22px;
+    align-content: space-between;
+  }
+  .titulo-bloco { text-align: center; }
+  .titulo-bloco h1 { font-size: clamp(2.2rem, 10vw, 3.2rem); }
+  .scroll-hint { justify-self: center; }
+  .card-whatsapp { justify-self: center; width: 100%; max-width: 340px; }
+  .rodape { padding: 56px 20px 40px; }
+  .rodape-assinatura { margin-top: 26px; padding-top: 16px; }
+  .rodape-assinatura-tagline { max-width: 30ch; }
+}
+@media (max-width: 400px) {
+  .titulo-bloco h1 { font-size: 1.95rem; }
+}
+
+/* ═══════════════════════════════════════
+   LINGUAGEM DE VIAGEM — trajetórias por
+   cena (não mais uma faixa fixa na borda).
+   Cada trecho de estrada é desenhado DENTRO
+   da cena onde aparece (.scene-decor), como
+   parte da própria composição — algumas
+   cenas têm, a maioria não. Ícones/veículos
+   percorrem essas trajetórias via
+   MotionPathPlugin (data-fx="path").
+═══════════════════════════════════════ */
+/* asfalto — traço grosso e cinza, com curvas reais (não uma linha
+   fina sugerindo estrada: aqui tem largura, sombra e uma faixa
+   central tracejada branca andando sozinha, como pista de verdade).
+   Reaproveitado em qualquer cena que precise do motivo "estrada". */
+.journey-road-asphalt {
+  fill: none;
+  stroke: #35393d;
+  stroke-width: 26;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.4));
+  opacity: 0.9;
+}
+.journey-road-centerline {
+  fill: none;
+  stroke: rgba(255,255,255,0.85);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-dasharray: 10 14;
+  animation: journeyRoadDash 1.5s linear infinite;
+}
+@keyframes journeyRoadDash { to { stroke-dashoffset: -48; } }
+@media (prefers-reduced-motion: reduce) { .journey-road-centerline { animation: none; } }
+/* guia invisível (o <path> que serve de trilho pro MotionPathPlugin)
+   e o elemento que percorre ele — vivem dentro do .scene-decor de
+   cada cena, nunca fixos/globais */
+.journey-guide { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.journey-item-svg { position: absolute; left: 0; top: 0; width: 34px; height: 34px; pointer-events: none; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.45)); }
+.journey-car { position: absolute; left: 0; top: 0; width: 78px; pointer-events: none; }
+.journey-car img { width: 100%; height: auto; display: block; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5)); }
+html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
+@media (prefers-reduced-motion: reduce) { .journey-item-svg, .journey-car { display: none; } }
+/* no cap.07 o layout recompõe bastante no mobile (a foto-detalhe sai
+   do absoluto e entra no fluxo normal, ver .corner-photo) — em vez de
+   só encolher a estrada proporcionalmente, ela simplesmente não
+   aparece nessa cena em telas estreitas: a composição empilhada já
+   fica cheia sem precisar arranjar espaço pra mais uma camada */
+@media (max-width: 700px) { #cap-7 .journey-guide, #cap-7 .journey-car { display: none; } }
+/* no cap.01 o texto empilha por cima da foto no mobile (mesma lógica
+   de .scene-content--split) — o avião cruzaria bem onde o texto cai;
+   melhor não forçar e deixar a cena só com o que já funciona lá */
+@media (max-width: 900px) { #cap-1 .journey-guide, #cap-1 .journey-item-svg, #cap-1 .bird-silhouette { display: none; } }
+
+/* Transição 11 (Lote 3, cap-7→cap-historico): o carrinho que já
+   atravessava o cap-7 (.journey-car, path #cap7RoadPath, direita→
+   esquerda) continua a MESMA viagem dentro do #cap-historico — um 2º
+   trilho curto, na parte baixa da cena, canto oposto às corner-photos,
+   que o carro percorre já nos primeiros instantes ("indo para a
+   oficina") antes de sair de quadro pela esquerda de vez. Mesmo
+   componente/arte, nunca reiniciado — só a continuação do trajeto. */
+@media (max-width: 700px) { #cap-historico .journey-guide, #cap-historico .journey-car { display: none; } }
+
+/* ═══════════════════════════════════════
+   BARRA DE PROGRESSO GLOBAL
+═══════════════════════════════════════ */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--amarelo), var(--laranja));
+  z-index: 200;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════
+   TRILHO DE CAPÍTULOS — puramente visual,
+   sem rótulos textuais (a navegação é por
+   descoberta, não por índice numerado).
+═══════════════════════════════════════ */
+.chapter-rail {
+  position: fixed;
+  right: 20px; top: 50%; transform: translateY(-50%);
+  z-index: 150;
+  display: flex; flex-direction: column; align-items: center; gap: 13px;
+  background: rgba(5,15,5,0.32);
+  backdrop-filter: blur(8px);
+  padding: 14px 8px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.10);
+}
+.chapter-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: none; padding: 0; cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.chapter-dot.active {
+  background: var(--amarelo);
+  transform: scale(1.7);
+  box-shadow: 0 0 12px rgba(249,201,35,0.7);
+}
+@media (max-width: 900px) { .chapter-rail { display: none; } }
+
+/* ═══════════════════════════════════════
+   MOTOR DE CENAS — GSAP ScrollTrigger pina
+   cada capítulo (fallback CSS position:sticky);
+   a altura de cada um vive aqui como variável
+   por capítulo (não mais inline), pra poder
+   ser reduzida no mobile sem duplicar markup.
+═══════════════════════════════════════ */
+/* #cap-1/#cap-2 NÃO usam mais --scene-vh próprio — pertencem ao
+   Ato 1 unificado (#act1, ver bloco .act1-* logo abaixo), cuja
+   altura total é a soma de --act1-hero-vh/--act1-cap1-vh/
+   --act1-cap2-vh. Os valores de scroll-distance são os MESMOS de
+   antes (380vh/360vh de altura de cena antiga → 280vh/260vh de
+   distância de scroll, já que buildScene() sempre pinava por
+   `offsetHeight - innerHeight`, ou seja "altura antiga − 100vh") —
+   preserva o timing/ritmo exato de cada shot, só muda o mecanismo. */
+#cap-2b       { --scene-vh: 300; }
+#cap-3        { --scene-vh: 340; }
+#cap-4        { --scene-vh: 300; }
+#cap-5        { --scene-vh: 280; }
+#cap-6        { --scene-vh: 320; }
+#cap-estado   { --scene-vh: 280; }
+#cap-7        { --scene-vh: 145; }
+#cap-historico{ --scene-vh: 230; }
+#cap-quem     { --scene-vh: 155; }
+#cap-final    { --scene-vh: 220; }
+@media (max-width: 768px) {
+  #cap-2b       { --scene-vh: 260; }
+  #cap-3        { --scene-vh: 320; }
+  #cap-4        { --scene-vh: 260; }
+  #cap-5        { --scene-vh: 250; }
+  #cap-6        { --scene-vh: 300; }
+  #cap-estado   { --scene-vh: 240; }
+  #cap-7        { --scene-vh: 135; }
+  #cap-historico{ --scene-vh: 230; }
+  #cap-quem     { --scene-vh: 150; }
+  #cap-final    { --scene-vh: 200; }
+}
+
+/* ═══════════════════════════════════════
+   ATO 1 UNIFICADO — hero + cap-1 + cap-2
+   (protótipo "câmera contínua"). Ver o
+   comentário de abertura do HTML (#act1)
+   pra explicação completa da arquitetura.
+═══════════════════════════════════════ */
+:root {
+  --act1-hero-vh: 100; /* distância de scroll do "hero" dentro do Ato 1 — igual ao antigo comportamento (.page tinha min-height:100vh, sem pin próprio) */
+  /* Valores abaixo AUMENTADOS (não são mais "= antigo --scene-vh"): o
+     usuário reportou que o texto passa rápido demais pra ler a cada
+     rolagem de mouse — essa era uma queixa antiga do projeto (já
+     documentada como pendência), que a fusão do Ato 1 só preservou em
+     vez de resolver. Aumento de ~45% na distância de scroll de cada
+     capítulo dá mais "fôlego" de leitura por rolagem, sem mudar nada
+     do conteúdo/composição. */
+  --act1-cap1-vh: 400;
+  --act1-cap2-vh: 375;
+}
+@media (max-width: 768px) {
+  :root {
+    --act1-hero-vh: 100;
+    --act1-cap1-vh: 345;
+    --act1-cap2-vh: 315;
+  }
+}
+/* altura real do documento pro trecho do Ato 1: as 3 distâncias de
+   scroll somadas + 1 viewport inteiro (o próprio pin, que fica
+   ocupando tela cheia enquanto o scroll "dentro" dele acontece) —
+   mesma lógica de `scene.offsetHeight - window.innerHeight` que
+   buildScene() usa pra outras cenas, só que agora somada em vez de
+   por-cena. */
+.act1-wrap {
+  position: relative;
+  height: calc((var(--act1-hero-vh) + var(--act1-cap1-vh) + var(--act1-cap2-vh)) * 1vh + 100vh);
+}
+.act1-pin {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+/* fundo contínuo: duas camadas sobrepostas (mesmo princípio de "eco"
+   já usado no resto do site — dois elementos irmãos com opacidade
+   cruzada), cada uma nasce transparente e ganha opacidade num tween
+   scrubado próprio (ver buildAct1() no <script>) — nunca uma troca
+   de classe/background instantânea. A ordem no DOM (verde antes de
+   amarelo) já garante que o amarelo fique por cima quando os dois
+   tiverem opacidade simultânea, sem precisar de z-index extra. */
+.act1-bgcolor {
+  position: absolute; inset: 0; z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.act1-bgcolor--verde { background: var(--verde-escuro); }
+.act1-bgcolor--amarelo { background: linear-gradient(135deg, var(--amarelo) 0%, var(--laranja) 100%); }
+/* cada "camada" do Ato 1 (hero / cap-1 / cap-2) ocupa o palco
+   inteiro, sobreposta às outras — o mesmo truque que .shot-stage/
+   .shot já usa DENTRO de uma cena, generalizado pra fronteira ENTRE
+   cenas. Nenhuma delas "sai de fluxo" — todas ficam sempre no DOM,
+   só a opacidade/transform (via GSAP) decide o que está em primeiro
+   plano em cada instante do scroll. */
+.act1-layer {
+  position: absolute; inset: 0;
+  z-index: 1;
+  width: 100%; height: 100%;
+}
+/* o .page do hero também precisa abandonar seu min-height:100vh de
+   fluxo normal e virar full-bleed absoluto dentro da camada 1. */
+.act1-layer--hero { z-index: 3; }
+.act1-layer--hero .page {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  min-height: 0;
+}
+/* as 3 camadas competem pelo mesmo espaço; ordem de empilhamento de
+   repouso (hero por cima no início, cap-1 no meio, cap-2 por baixo —
+   corresponde à ordem em que cada uma "assume" o primeiro plano ao
+   longo do scroll). #cap-1/#cap-2 precisam de seletor composto
+   (especificidade 1,1,0) pra vencer a regra base .act1-layer acima
+   (0,1,0) sem depender de ordem no arquivo. */
+#cap-1.act1-layer { z-index: 2; }
+#cap-2.act1-layer { z-index: 1; }
+
+.scene {
+  position: relative;
+  height: calc(var(--scene-vh, 200) * 1vh);
+}
+.scene-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scene-pin::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.06), transparent 62%);
+  pointer-events: none;
+  z-index: 1;
+}
+/* dentro do Ato 1 unificado (#act1), #cap-1/#cap-2 (que fora daqui
+   seriam .scene com altura própria + .scene-pin sticky) precisam
+   virar simples full-bleed absolutos — quem controla altura/pin
+   agora é só o .act1-pin externo (ver bloco .act1-* acima).
+   Bug real encontrado em teste de scroll contínuo: `.scene{position:
+   relative}` (declarada MAIS ABAIXO no arquivo) tem a MESMA
+   especificidade (0,1,0) que a `.act1-layer{position:absolute}`
+   declarada mais acima — empate de especificidade decidido por ordem
+   no arquivo, e `.scene` vinha depois, então vencia, fazendo #cap-2
+   renderizar `position:relative` (não absolute) e cair 768px abaixo
+   do topo (empurrado pelo próprio #cap-1 antes dele no fluxo normal),
+   com "172.961 km" saindo fora da viewport por completo. Corrigido
+   com `position:absolute` explícito aqui, numa regra composta
+   (especificidade 0,2,0) que vence `.scene` não importa a ordem —
+   mesma técnica já usada nas regras de z-index logo acima. */
+.act1-layer.scene { position: absolute; inset: 0; height: 100%; width: 100%; }
+.act1-layer .scene-pin {
+  position: absolute; inset: 0;
+  height: 100%;
+}
+
+.scene--verde   .scene-pin { background: var(--verde-escuro); }
+.scene--verde2  .scene-pin { background: var(--verde-profundo); }
+.scene--amarelo .scene-pin { background: linear-gradient(135deg, var(--amarelo) 0%, var(--laranja) 100%); }
+.scene--preto   .scene-pin { background: var(--preto-verde); }
+.scene--creme   .scene-pin { background: var(--creme); }
+/* dentro do Ato 1 unificado, #cap-1/#cap-2 NÃO pintam seu próprio
+   fundo sólido — quem faz isso agora é a única camada .act1-bgcolor
+   (interpolação contínua verde→amarelo, ver bloco .act1-* acima).
+   Precisa vir DEPOIS das regras .scene--X .scene-pin acima pra
+   vencer a cascata (mesma especificidade, 0,2,0 — ordem decide). */
+.act1-layer.scene--verde .scene-pin,
+.act1-layer.scene--amarelo .scene-pin { background: transparent; }
+
+/* ── COSTURA DE VERDADE (teste pontual cap-4→cap-5) ──
+   os "ecos" dentro de cada cena nunca conseguem aparecer por cima
+   da cena vizinha, porque cada .scene-pin tem overflow:hidden e
+   é substituída instantaneamente pela próxima (troca de sticky) —
+   isso faz o corte de cor continuar sendo um corte geométrico duro,
+   mesmo com os ecos "funcionando" tecnicamente dentro de cada uma.
+   Correção real: um elemento position:fixed, fora de qualquer
+   .scene-pin, que não é cortado por ninguém e pode ficar por cima
+   de qual cena estiver embaixo — controlado por um ScrollTrigger
+   próprio (sem pin), só um scrub de opacidade num intervalo curto
+   de scroll em torno da costura exata. */
+.scene-seam {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, #050d05 0%, #f7ecd3 100%);
+}
+
+/* ═══════════════════════════════════════
+   TRANSIÇÕES ENTRE CENAS (Lote 1) — cada
+   costura ganha um "eco de cor" simétrico:
+   um degradê nasce no fim da cena de saída
+   (já na cor de chegada) e seu par nasce no
+   início da cena seguinte (ainda com a cor
+   de saída, dissolvendo) — a intenção é que
+   ninguém consiga apontar o instante exato
+   onde "a cor mudou". Ambos são camadas
+   .scene-decor (z-index:0, position:absolute
+   inset:0), controladas por data-fx="fade"/
+   "fade-echo" como qualquer outra camada do
+   motor — nenhum mecanismo novo de JS.
+═══════════════════════════════════════ */
+/* z-index:2 e FORA de .scene-decor no HTML (ver cada cena abaixo):
+   .scene-decor tem z-index:0 próprio, o que cria seu próprio stacking
+   context isolado — qualquer z-index interno a ele nunca "escapa" pra
+   competir com irmãos como .shot-stage (cujos .shot individuais têm
+   seus próprios fundos fotográficos full-bleed, ex. .cap2-shot1-bg /
+   .scene-bg-photo, e ganhariam a pilha por ordem do DOM mesmo com
+   z-index:0 empatado). Por isso o eco de transição vive como filho
+   DIRETO do .scene-pin, não dentro de .scene-decor — só assim garante
+   ficar visível por cima dos fundos de shot, e ainda abaixo do texto
+   (.shot-text, z-index:2/3, que também é maior aqui só por segurança
+   quando shot-text usa z-index:2 e não 3). */
+.scene-color-echo { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+
+/* Transição 2 — cap-1 (verde) → cap-2 (amarelo): a maior mudança de
+   matiz do site (opostos na roda de cor), por isso o dissolve mais
+   generoso do lote. Nasce no fim do cap-1 já puxando pro amarelo;
+   o par (.cap2-verde-echo) nasce no início do cap-2 ainda puxando
+   pro verde, dissolvendo. */
+.cap1-yellow-echo {
+  background: radial-gradient(ellipse 90% 70% at 85% 100%, rgba(249,201,35,0.55), transparent 72%);
+}
+.cap2-verde-echo {
+  background: radial-gradient(ellipse 90% 70% at 15% 0%, rgba(15,58,15,0.5), transparent 72%);
+}
+/* linhas de velocidade gêmeas do .cap1-icon--speed, "atravessando" a
+   costura pro início do cap-2 — mesma arte reaproveitada (não um
+   elemento novo do zero), entrando já esticada/desfocando, como se
+   tivesse acabado de cruzar o corte arrastando um pouco do amarelo. */
+.cap2-yellow-streak {
+  position: absolute; top: 14%; left: 10%; width: clamp(90px,12vw,150px); height: auto;
+  opacity: 0; z-index: 2;
+  filter: drop-shadow(0 0 6px rgba(15,58,15,0.5));
+}
+@media (max-width: 900px) { .cap2-yellow-streak { top: 9%; left: 6%; } }
+
+/* Transição 3 — cap-2 (amarelo) → cap-2b (creme): continuação do
+   MESMO glow que já nascia no fim do cap-2 (.cap2-creme-echo), não um
+   elemento novo — nasce já visível no início do cap-2b e dissolve,
+   como se a luz que já estava crescendo antes do corte continuasse se
+   espalhando depois. Amarelo e creme são vizinhos de paleta, então o
+   dissolve puro já resolve a maior parte — este eco é só o reforço de
+   continuidade pedido. */
+.cap2b-creme-echo-in {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,200,90,0.4), transparent 70%);
+}
+
+/* Transição 4 — cap-2b (creme) → cap-3 (verde2, ficha técnica): a pior
+   costura antes desta rodada (creme claro → verde escuro, sem nenhum
+   preparo). Dissolve de cor mais longo que a média do lote — mudança
+   grande de luminosidade, precisa de mais fôlego pra não parecer um
+   apagão. Nasce escurecendo no fim do cap-2b; o par simétrico
+   (.cap3-creme-echo-in) nasce claro no início do cap-3, dissolvendo. */
+.cap2b-verde2-echo {
+  background: radial-gradient(ellipse 95% 75% at 50% 100%, rgba(10,36,16,0.68), transparent 75%);
+}
+.cap3-creme-echo-in {
+  background: radial-gradient(ellipse 95% 75% at 50% 0%, rgba(247,236,211,0.42), transparent 75%);
+}
+
+/* pré-visualização da folha de ficha — a MESMA .ficha-sheet, só que
+   ainda fora do lugar, "chegando" sobre o fundo creme do cap-2b nos
+   últimos instantes da cena; a folha real do cap-3 continua o mesmo
+   movimento (ver data-fx="arrive-sheet" no cap-3). Silhueta mais
+   apagada de propósito (opacity baixa) — é um prenúncio, não a peça
+   final, que só "resolve" quando o cap-3 assume. */
+.ficha-sheet-preview-wrap {
+  position: absolute; left: 50%; top: 50%;
+  width: min(74vw, 860px); height: min(64vh, 520px);
+  transform: translate(-50%, -50%);
+  z-index: 0; pointer-events: none;
+}
+.ficha-sheet-preview {
+  position: absolute; inset: 0;
+  background: linear-gradient(168deg, rgba(15,58,15,0.10) 0%, rgba(15,58,15,0.05) 60%, rgba(0,0,0,0.08) 100%);
+  border: 1px solid rgba(15,58,15,0.16);
+  border-radius: 6px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.18);
+}
+
+/* Transição 5 — cap-3 (verde2) → cap-4 (preto): ambas escuras, variação
+   de luminosidade pequena — dissolve sutil e rápido, mais curto que o
+   resto do lote de propósito. */
+.cap3-preto-echo {
+  background: radial-gradient(ellipse 85% 65% at 50% 100%, rgba(5,13,5,0.6), transparent 72%);
+}
+.cap4-verde2-echo {
+  background: radial-gradient(ellipse 85% 65% at 50% 0%, rgba(10,36,16,0.5), transparent 72%);
+}
+
+/* ═══════════════════════════════════════
+   DECOR — camadas de ambientação puramente
+   visuais (sem foto), pra fundos de cor
+   sólida não ficarem "só a cor mudando".
+   Cada peça tem sua própria velocidade via
+   data-speed/data-rot-speed do motor de fx.
+═══════════════════════════════════════ */
+.scene-decor { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.decor-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+.decor-glow--1 { width: 42vw; height: 42vw; top: -10%; right: -8%; background: radial-gradient(circle, rgba(249,201,35,0.5), transparent 70%); }
+.decor-glow--2 { width: 34vw; height: 34vw; bottom: -12%; left: -6%; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%); }
+.decor-glow--3 { width: 26vw; height: 26vw; top: 30%; left: 46%; background: radial-gradient(circle, rgba(255,140,0,0.35), transparent 70%); }
+/* Transição 13 (Lote 3, cap-quem→cap-final): 2ª instância de decor-glow--3
+   (precisa vir DEPOIS da classe base pra vencer a cascata — mesma regra
+   já validada nesta sessão) maior e mais quente/amarela, ancorada mais
+   perto do centro-baixo (atrás do retrato) pra crescer "vazando por
+   trás" dele antes do corte pro amarelo do #cap-final. */
+.decor-glow--3-warmgrow {
+  width: 46vw; height: 46vw;
+  top: auto; bottom: -12%; left: 30%;
+  background: radial-gradient(circle, rgba(255,180,40,0.55), transparent 72%);
+}
+.scene--amarelo .decor-glow--1 { background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%); }
+.scene--amarelo .decor-glow--2 { background: radial-gradient(circle, rgba(15,58,15,0.28), transparent 70%); }
+/* fundo creme já é claro por natureza — glow branco some nele, então
+   troca pra tons verde/laranja que dão contraste sem escurecer a cena */
+.scene--creme .decor-glow--1 { background: radial-gradient(circle, rgba(255,140,0,0.28), transparent 70%); }
+.scene--creme .decor-glow--2 { background: radial-gradient(circle, rgba(15,58,15,0.18), transparent 70%); }
+
+/* eco residual da luz quente do hero — só #cap-1 usa isso: a cena
+   nasce com um resquício âmbar (mesma cor do sol/luz do hero) que se
+   dissolve pro verde, agora ao longo de ~1/5 da cena (Lote 1, transição
+   1 — a duração antiga, ~9%, terminava cedo demais pra realmente
+   "encontrar" o #heroDarkenEcho que escurece durante a saída do hero;
+   ver o data-range no HTML e o novo heroTl no <script>). */
+.cap1-amber-echo {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 70% 55% at 50% 8%, rgba(255,180,60,0.38), transparent 68%);
+}
+
+/* pista/estrada estilizada — trapézio 2D convergindo pro horizonte,
+   sugere profundidade sem depender de perspective()/rotateX() (evita
+   qualquer conflito com as transforms que o GSAP controla em outras
+   camadas). Fica estática de propósito — só ambientação. */
+.decor-road {
+  position: absolute; left: 50%; bottom: -6%; width: 120%; height: 48%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.3) 100%);
+  clip-path: polygon(42% 0%, 58% 0%, 84% 100%, 16% 100%);
+}
+.decor-road-line {
+  position: absolute; left: 50%; bottom: -4%; width: 6%; height: 46%;
+  transform: translateX(-50%);
+  clip-path: polygon(46% 0%, 54% 0%, 68% 100%, 32% 100%);
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,0.6) 0 18px, transparent 18px 38px);
+  opacity: 0.5;
+}
+/* faixa "viva" — tracejado anda sozinho, sugere velocidade constante,
+   independente do scroll (movimento ambiente, não scroll-scrubado) */
+.decor-road-line--live { animation: roadDash 1.1s linear infinite; }
+@keyframes roadDash { from { background-position: 0 0; } to { background-position: 0 56px; } }
+
+/* pequenos ícones gráficos de linha (roda, risco de velocidade) —
+   camadas soltas de profundidade no cap.01, cada um com data-speed
+   próprio (aplicado via addFx) */
+.scene-icon { position: absolute; color: var(--texto-claro); pointer-events: none; }
+/* reposicionado (correção pontual): o canto superior-esquerdo passou a
+   colidir com a foto-polaroid IMG_1163 do Shot 1 (.cap1-polaroid--1,
+   top:10%/left:6%) depois da recomposição da cena — movido pro canto
+   superior-direito, bem acima de .cap1-polaroid--3 (top:16%/right:4%)
+   e fora de qualquer foto dos 4 shots em qualquer ponto do scroll. */
+.cap1-icon--wheel { top: 3%; right: 9%; left: auto; width: clamp(34px,4vw,52px); height: auto; opacity: 0.4; }
+.cap1-icon--speed { bottom: 14%; right: 6%; width: clamp(60px,8vw,96px); height: auto; opacity: 0.35; }
+@media (max-width: 900px) {
+  .cap1-icon--wheel { top: 2%; right: 5%; }
+  .cap1-icon--speed { bottom: 30%; right: 4%; }
+}
+
+/* pássaros — eco discreto do hero (o Background.webp tem pássaros reais
+   cruzando o céu); silhueta simples, funciona bem com autoRotate do
+   MotionPathPlugin por não ter perspectiva 3D. */
+.bird-silhouette { position: absolute; color: var(--texto-claro); opacity: 0.5; pointer-events: none; }
+
+/* inset — foto pequena atravessando/sobrepondo o canto da foto
+   principal, pra composição em camadas (não só "uma foto do lado
+   do texto") */
+.photo-inset {
+  position: absolute;
+  z-index: 3;
+  width: min(30%, 150px);
+  aspect-ratio: 4/3;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 4px solid rgba(255,255,255,0.14);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+  transform: rotate(var(--rot, 6deg));
+}
+.photo-inset img { width: 100%; height: 100%; object-fit: cover; }
+.photo-inset--br { right: -6%; bottom: -8%; }
+/* variante canto inferior-esquerdo — mesmo componente, espelhado
+   (cap.04: inset do reservatório de fluido, evita colidir com o
+   cartoon do carro bêbado, que assenta à direita) */
+.photo-inset--bl { left: -6%; bottom: -8%; }
+@media (max-width: 900px) { .photo-inset { width: min(34%, 120px); } }
+
+/* textura de papel/grão sutil — substitui a antiga grade quadriculada
+   do cap.03 (round de repaginação: "ficha de personagem física", não
+   dashboard). SVG de ruído inline via data-URI, bem discreto, só pra
+   fundo sólido não ficar 100% chapado. */
+.decor-paper-grain {
+  position: absolute; inset: -10%;
+  z-index: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* "folha de ficha" — retângulo grande, levemente inclinado, com um
+   vinco/dobra sutil no canto; todos os beats do cap.03 acontecem
+   sobre/dentro dela (round de repaginação: "ficha de personagem
+   física", não dashboard). É decorativa/persistente — fica em
+   .scene-decor, por baixo dos .shot que crossfadeiam.
+   Estrutura em wrapper+inner (Lote 1, transição 4): o wrapper faz o
+   centering estático via translate(-50%,-50%) — nunca animado — e o
+   ".ficha-sheet" interno recebe x/y/rotation via GSAP livremente (ver
+   data-fx="arrive-sheet" no HTML) sem o GSAP precisar competir com o
+   translate(-50%,-50%) do CSS, que ele substituiria por inteiro se
+   estivesse no mesmo elemento. */
+.ficha-sheet-wrap {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: min(84vw, 980px);
+  height: min(78vh, 620px);
+  transform: translate(-50%, -50%);
+}
+.ficha-sheet {
+  position: absolute; inset: 0;
+  transform: rotate(-1.4deg);
+  background: linear-gradient(168deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 60%, rgba(0,0,0,0.05) 100%);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.4), inset 0 0 60px rgba(0,0,0,0.15);
+}
+.ficha-sheet::after {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.18) 50.5%, transparent 52%);
+  border-radius: 0 6px 0 0;
+}
+@media (max-width: 900px) {
+  .ficha-sheet-wrap { width: 92vw; height: 74vh; }
+}
+
+.scene--verde .fx, .scene--verde2 .fx, .scene--preto .fx { color: var(--texto-claro); }
+.scene--amarelo .fx { color: var(--verde-escuro); }
+.scene--creme .fx { color: var(--creme-texto); }
+/* .fx.cap2-yellow-streak precisa vencer ".scene--amarelo .fx" acima
+   (mesma especificidade, 0,2,0) — por isso vem DEPOIS dela no arquivo,
+   mesma lição já documentada neste projeto pra .fx que precisa de cor
+   própria dentro de uma cena com cor de texto padrão diferente. */
+.fx.cap2-yellow-streak { color: rgba(255,255,255,0.6); }
+
+.fx-accent { color: var(--amarelo); }
+.scene--amarelo .fx-accent { color: var(--verde-escuro); }
+/* ".scene--verde2 .fx" acima tem especificidade (0,2,0), igual a uma
+   simples ".fx-accent" (0,1,0) perderia — escopo por #id garante que o
+   amarelo do beat de fechamento do cap-estado realmente apareça. */
+#cap-estado .fx-accent { color: var(--amarelo); }
+#cap-6 .fx-accent { color: var(--amarelo); }
+#cap-historico .fx-accent { color: var(--amarelo); }
+#cap-1 .fx-accent { color: var(--amarelo); }
+.scene--creme .fx-accent { color: var(--laranja); }
+
+.scene-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1080px;
+  padding: 0 7vw;
+  text-align: center;
+}
+.scene-content--split {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5vw;
+  max-width: 1220px;
+  text-align: left;
+}
+.scene-content--split .scene-text { flex: 1 1 52%; min-width: 0; }
+.scene-content--split.photo-left { flex-direction: row-reverse; }
+.scene-photo-wrap { flex: 1 1 40%; display: flex; justify-content: center; position: relative; }
+@media (max-width: 900px) {
+  .scene-content--split, .scene-content--split.photo-left { flex-direction: column; text-align: center; gap: 26px; }
+}
+/* "luzes da cidade" — bokeh borrado atrás da foto-herói, cada
+   círculo com data-speed próprio pra reforçar profundidade */
+.bokeh { position: absolute; border-radius: 50%; filter: blur(18px); pointer-events: none; z-index: 0; }
+.cross-deco--2 { top: 64%; font-size: 0.7em; }
+
+/* ── Cap.02 — posicionamento específico dos 5 shots ── */
+/* nasce de um glow claro que cresce nos últimos 12% da cena — prepara
+   visualmente o clareamento amarelo→creme antes do corte pro cap-2b.
+   Transição 3 (Lote 1): o par .cap2b-creme-echo-in (definido junto do
+   cap-2b mais abaixo) nasce já visível no início do cap-2b em vez de
+   começar do zero — a luz que já estava crescendo aqui continua se
+   espalhando do outro lado do corte, não reinicia. */
+.cap2-creme-echo {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(247,236,211,0.55), transparent 70%);
+}
+.cap2-shot1-bg {
+  position: absolute; inset: -6%; z-index: 0;
+  filter: blur(18px) brightness(0.72);
+  opacity: 0.55;
+}
+.cap2-shot1-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.cap2-shot2-photo { position: absolute; width: min(20vw, 170px); right: 8%; bottom: 6%; }
+.cap2-heroina-photo { position: relative; }
+.cap2-shot3-corner { position: absolute; width: min(15vw, 140px); top: 4%; left: -10%; z-index: 3; }
+.cap2-shot3-sticker { position: absolute; width: min(18vw, 170px); bottom: -6%; right: -8%; z-index: 3; }
+.cap2-shot4-photo { position: absolute; width: min(17vw, 150px); left: 6%; bottom: 4%; }
+.cap2-shot4-engate { position: absolute; width: min(16vw, 140px); right: 6%; bottom: 2%; }
+@media (max-width: 900px) {
+  .cap2-shot2-photo { width: min(34vw, 160px); right: 4%; bottom: -2%; }
+  .cap2-shot3-corner { width: min(26vw, 120px); top: 2%; left: -2%; }
+  .cap2-shot3-sticker { width: min(30vw, 140px); bottom: -4%; right: -3%; }
+  .cap2-shot4-photo { width: min(28vw, 120px); left: 3%; bottom: -2%; }
+  .cap2-shot4-engate { width: min(26vw, 110px); right: 3%; bottom: -4%; }
+}
+
+/* ── Cap.02b — terceiro elemento ambiente por shot (round de ajuste
+   leve): baixíssima opacidade, sem moldura, quase textura, canto
+   oposto ao carro — reforça "perto do carro" sem competir. */
+.cap2b-ambient { position: absolute; z-index: 0; opacity: 0.16; filter: blur(0.5px) drop-shadow(0 10px 20px rgba(0,0,0,0.15)); }
+.cap2b-ambient--a { width: min(20vw, 190px); left: 2%; top: 6%; }
+.cap2b-ambient--b { width: min(20vw, 190px); right: 2%; bottom: 6%; }
+@media (max-width: 900px) {
+  .cap2b-ambient--a { width: min(30vw, 150px); left: 1%; top: 2%; }
+  .cap2b-ambient--b { width: min(30vw, 150px); right: 1%; bottom: 2%; }
+}
+
+/* ── Tipografia como elemento gráfico ── */
+.type-xl {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: clamp(2.6rem, 9vw, 7.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  margin: 6px 0;
+}
+.type-lg {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4.2vw, 2.9rem);
+  line-height: 1.08;
+  margin: 6px 0;
+}
+.type-md {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.02rem, 1.9vw, 1.45rem);
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.type-sm {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.82rem, 1.1vw, 0.98rem);
+  line-height: 1.5;
+  opacity: 0.8;
+}
+.fx-caps { text-transform: uppercase; }
+.fx { will-change: transform, opacity, filter; }
+.fx-word { display: inline-block; }
+
+/* ── CENA VIVA — "shots" cinematográficos (cap.02b, "Por dentro") ──
+   Cada momento narrativo é um .shot que ocupa o palco inteiro do
+   .scene-pin (position:absolute; inset:0, mesmo truque de nunca
+   empilhar altura que o .ficha-stage do cap.03 já usava). Um .shot
+   não é uma frase solta — é uma composição com profundidade: foto(s)
+   grande(s) art-direcionada(s) + texto + o ambiente (glow/partículas)
+   que já mora em .scene-decor e persiste por baixo de TODOS os shots,
+   sem crossfade — é o que dá sensação de espaço contínuo, não de
+   slide trocando. A foto de cada shot cresce continuamente
+   (data-fx="grow-fill") enquanto o texto do próprio shot entra/sai
+   por cima — a "câmera" é o scroll controlando escala e profundidade,
+   não só opacidade de parágrafo. */
+.shot-stage { position: relative; width: 100%; height: 100%; }
+/* cap.03 é o único caso onde .shot-stage vive dentro de .scene-content
+   (que tem height:auto — se ajusta ao conteúdo) em vez de ser filho
+   direto de .scene-pin (height:100vh) como cap-2b/cap-estado/cap-final;
+   sem uma altura própria explícita aqui, height:100% de um pai
+   height:auto colapsa pra 0, e qualquer filho position:absolute (ex:
+   .ficha-beat4-bg) herda altura zero também. */
+#cap-3 .shot-stage { height: clamp(360px, 56vh, 560px); margin: 24px 0; }
+.shot {
+  position: absolute; inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5vw;
+  padding: 0 6vw;
+}
+/* min-width/min-height:0 é o fix clássico pra flex-item com <img>
+   dentro: sem isso, o tamanho INTRÍNSECO da imagem (a foto original,
+   ex. 2048px) vira um piso mínimo de largura do item flex, mesmo a
+   foto tendo width explícito lá dentro — estourava o .shot inteiro. */
+.shot-photo { position: relative; z-index: 1; flex-shrink: 0; min-width: 0; min-height: 0; }
+.shot-text { position: relative; z-index: 3; max-width: 30ch; flex-shrink: 0; }
+.shot-text--wide { max-width: 40ch; }
+
+/* ── chip sólido — texto que precisa ficar SEMPRE legível em cima de
+   foto clara/reflexiva (cap.05, "Foi automático." — antes quase
+   ilegível contra o painel claro). Diferente do "stroke" (contorno
+   escuro no próprio texto) usado no cap.01: aqui é um fundo sólido
+   verde-escuro por trás de cada linha, texto claro/amarelo por cima —
+   nunca deixa o texto flutuando direto sobre a área mais clara da
+   foto. display:block (não inline-block) porque .shot-text pode ter
+   várias linhas <p>/<h2> que precisam empilhar, não ficar lado a lado
+   (lição já documentada: inline-block quebrou esse empilhamento antes
+   em outro contexto). width:fit-content faz o fundo abraçar só o
+   próprio texto de cada linha, não a largura toda do container. */
+.shot-chip {
+  display: block;
+  width: fit-content;
+  background: var(--verde-profundo);
+  color: var(--texto-claro);
+  padding: 0.32em 0.6em;
+  border-radius: 10px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+}
+.shot-chip + .shot-chip { margin-top: 10px; }
+.shot-chip--accent { color: var(--amarelo); }
+/* bug real (mesma classe já documentada várias vezes neste projeto):
+   ".scene--creme .fx" (especificidade 0,2,0) vence a cor clara de
+   ".shot-chip" (0,1,0) — o texto do chip do cap-5 renderizava em
+   --creme-texto (verde bem escuro) por cima do próprio fundo
+   --verde-profundo do chip, quase a mesma cor = ilegível. Escopo por
+   #id garante a cor clara de verdade. */
+#cap-5 .shot-chip { color: var(--texto-claro); }
+#cap-5 .shot-chip.shot-chip--accent { color: var(--amarelo); }
+/* variante grande — a frase de fecho do cap.05 ("Foi automático."),
+   precisa dominar o quadro e persistir legível por um dwell longo */
+.shot-chip--xl { padding: 0.22em 0.5em; }
+@media (max-width: 900px) {
+  .shot-chip { margin-left: auto; margin-right: auto; }
+}
+@media (max-width: 900px) {
+  .shot { flex-direction: column !important; justify-content: center !important; gap: 18px; padding: 0 7vw; }
+  .shot-text, .shot-text--wide { max-width: 34ch; text-align: center !important; }
+}
+
+/* partícula ambiente — pequeno elemento gráfico com deriva contínua
+   (CSS) + parallax de scroll (data-speed, já suportado pelo motor);
+   vive em .scene-decor, não dentro de um .shot — por isso atravessa
+   a cena inteira sem cortar com os crossfades de texto/foto. */
+.particle { position: absolute; z-index: 1; pointer-events: none; animation: particleDrift ease-in-out infinite; }
+@keyframes particleDrift {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50%      { transform: translateY(-18px) rotate(5deg); }
+}
+
+html.no-motion .shot-stage, html.no-motion #cap-3 .shot-stage { height: auto; }
+html.no-motion .shot { position: static; display: block; padding: 34px 6vw; min-height: 56vh; text-align: center; }
+html.no-motion .shot-photo { margin: 0 auto 22px; }
+html.no-motion .shot-text, html.no-motion .shot-text--wide { position: static; max-width: 90%; margin: 10px auto; text-align: center; }
+html.no-motion .particle { display: none; }
+/* com os shots empilhando em fluxo normal (position:static), a altura
+   real da cena passa a ser muito maior que 100vh — sem isso, o
+   overflow:hidden + height:100vh do .scene-pin (pensado pro pin do
+   GSAP) cortaria a maior parte da cena fora da tela no fallback. */
+html.no-motion #cap-2b .scene-pin, html.no-motion #cap-2b,
+html.no-motion #cap-estado .scene-pin, html.no-motion #cap-estado,
+html.no-motion #cap-5 .scene-pin, html.no-motion #cap-5,
+html.no-motion #cap-6 .scene-pin, html.no-motion #cap-6 { position: static; height: auto; overflow: visible; }
+/* cap.01: as 3 fotos-polaroid vivem em .scene-decor (fora do .shot),
+   pra poderem "recuar sem sumir" nos shots seguintes durante o scroll
+   animado — no fallback estático isso não faz sentido (não há scroll
+   progressivo pra recuar em resposta), então viram uma pequena colagem
+   simples, em fluxo normal, logo acima do texto do Shot 1. */
+html.no-motion .cap1-polaroid, html.no-motion .cap1-polaroid--3 {
+  position: static; display: inline-block; width: min(30vw, 160px); margin: 8px; transform: none !important;
+}
+html.no-motion #cap-1 .scene-decor { position: static; display: flex; flex-wrap: wrap; justify-content: center; padding: 20px 6vw 0; }
+html.no-motion #cap-1 .bird-silhouette, html.no-motion #cap-1 .decor-road,
+html.no-motion #cap-1 .decor-road-line, html.no-motion #cap-1 .scene-icon,
+html.no-motion #cap-1 .cap1-amber-echo { display: none; }
+html.no-motion #cap-1, html.no-motion #cap-1 .scene-pin { position: static; height: auto; overflow: visible; }
+html.no-motion .cap1-shot4-corner { position: static !important; width: min(50vw, 300px) !important; margin: 16px auto 0 !important; }
+html.no-motion #cap-1 .shot-photo { position: static !important; inset: auto !important; }
+/* .scene-pin é display:flex (pensado pra centralizar o conteúdo de UM
+   pin); no fallback os 3 filhos diretos do cap.06 (título, colagem,
+   contraponto) precisam empilhar em bloco, não ficar lado a lado numa
+   linha flex — sem isso via 3 colunas apertadas em vez do texto lendo
+   como uma passagem vertical normal. */
+html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
+
+/* elemento decorativo que atravessa a cena inteira (data-fx="cross") —
+   fica solto dentro do .scene-pin, não compete com o texto. */
+.cross-deco {
+  position: absolute;
+  top: 14%; left: 50%;
+  z-index: 3;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  pointer-events: none;
+}
+
+.flash-hit .scene-pin { animation: flashPulse 0.5s ease; }
+@keyframes flashPulse {
+  0%   { filter: brightness(1); }
+  30%  { filter: brightness(1.55); }
+  100% { filter: brightness(1); }
+}
+
+/* ═══════════════════════════════════════
+   FOTOGRAFIA COMO ELEMENTO DE COMPOSIÇÃO
+═══════════════════════════════════════ */
+.photo-frame {
+  position: relative;
+  width: min(90%, 440px);
+  aspect-ratio: var(--ar, 4 / 5);
+  border-radius: 20px;
+  overflow: hidden;
+  transform: rotate(var(--rot, -4deg));
+  box-shadow: 0 30px 70px rgba(0,0,0,0.45), 0 6px 18px rgba(0,0,0,0.3);
+  border: 4px solid rgba(255,255,255,0.10);
+}
+.photo-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, center);
+  transform: scale(var(--zoom, 1.1));
+  will-change: transform, filter, opacity;
+}
+/* moldura alternativa p/ fotos que mostram o carro inteiro em enquadramento
+   largo — evita forçar um corte 4:5 (retrato) numa foto que é paisagem
+   (ex.: carro com as portas abertas), que cortaria as próprias portas. */
+.photo-frame--wide { width: min(94%, 640px); }
+/* moldura grande pra foto que "domina" um shot (cap.02b) — a Captiva
+   (ou o interior dela) ocupando boa parte da composição, não presa
+   num canto pequeno */
+.photo-frame--dominant { width: min(58vw, 620px); }
+@media (max-width: 900px) {
+  .photo-frame { width: min(72vw, 340px); }
+  .photo-frame--wide { width: min(86vw, 460px); }
+  .photo-frame--dominant { width: min(78vw, 420px); }
+}
+
+/* foto pequena, secundária de propósito (cap.05 Shot B) — o chip de
+   texto é quem domina esse quadro, a foto do volante só acompanha */
+.cap5-wheel-photo { width: min(30vw, 300px); }
+@media (max-width: 900px) { .cap5-wheel-photo { width: min(56vw, 260px); } }
+
+.corner-photo {
+  position: absolute;
+  right: 6%; bottom: 9%;
+  width: min(28vw, 250px);
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  transform: rotate(var(--rot, 6deg));
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  border: 4px solid rgba(255,255,255,0.10);
+  z-index: 2;
+}
+.corner-photo img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, center); transform: scale(var(--zoom, 1.1)); }
+@media (max-width: 768px) {
+  /* bug pré-existente (achado durante o round de repaginação Ato 3,
+     testando a 2ª foto do cap-7): .corner-photo é irmão flex de
+     .scene-content dentro de .scene-pin (display:flex) — ao virar
+     position:relative no mobile ele passa a competir de verdade por
+     espaço no flex e, sem flex-shrink:0, o algoritmo o encolhe bem
+     abaixo do width:58vw pedido (confirmado: renderizava a ~54px de
+     largura real, não ~226px). flex-shrink:0 + width:100% (a foto
+     ocupa a largura inteira da linha que ela mesma vira) resolve. */
+  .corner-photo { position: relative; right: auto; bottom: auto; width: 58vw; max-width: 100%; flex-shrink: 0; margin: 26px auto 0; }
+}
+
+/* variante secundária — canto OPOSTO ao .corner-photo padrão (que fica
+   embaixo-direita), menor e com z-index mais baixo, pra apoiar a
+   composição sem competir de igual pra igual com o corner-photo
+   principal da cena (cap.07: 2ª foto de apoio, round de repaginação
+   Ato 3). Precisa vir DEPOIS de .corner-photo no arquivo (cascata). */
+.corner-photo--tl {
+  right: auto; left: 5%; bottom: auto; top: 10%;
+  width: min(19vw, 165px);
+  z-index: 1;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.4);
+}
+@media (max-width: 768px) {
+  .corner-photo--tl { position: relative; left: auto; top: auto; width: 42vw; max-width: 100%; flex-shrink: 0; margin: 14px auto 0; }
+}
+/* #cap-7 no mobile: com 2 corner-photos + .scene-content todos virando
+   irmãos flex reais dentro de .scene-pin (display:flex, sem wrap por
+   padrão), as 3 colunas competiam na mesma linha e se sobrepunham,
+   cortando o título. Escopo só a #cap-7 (não mexe no .scene-pin
+   genérico, usado por todas as outras cenas) — empilha em coluna. */
+@media (max-width: 768px) {
+  /* flex-wrap:wrap AQUI seria o bug: numa flex-direction:column, "wrap"
+     cria novas COLUNAS à direita (não novas linhas), o que empurrava
+     .scene-content pra fora da viewport horizontalmente (scrollWidth
+     554px numa tela de 390px, título cortado). nowrap é o certo pra
+     uma pilha vertical simples. justify-content:flex-start (não
+     "center", o valor herdado do .scene-pin base) porque o conteúdo
+     empilhado passa de 100vh — centralizar verticalmente um conteúdo
+     mais alto que a viewport corta os dois extremos igualmente (não dá
+     pra rolar de verdade aqui, é uma cena com scroll-jacking); ancorado
+     no topo com padding, nada corta. */
+  #cap-7 .scene-pin { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; padding: 34px 0 20px; }
+  #cap-7 .corner-photo { order: 2; margin: 10px auto; }
+  #cap-7 .corner-photo--tl { order: 1; }
+  #cap-7 .scene-content { order: 3; width: 100%; }
+}
+/* mesmo ajuste em #cap-historico — só 1 corner-photo lá, mas o mesmo
+   .scene-pin flex-row/nowrap empurrava o título pra fora da viewport
+   (top:-82px, invisível) tentando encaixar foto+conteúdo lado a lado. */
+@media (max-width: 768px) {
+  #cap-historico .scene-pin { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; padding: 34px 0 20px; }
+  #cap-historico .corner-photo { order: 1; margin: 10px auto; }
+  #cap-historico .scene-content { order: 2; width: 100%; }
+}
+
+/* ── foto "solta no espaço" — sem moldura/borda, só o recorte (PNG
+   com fundo já removido) ── (cap.01, round de repaginação do Ato 1).
+   Diferente de .photo-frame (sempre um cartão retangular com borda),
+   aqui a imagem em si é a silhueta — nada de card por baixo. Vinheta
+   leve via drop-shadow (não temos um retângulo pra dar box-shadow) +
+   opcionalmente um degradê de leve fade nas bordas via mask-image
+   quando a variante --loose-vignette estiver setada num elemento. */
+.photo-loose {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 22px 38px rgba(0,0,0,0.4));
+  transform: rotate(var(--rot, 0deg));
+}
+.photo-loose img { width: 100%; height: auto; display: block; }
+/* variante com leve vinheta nas bordas do recorte — usada quando a
+   foto solta precisa se dissolver na cena em vez de terminar com uma
+   borda alfa dura (ex.: silhuetas maiores, mais tempo em tela) */
+.photo-loose--vignette img {
+  -webkit-mask-image: radial-gradient(ellipse 82% 82% at 50% 50%, #000 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse 82% 82% at 50% 50%, #000 70%, transparent 100%);
+}
+
+/* ── Cap.01 — posicionamento específico da colagem do Shot 1
+   ("polaroids largadas") e dos elementos soltos dos shots seguintes ── */
+.cap1-polaroid { width: min(30vw, 260px); z-index: 1; }
+.cap1-polaroid--1 { top: 10%; left: 6%; }
+.cap1-polaroid--2 { bottom: -4%; left: 30%; width: min(34vw, 300px); }
+.cap1-polaroid--3 { top: 16%; right: 4%; width: min(32vw, 320px); }
+@media (max-width: 900px) {
+  .cap1-polaroid { width: min(46vw, 220px); }
+  .cap1-polaroid--1 { top: 6%; left: 3%; }
+  .cap1-polaroid--2 { bottom: -2%; left: 22%; width: min(50vw, 250px); }
+  .cap1-polaroid--3 { top: 10%; right: 2%; width: min(48vw, 260px); }
+}
+.cap1-shot2-photo { position: relative; width: min(45vw, 460px); }
+@media (max-width: 900px) { .cap1-shot2-photo { width: min(66vw, 340px); } }
+.cap1-scratch-corner { position: absolute; z-index: 2; width: min(14vw, 130px); left: 4%; bottom: 6%; }
+@media (max-width: 900px) { .cap1-scratch-corner { width: min(24vw, 100px); left: 3%; bottom: 4%; } }
+@media (max-width: 900px) {
+  .cap1-climax-photo { width: min(92vw, 640px) !important; }
+  .cap1-shot4-corner { width: min(40vw, 220px) !important; left: 3% !important; bottom: 4% !important; }
+}
+
+.scene-bg-photo { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.scene-bg-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, center 35%);
+  transform: scale(var(--zoom, 1.08));
+  filter: grayscale(0.25) brightness(0.55) contrast(1.1);
+}
+.scene-bg-photo.tint-verde img { filter: grayscale(0.35) brightness(0.5) contrast(1.05) sepia(0.15) hue-rotate(60deg); }
+/* variante clara — pra cenas de fundo creme, onde o texto é escuro
+   e a foto precisa ficar leve/clara por baixo, não escurecida */
+.scene-bg-photo.tint-creme img { filter: grayscale(0.1) brightness(1.04) contrast(1.02) sepia(0.1); }
+.scene-bg-photo::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(5,13,5,0.5), rgba(5,13,5,0.88) 72%);
+}
+.scene--creme .scene-bg-photo::after {
+  background: linear-gradient(180deg, rgba(247,236,211,0.5), rgba(247,236,211,0.92) 72%);
+}
+.scene--amarelo .scene-bg-photo::after {
+  background: linear-gradient(160deg, rgba(255,224,140,0.55) 0%, rgba(255,150,40,0.62) 100%);
+}
+/* blur permanente — a foto NUNCA tenta focar, fica atmosfera o tempo
+   inteiro (diferente de .fx[data-fx="blur-in"], que desfoca→foca). */
+.cap-final-bg-photo img { filter: blur(13px) brightness(1.08) contrast(0.96) saturate(1.15) sepia(0.32) hue-rotate(-8deg); }
+.scene--photo-bg .scene-content { position: relative; z-index: 2; }
+
+/* #cap-historico: a foto do motor precisa ficar mais escura/distante
+   ainda que o tratamento padrão de .tint-verde — é atmosfera de fundo,
+   não pode competir com os recibos/selos (a prova real da cena). Mais
+   blur, mais escuro, quase abstrata. Precisa vir DEPOIS de
+   .scene-bg-photo.tint-verde (cascata). */
+#cap-historico .scene-bg-photo img { filter: grayscale(0.5) brightness(0.32) contrast(1.02) sepia(0.12) hue-rotate(60deg) blur(2px); }
+#cap-historico .scene-bg-photo::after { background: linear-gradient(180deg, rgba(4,10,4,0.68), rgba(4,10,4,0.94) 72%); }
+
+/* faixa de estrada fina na base — sugere que o cartoon "chega dirigindo"
+   até o lugar onde assenta (cap.04) */
+.decor-road-mini {
+  position: absolute; left: 0; right: 0; bottom: 9%;
+  height: 3px; z-index: 1;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.45) 0 22px, transparent 22px 46px);
+  opacity: 0.4;
+}
+
+/* personagem cartoon — cutout com alpha, pop de personalidade
+   por cima da foto real (contraste foto real + cartoon) */
+.cartoon-pop {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 34px rgba(0,0,0,0.55));
+}
+.cartoon-pop img { width: 100%; height: auto; display: block; }
+
+/* ── Cap.04 — reforço (round de repaginação Ato 2) ──
+   glows âmbar/laranja fracos preenchendo o vazio entre o motor escuro
+   e a borda da tela + inset do reservatório de fluido, no pico de
+   "Ela bebe." + glow quente crescendo no fim, preparando a transição
+   pro creme do cap-5 (fade-echo real, com fade-out — não "fade" genérico). */
+.cap4-glow--1 { width: 30vw; height: 30vw; top: -6%; left: -8%; background: radial-gradient(circle, rgba(255,140,0,0.4), transparent 70%); }
+.cap4-glow--2 { width: 24vw; height: 24vw; bottom: -10%; right: 4%; background: radial-gradient(circle, rgba(249,201,35,0.3), transparent 70%); }
+/* brilho vertical fino, tipo poste de posto de gasolina — canto
+   oposto ao carro cartoon (que assenta à direita, bottom:8%) */
+.cap4-gas-post {
+  position: absolute; z-index: 0;
+  left: 9%; top: 8%; bottom: 22%;
+  width: 10px;
+  background: linear-gradient(180deg, rgba(255,200,120,0.5), rgba(255,140,0,0.15) 60%, transparent 100%);
+  filter: blur(6px);
+  opacity: 0.55;
+}
+@media (max-width: 900px) { .cap4-gas-post { left: 5%; top: 4%; bottom: 30%; } }
+.cap4-warm-echo {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,160,60,0.4), transparent 70%);
+}
+/* inset do reservatório — canto inferior-esquerdo, um pouco acima do
+   .decor-road-mini pra não colidir com ela */
+.cap4-fuel-inset { bottom: 12%; }
+@media (max-width: 900px) { .cap4-fuel-inset { bottom: 16%; } }
+
+/* ── Transição 6 (Lote 2): cap-4 (preto) → cap-5 (creme) ──
+   par de entrada do .cap4-warm-echo (mesma linguagem de glow quente
+   radial, só que nascendo do TOPO — ponto de continuidade — e mais
+   forte, porque aqui já precisa carregar sozinho o grosso do trabalho
+   de dissolver o preto absoluto pro creme claro). */
+.cap5-warm-echo-in {
+  background: radial-gradient(ellipse 85% 65% at 50% 0%, rgba(255,170,70,0.5), transparent 74%);
+}
+/* carrinho "ainda se afastando" — mesma posição/tamanho de descanso do
+   original no cap-4 (right/bottom), só menor (já mais longe na estrada) */
+.cap5-cartoon-echo {
+  width: min(22vw, 230px);
+  right: 4%; bottom: 10%;
+  --rot: -4deg;
+}
+@media (max-width: 900px) { .cap5-cartoon-echo { width: min(30vw, 200px); right: 2%; bottom: 6%; } }
+
+/* ── Cap.06 — "Chega de eu falar dela." reconstruído (round de
+   direção de arte, 21 ago) ──
+   Round anterior (foto cartoon única "pendurada" por .light-streak
+   simulando fios) foi apontado como o ponto mais fraco visual do
+   site — os fios não tinham função narrativa e foram removidos por
+   completo. .cap6-spotlight (glow ambiente/teatral) foi mantido, é
+   textura de fundo que já funcionava.
+   Nova composição em 3 fases dentro do mesmo .scene-pin:
+   1) tipografia cinética gigante (data-fx="slide-out-grow") cresce
+      centralizada e desliza pra fora de quadro;
+   2) colagem de 7 fotos reais se acumulando por cima, sobreposta à
+      saída do texto — nunca deixa a cena visualmente vazia;
+   3) contraponto quieto ("Agora ela fala por si.") pequeno, só depois
+      que a colagem já está cheia.
+
+   Round de reconstrução (21 ago, v2): 4→7 fotos, tratamento alternado
+   moldura-polaroid/solta-sem-moldura (mais densidade de camada), 2º
+   glow de textura (.cap6-glow, ver abaixo) pra resolver o "fundo
+   brega" apontado e suavizar a transição de saída pro #cap-estado. */
+.cap6-spotlight {
+  position: absolute; z-index: 0;
+  width: min(62vw, 640px); height: min(62vw, 640px);
+  right: 4%; top: 50%; transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 66%);
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+/* 2º par de glows — mesmo padrão do .decor-glow usado no resto do site
+   (drift ambiente via data-speed/data-rot-speed), só que com nomes
+   próprios porque as cores/posições/tamanhos são específicos desta
+   cena: um âmbar sutil (canto superior-esquerdo, eco do calor das
+   cenas anteriores) e um esverdeado sutil (canto inferior-direito,
+   antecipa o verde do #cap-estado que vem a seguir) — os dois cantos
+   opostos ao .cap6-spotlight (direita/meio) pra não competirem com ele. */
+.cap6-glow {
+  position: absolute; z-index: 0;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+.cap6-glow--amber {
+  width: min(38vw, 420px); height: min(38vw, 420px);
+  left: -8%; top: -10%;
+  background: radial-gradient(circle, rgba(255,160,60,0.30), transparent 70%);
+}
+.cap6-glow--green {
+  width: min(44vw, 480px); height: min(44vw, 480px);
+  right: -10%; bottom: -12%;
+  background: radial-gradient(circle, rgba(60,180,90,0.26), transparent 70%);
+}
+@media (max-width: 900px) {
+  .cap6-glow--amber { width: min(60vw, 320px); height: min(60vw, 320px); }
+  .cap6-glow--green { width: min(66vw, 360px); height: min(66vw, 360px); }
+}
+
+/* título cinético — position:absolute + inset:0 centralizado, ocupa
+   o palco inteiro sozinho na Fase 1; a colagem (Fase 2) tem seu
+   próprio z-index acima dele, então quando o slide-out-grow o leva
+   pra fora de quadro a colagem já está por cima, nunca por baixo. */
+.cap6-kinetic-title {
+  position: absolute; z-index: 2;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 0 4vw;
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 9.5vw, 8.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+}
+
+/* colagem — 7 fotos, tratamento alternado: a classe base de cada
+   <figure> já é .photo-frame (moldura polaroid) OU .photo-loose (solta,
+   sem moldura, ver definições de ambas mais acima no arquivo) — aqui
+   .cap6-photo só resolve posição/tamanho/z-index por cima da classe
+   base, nunca redefine borda/sombra. z-index cresce com a ordem de
+   chegada; as soltas (1 e 4) ficam propositalmente mais baixas que as
+   polaroids ao redor, como se estivessem "atrás" delas (profundidade
+   de camada real, não só "mais uma foto do mesmo jeito"). */
+.cap6-collage {
+  position: absolute; inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+/* .photo-frame por padrão é position:relative (pensado pra fluir dentro
+   de um .shot) — aqui cada foto precisa ser posicionada livremente
+   dentro da colagem, então .cap6-photo força absolute (mesma
+   especificidade de classe única, vem depois na cascata, ganha). As
+   soltas (.photo-loose) já são absolute por padrão, esta regra é
+   redundante nelas mas inofensiva. */
+.cap6-photo { position: absolute; }
+.cap6-photo.photo-frame {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  /* var(--ar) definida inline por foto (3/2 nas polaroids paisagem,
+     2/3 na âncora final que é retrato) — nunca hardcoded, senão a
+     âncora seria forçada a paisagem e cortaria a foto errado. */
+  aspect-ratio: var(--ar, 3 / 2);
+}
+
+/* 1 — pequena, periférica, canto superior-esquerdo, SOLTA (atrás) */
+.cap6-photo--1 { z-index: 1; width: min(20vw, 220px); left: 4%; top: 6%; }
+/* 2 — pequena, canto inferior-esquerdo, polaroid */
+.cap6-photo--2 { z-index: 3; width: min(18vw, 190px); left: 3%; bottom: 8%; }
+/* 3 — média, lado direito superior, polaroid */
+.cap6-photo--3 { z-index: 4; width: min(26vw, 280px); right: 4%; top: 6%; }
+/* 4 — média-grande, lado esquerdo-centro, SOLTA (atrás) */
+.cap6-photo--4 { z-index: 2; width: min(30vw, 320px); left: 7%; top: 40%; }
+/* 5 — canto superior-direito, polaroid (escalonada abaixo/à esquerda
+   da foto 3, mesmo lado, pra sugerir pilha se acumulando, não colidir) */
+.cap6-photo--5 { z-index: 5; width: min(22vw, 240px); right: 15%; top: 30%; }
+/* 6 — grande, z-index mais baixo que as pequenas ao redor — dá a
+   profundidade de camada pedida ("fica atrás"), ambientada no canto
+   inferior-direito */
+.cap6-photo--6 { z-index: 1; width: min(38vw, 420px); right: 2%; bottom: 4%; }
+/* 7 — âncora final: a maior de todas, centralizada, moldura mais
+   grossa (--anchor abaixo) sinaliza "essa é a definitiva" */
+.cap6-photo--7.cap6-photo--anchor {
+  z-index: 6; width: min(48vw, 540px);
+  left: 50%; top: 54%; transform: translate(-50%,-50%) rotate(var(--rot, 0deg));
+}
+.cap6-photo--anchor { border-width: 8px; }
+
+@media (max-width: 900px) {
+  .cap6-spotlight { right: auto; left: 50%; transform: translate(-50%,-50%); }
+  .cap6-kinetic-title { font-size: clamp(2.2rem, 12vw, 4.6rem); }
+  /* espalhadas ao longo de toda a altura do palco (não só o topo) —
+     viewport de celular é bem mais alto que largo, então a colagem
+     precisa ocupar essa faixa vertical inteira pra não deixar metade
+     da tela vazia debaixo das fotos. Âncora final continua a maior e
+     mais central, só um pouco menor pra não estourar a largura. */
+  .cap6-photo--1 { width: min(38vw, 190px); left: 3%; top: 3%; }
+  .cap6-photo--2 { width: min(40vw, 200px); left: 2%; bottom: 30%; }
+  .cap6-photo--3 { width: min(44vw, 220px); right: 3%; top: 4%; }
+  .cap6-photo--4 { width: min(46vw, 240px); left: 4%; top: 26%; }
+  .cap6-photo--5 { width: min(40vw, 200px); right: 4%; top: 20%; }
+  .cap6-photo--6 { width: min(58vw, 300px); right: 2%; bottom: 2%; }
+  .cap6-photo--7.cap6-photo--anchor { width: min(62vw, 340px); top: 56%; }
+}
+
+/* ── Transição 8 (Lote 2): cap-6 (preto) → cap-estado (verde2) ── */
+.cap-estado-green-echo-in {
+  background: radial-gradient(ellipse 70% 55% at 100% 100%, rgba(60,180,90,0.4), transparent 72%);
+}
+/* eco de saída da foto-âncora — canto discreto inferior-esquerdo,
+   abaixo/fora da área do texto+foto do Shot A (split texto-esquerda/
+   foto-direita), pequena o bastante pra nunca competir com o conteúdo
+   real da cena que já está entrando por cima */
+.cap-estado-anchor-echo {
+  /* SEM z-index explícito de propósito: precisa ficar ATRÁS do
+     .shot-stage (que vem depois no DOM, sem z-index próprio — um
+     z-index:1 aqui o elevaria acima dele mesmo vindo antes no DOM,
+     bug real encontrado em teste visual: o eco ainda grande cobria o
+     Shot A real nos primeiros instantes da cena). */
+  position: absolute;
+  width: min(16vw, 170px);
+  left: 4%; bottom: 6%;
+  border-width: 8px;
+}
+@media (max-width: 900px) { .cap-estado-anchor-echo { width: min(26vw, 140px); left: 3%; bottom: 3%; } }
+
+/* ── Transição 9 (Lote 2): cap-estado (verde2) → galeria ──
+   miniaturas periféricas, opacidade baixa (nunca compete com o Shot C/
+   clímax do cap-estado, que domina o centro) — só sugerem "já tem
+   fotos flutuando entrando em quadro" antes do corte de seção. */
+.cap-estado-gip-preview { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.cap-estado-gip {
+  position: absolute;
+  width: min(14vw, 150px);
+  aspect-ratio: 4/5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.4);
+  opacity: 0;
+}
+.cap-estado-gip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cap-estado-gallery-echo {
+  background: radial-gradient(ellipse 60% 45% at 30% 100%, rgba(249,201,35,0.14), transparent 70%);
+}
+.cap-estado-gip--1 { top: 8%; right: 6%; }
+.cap-estado-gip--2 { bottom: 10%; right: 16%; }
+.cap-estado-gip--3 { top: 40%; right: 2%; width: min(11vw, 120px); }
+@media (max-width: 900px) {
+  .cap-estado-gip--1 { width: 22vw; top: 4%; right: 3%; }
+  .cap-estado-gip--2 { width: 20vw; bottom: 6%; right: 8%; }
+  .cap-estado-gip--3 { width: 18vw; top: 30%; right: 1%; }
+}
+
+/* contraponto quieto — pequeno, discreto, só ganha peso pelo
+   contraste com a densidade visual da colagem já acumulada atrás */
+.cap6-quiet-line {
+  position: absolute; z-index: 5;
+  left: 50%; bottom: 8%; transform: translateX(-50%);
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+  text-align: center;
+  background: rgba(10,20,15,0.55);
+  padding: 8px 20px;
+  border-radius: 999px;
+  backdrop-filter: blur(2px);
+}
+@media (max-width: 900px) {
+  .cap6-quiet-line { bottom: 5%; font-size: clamp(0.95rem, 3.6vw, 1.3rem); padding: 6px 16px; }
+}
+
+/* ── Ficha técnica (Capítulo 03) ──
+   Reconstruído no round "ficha de personagem física": migrado do
+   antigo .ficha-stage/.ficha-beat (empilhamento absoluto dedicado)
+   pro mesmo .shot-stage/.shot já usado em cap.02b/cap.estado — os
+   5 beats agora são .shot normais, cada um com sua .photo-frame--dominant
+   + .photo-inset já estabelecidas, só os componentes tipográficos
+   (.ficha-number/.ficha-sub/etc, abaixo) e o selo/carimbo continuam
+   vivendo aqui como peças reaproveitáveis dentro de cada .shot. */
+.ficha-beat-main { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; }
+.ficha-number {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 7.6vw, 5rem);
+  line-height: 0.94;
+  color: var(--amarelo);
+}
+.ficha-rule { width: 60px; height: 4px; border-radius: 2px; background: var(--amarelo); opacity: 0.55; }
+.ficha-sub { font-family: 'Nunito', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: clamp(0.78rem, 1.25vw, 0.98rem); opacity: 0.8; }
+/* rótulo "carimbado" — campo preenchido à mão, não etiqueta genérica
+   (usado no Beat 1, "Motor"): fundo leve + borda tracejada + leve
+   rotação, como um selo de identidade batido na ficha. */
+.ficha-sub--stamp {
+  display: inline-block;
+  padding: 4px 14px;
+  margin-top: 2px;
+  border: 2px dashed rgba(249,201,35,0.55);
+  border-radius: 8px;
+  transform: rotate(-2deg);
+  opacity: 1;
+  color: var(--amarelo);
+}
+.ficha-secondary { display: flex; flex-direction: column; gap: 2px; padding-left: clamp(16px, 3vw, 30px); border-left: 2px solid rgba(255,255,255,0.2); }
+.ficha-sec-value { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: clamp(1.25rem, 2.5vw, 1.8rem); }
+.ficha-sec-label { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; opacity: 0.65; letter-spacing: 0.06em; }
+
+/* foto pequena "sangrando pra fora" dos limites da folha de ficha —
+   canto solto, sem moldura, só a foto com leve vinheta (mesmo
+   componente .photo-loose do cap.01, reaproveitado aqui). */
+/* posicionado relativo ao .shot inteiro (não ao pequeno wrap da foto
+   principal) — os valores aproximam os cantos reais de onde a
+   .ficha-sheet (min(84vw,980px) x min(78vh,620px), centralizada)
+   termina, pra dar a sensação real de "sangrando pra fora da folha". */
+.ficha-bleed { position: absolute; width: min(13vw, 130px); z-index: 4; }
+.ficha-bleed--tr { top: 10%; right: 9%; }
+.ficha-bleed--bl { bottom: 10%; left: 9%; }
+@media (max-width: 900px) {
+  .ficha-bleed { width: min(22vw, 100px); }
+  .ficha-bleed--tr { top: 13%; right: 4%; }
+  .ficha-bleed--bl { bottom: 13%; left: 4%; }
+}
+
+/* wrap da foto principal de cada beat — dá o posicionamento relativo
+   necessário pro .ficha-bleed (absoluto) e pro .ficha-inset existente
+   se ancorarem a ela. */
+.ficha-beat-photo-wrap { position: relative; flex: 0 0 auto; min-width: 0; min-height: 0; }
+/* foto "selo de identidade" — quadrada, maior que a antiga .ficha-beat-photo
+   (round "ficha de personagem física": o motor/câmbio/cor ocupam mais
+   espaço, como um selo carimbado na ficha, não uma thumbnail pequena). */
+.ficha-photo-big { width: clamp(150px, 22vw, 240px); }
+@media (max-width: 900px) { .ficha-photo-big { width: clamp(130px, 34vw, 190px); } }
+/* variante de .ficha-beat-photo pros beats que têm .ficha-inset
+   (Beat 2/3): PRECISA de overflow:visible no container (senão o
+   .ficha-inset, que é pensado pra "vazar" pro canto, fica cortado
+   pelo clip do frame) — então o clip/arredondamento vai só na <img>
+   em si, não no container. Sem .photo-frame (que sempre tem
+   overflow:hidden) por esse motivo. */
+.ficha-beat-photo {
+  position: relative;
+  aspect-ratio: 1/1;
+  transform: rotate(var(--rot, -5deg));
+}
+/* seletor direto (>) — só a <img> filha imediata do frame, nunca a
+   <img> que mora dentro do .ficha-inset aninhado (senão o inset
+   herdaria o mesmo border-radius/borda/sombra do frame principal,
+   que já tem os seus próprios definidos acima). */
+.ficha-beat-photo > img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, center);
+  transform: scale(var(--zoom, 1.15));
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+  border: 4px solid rgba(255,255,255,0.14);
+  display: block;
+}
+/* inset — foto pequena vazando pro canto do .ficha-beat-photo (Beat
+   2/3), mesma lógica visual do .photo-inset genérico, só que ancorada
+   a este componente específico da ficha técnica. */
+.ficha-inset {
+  position: absolute; right: -18%; bottom: -14%;
+  width: 52%; aspect-ratio: 4/3;
+  border-radius: 12px; overflow: hidden;
+  border: 3px solid rgba(255,255,255,0.18);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+  transform: rotate(var(--irot, 8deg));
+  z-index: 2;
+}
+.ficha-inset img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, center); transform: scale(var(--zoom, 1.2)); }
+/* textura atmosférica atrás dos selos do Beat 4 — o beat mais "vazio"
+   antes da repaginação ganha uma foto grande e desfocada ao fundo. */
+.ficha-beat4-bg {
+  position: absolute; inset: -10% -6%; z-index: 0;
+  filter: blur(20px) brightness(0.5);
+  opacity: 0.5;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ficha-beat4-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+
+/* selo/carimbo — usado no beat de fechamento da ficha (IPVA/revisões)
+   e reaproveitado no histórico de manutenção (documentação em dia) */
+.selo-row { display: flex; gap: clamp(16px, 3vw, 26px); flex-wrap: wrap; justify-content: center; }
+.selo {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: clamp(96px, 12.5vw, 132px); height: clamp(96px, 12.5vw, 132px);
+  border-radius: 50%;
+  border: 3px dashed rgba(255,255,255,0.55);
+  transform: rotate(var(--rot, -6deg));
+  text-align: center; gap: 3px;
+}
+.selo .selo-check { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+.selo .selo-label { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: clamp(0.66rem, 1vw, 0.8rem); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.15; padding: 0 6px; }
+.scene--creme .selo, .scene--amarelo .selo { border-color: rgba(33,48,15,0.4); }
+
+/* selo-row--3: variante com 3 badges (ficha técnica, Beat 4) — mesmo
+   equilíbrio visual dos pares de 2, só levemente mais compacta pra caber. */
+.selo-row--3 { gap: clamp(12px, 2.2vw, 20px); }
+.selo-row--3 .selo {
+  width: clamp(84px, 11vw, 116px); height: clamp(84px, 11vw, 116px);
+}
+.selo-row--3 .selo .selo-check { font-size: clamp(1.15rem, 2.1vw, 1.5rem); }
+.selo-row--3 .selo .selo-label { font-size: clamp(0.6rem, 0.9vw, 0.72rem); }
+
+/* Transição 5 (Lote 1) — cap-3 (verde2) → cap-4 (preto): reaproveita o
+   MESMO componente .selo do beat de fechamento da ficha (não um
+   elemento novo) como a peça que atravessa a costura — "documentos em
+   dia" cede lugar pro "motor". Fica solto (fora de qualquer .selo-row),
+   centralizado, no fim do cap-3, encolhendo/desvanecendo; o par
+   simétrico persiste nos primeiros instantes do cap-4 encolhendo até
+   sumir de vez, com o motor escuro já visível por trás. Ambas escuras
+   — variação de luminosidade pequena, então o dissolve de cor por trás
+   pode ser sutil/rápido (ver .cap3-preto-echo/.cap4-verde2-echo). */
+.selo--transicao {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  z-index: 2;
+  background: rgba(5,13,5,0.18);
+}
+
+@media (max-width: 900px) {
+  .ficha-beat-main { align-items: center; text-align: center; }
+  .ficha-secondary { border-left: none; border-top: 2px solid rgba(255,255,255,0.2); padding-left: 0; padding-top: 8px; align-items: center; }
+}
+
+/* ── Histórico de manutenção — RECONSTRUÇÃO (round de repaginação
+   Ato 3): os cartões de ano eram texto quase transparente flutuando
+   sobre o fundo escuro (contraste real baixíssimo — a prova mais forte
+   do site tratada como decoração). Viram "recibos" físicos: textura de
+   papel/nota fiscal, sombra real, leve rotação, pousando em SEQUÊNCIA
+   (2024 → 2025 → 2026), com o número do ano grande e nítido sobre um
+   fundo sólido claro (nunca texto solto sobre a foto do motor). ── */
+.historico-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: clamp(20px, 4vw, 40px);
+  max-width: 980px;
+  margin: 26px auto 10px;
+}
+.recibo {
+  position: relative;
+  width: clamp(150px, 17vw, 210px);
+  background: linear-gradient(165deg, #fdf8ec 0%, #f3ecd8 100%);
+  border-radius: 6px;
+  padding: 16px 14px 18px;
+  box-shadow: 0 18px 34px rgba(0,0,0,0.5), 0 2px 0 rgba(255,255,255,0.5) inset;
+  transform: rotate(var(--rot, -3deg));
+  text-align: center;
+}
+/* serrilhado tipo canhoto de nota fiscal, no topo do recibo */
+.recibo::before {
+  content: '';
+  position: absolute; left: 0; right: 0; top: -1px; height: 8px;
+  background: radial-gradient(circle, #050d05 3.2px, transparent 3.4px);
+  background-size: 14px 14px;
+  background-position: 4px -4px;
+  background-repeat: repeat-x;
+}
+.recibo-year {
+  font-family: 'Baloo 2', cursive; font-weight: 900;
+  font-size: clamp(1.9rem, 4.6vw, 2.7rem);
+  color: var(--verde-escuro);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.recibo-kicker {
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+  font-size: clamp(0.6rem, 0.85vw, 0.68rem);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: rgba(15,58,15,0.55);
+  margin-bottom: 10px;
+}
+.recibo-tags { display: flex; flex-direction: column; gap: 6px; }
+.recibo-tag {
+  font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: clamp(0.76rem, 1.05vw, 0.88rem);
+  color: var(--preto-verde);
+  background: rgba(15,58,15,0.08);
+  border-bottom: 1px dashed rgba(15,58,15,0.3);
+  padding: 4px 4px 5px;
+  line-height: 1.15;
+}
+.recibo-tag:last-child { border-bottom: none; }
+@media (max-width: 768px) {
+  .historico-stage { gap: 18px; }
+  .recibo { width: clamp(128px, 40vw, 168px); padding: 13px 11px 15px; }
+}
+/* mobile mais estreito: 3 recibos empilhados + selos + frase de
+   fechamento ultrapassavam 100vh de verdade (995–1144px de conteúdo
+   real medido numa viewport de 844px) — a frase final ficava
+   inacessível (sem rolagem real disponível, é uma cena com
+   scroll-jacking). Cabe os 3 recibos numa única fileira, bem mais
+   compactos, e aperta as margens do estágio inteiro pra sobrar altura
+   pro resto da cena. */
+@media (max-width: 560px) {
+  .historico-stage { gap: 8px; margin: 14px auto 6px; flex-wrap: nowrap; }
+  .recibo { width: 30vw; padding: 8px 6px 9px; }
+  .recibo-kicker { display: none; }
+  .recibo-year { font-size: clamp(1.3rem, 7vw, 1.7rem); margin-bottom: 2px; }
+  .recibo-tags { gap: 3px; }
+  .recibo-tag { font-size: clamp(0.56rem, 2.6vw, 0.66rem); padding: 2px 3px 3px; }
+}
+
+/* ── "Quem cuida dela?" — retrato real, tratamento de still de filme:
+   sem card/borda, a foto se dissolve no fundo escuro via mask-image
+   (vinheta real, não um overlay translúcido por cima) ── */
+.quem-portrait-wrap {
+  position: relative;
+  width: min(40vw, 300px);
+  margin: 14px auto 0;
+}
+.quem-portrait { margin: 0; position: relative; }
+.quem-portrait-link { display: block; text-decoration: none; cursor: pointer; }
+.quem-portrait img {
+  width: 100%; height: auto; display: block;
+  filter: contrast(1.12) brightness(0.98);
+  -webkit-mask-image: radial-gradient(ellipse 74% 80% at 50% 40%, #000 56%, transparent 100%);
+          mask-image: radial-gradient(ellipse 74% 80% at 50% 40%, #000 56%, transparent 100%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+.quem-portrait-link:hover img,
+.quem-portrait-link:focus-visible img { filter: contrast(1.16) brightness(1.06); transform: scale(1.025); }
+/* selo do Instagram — só aparece no hover/foco, confirma que a foto
+   é clicável sem virar um botão permanente sobre o retrato */
+.quem-portrait-badge {
+  position: absolute; right: 4%; bottom: 10%;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(5,15,5,0.78);
+  border: 1.5px solid rgba(249,201,35,0.5);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--amarelo);
+  opacity: 0; transform: scale(0.7);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 4;
+}
+.quem-portrait-link:hover .quem-portrait-badge,
+.quem-portrait-link:focus-visible .quem-portrait-badge { opacity: 1; transform: scale(1); }
+.fx.quem-caption {
+  position: absolute; left: 50%; bottom: -2%;
+  transform: translateX(-50%);
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: clamp(2.1rem, 6.6vw, 4rem);
+  color: var(--amarelo);
+  text-shadow: 0 4px 22px rgba(0,0,0,0.85), 0 0 44px rgba(0,0,0,0.6);
+  white-space: nowrap;
+  z-index: 3;
+  pointer-events: none;
+}
+.quem-social { display: flex; justify-content: center; margin-top: 18px; }
+.quem-ig {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+  font-size: clamp(0.92rem, 1.3vw, 1.05rem);
+  color: var(--amarelo);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  padding: 10px 8px;
+  margin: -10px -8px;
+  border-radius: 10px;
+  transition: color 0.2s, background 0.2s;
+}
+.quem-ig svg { opacity: 0.9; }
+.quem-ig:hover, .quem-ig:focus-visible { color: #fff; background: rgba(255,255,255,0.09); }
+@media (max-width: 768px) {
+  .quem-portrait-wrap { width: min(58vw, 280px); }
+  .fx.quem-caption { font-size: clamp(1.9rem, 10vw, 2.8rem); }
+  .quem-ig { font-size: 1rem; padding: 12px 14px; margin: -12px -14px; }
+}
+
+/* ── Capítulo final ── */
+.final-price {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 9vw, 6.4rem);
+  line-height: 0.94;
+  color: var(--verde-escuro);
+  letter-spacing: -0.02em;
+  margin: 10px 0 2px;
+}
+/* reconstrução (round de repaginação Ato 3): o preço é a informação
+   mais importante do site — precisa DOMINAR o quadro, sozinho no
+   mesmo plano de destaque, maior que o resto de tudo já usado até
+   aqui (maior até que .type-xl). Precisa vir DEPOIS de .final-price
+   no arquivo (cascata). */
+.final-price--dominant {
+  font-size: clamp(4.4rem, 15vw, 10.5rem);
+  text-shadow: 0 8px 30px rgba(0,0,0,0.22);
+  margin: 14px 0 6px;
+}
+.cta-final { margin-top: 26px; display: flex; }
+.scene-content--split .cta-final { justify-content: flex-start; }
+@media (max-width: 900px) { .scene-content--split .cta-final { justify-content: center; } }
+
+/* pássaros ecoando a hero/rodapé — cruzam o alto da cena, discretos,
+   ponte visual "mesmo mundo, história terminando". Mesmo componente
+   .rodape-bird (drift ambiente via CSS), 2 nós: wrapper com o
+   @keyframes birdFloat contínuo, SVG interno recebe o data-fx="fade"
+   do GSAP — nunca as duas animações no mesmo nó (mesma regra já usada
+   em .orbit-drift/.particle). */
+.cap-final-bird-wrap {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  animation: birdFloat 5.6s ease-in-out infinite;
+}
+.cap-final-bird-wrap--1 { top: 10%; left: 14%; width: 28px; }
+.cap-final-bird-wrap--2 { top: 16%; right: 20%; width: 22px; animation-duration: 6.6s; animation-delay: -1.4s; }
+.cap-final-bird-wrap .cap-final-bird { width: 100%; height: auto; display: block; color: rgba(15,58,15,0.4); }
+@media (max-width: 700px) { .cap-final-bird-wrap { display: none; } }
+
+/* vinheta de saída — antecipa o escurecer do rodapé (preto-verde) antes
+   do corte real de seção, pra a transição "sentir" contínua em vez de
+   um corte seco de um bloco de cor sólida pro entardecer do rodapé
+   (era exatamente essa queixa antes desta reconstrução). Puramente
+   visual, não mexe no mecanismo de pin/sticky. */
+#cap-final .scene-pin::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 0; height: 22%;
+  background: linear-gradient(180deg, transparent, rgba(5,13,5,0.55));
+  pointer-events: none;
+  z-index: 1;
+}
+/* Transição 14 (Lote 3, cap-final→rodapé): esta vinheta (pré-existente,
+   round "Ato 3") já é a peça que antecipa o preto-verde do rodapé por
+   cima do amarelo — mantida como está, só documentada aqui como parte
+   formal da transição. O resto do trabalho desta transição é a
+   continuidade dos pássaros (ver .cap-final-bird-wrap / .rodape-bird
+   mais abaixo) e o threshold do IntersectionObserver do rodapé (JS). */
+.btn-final {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  border-radius: 50px;
+  padding: 17px 38px;
+  text-decoration: none;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35), 0 0 0 0 rgba(37,211,102,0.45);
+  animation: ctaPulse 2.4s ease-in-out infinite;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.btn-final:hover { transform: translateY(-3px) scale(1.03); }
+.btn-final span { font-family: 'Baloo 2', cursive; font-weight: 900; font-size: clamp(1.02rem, 1.9vw, 1.25rem); color: #fff; }
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.35), 0 0 0 0 rgba(37,211,102,0.45); }
+  50%      { box-shadow: 0 10px 40px rgba(0,0,0,0.35), 0 0 0 16px rgba(37,211,102,0); }
+}
+
+@media (max-width: 768px) {
+  .scene-content { padding: 0 8vw; }
+  .type-xl { font-size: clamp(2.2rem, 12vw, 3.8rem); }
+  .type-lg { font-size: clamp(1.3rem, 6.5vw, 2rem); }
+  .final-price { font-size: clamp(2.4rem, 15vw, 4.2rem); }
+}
+
+/* ═══════════════════════════════════════
+   GALERIA — grid editorial com filtros,
+   não mais scroll horizontal obrigatório.
+   Todas as 76 fotos ficam disponíveis de
+   imediato, organizadas em 4 categorias.
+═══════════════════════════════════════ */
+.gallery-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(249,201,35,0.05), transparent 60%),
+    linear-gradient(160deg, var(--verde-profundo) 0%, var(--preto-verde) 60%, var(--verde-profundo) 100%);
+  padding: 0 0 100px;
+}
+/* textura discreta "asfalto" + silhueta gráfica de roda — dá profundidade
+   ao que era cor sólida, sem competir com as fotos do grid (baixíssima
+   opacidade, atrás de tudo) */
+.gallery-section::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 26px);
+}
+.gallery-wheel-deco {
+  position: absolute; z-index: 0; pointer-events: none;
+  width: min(56vw, 620px); height: min(56vw, 620px);
+  right: -14%; top: 6%;
+  opacity: 0.05;
+  color: var(--texto-claro);
+  /* transição 10 (Lote 2, galeria→cap-7): giro ambiente contínuo e bem
+     lento (não scroll-scrubbed — este SVG não está dentro de nenhuma
+     .scene com ScrollTrigger, é decoração de fundo da .gallery-section
+     inteira) pra ele "continuar girando" perceptivelmente atravessando
+     a fronteira com o par gêmeo que nasce no início do #cap-7. */
+  animation: galleryWheelSpin 90s linear infinite;
+}
+/* 2ª instância (transição 10) — perto do fim real da .gallery-grid,
+   ver comentário no HTML. Precisa vir DEPOIS de .gallery-wheel-deco
+   no arquivo pra sobrescrever top/right na cascata (mesma
+   especificidade, ordem decide). */
+.gallery-wheel-deco--end {
+  width: min(46vw, 500px); height: min(46vw, 500px);
+  top: auto; right: auto; bottom: 40px; left: -12%;
+}
+@media (max-width: 700px) { .gallery-wheel-deco--end { display: none; } }
+@keyframes galleryWheelSpin { to { transform: rotate(360deg); } }
+/* par de entrada no #cap-7 (transição 10) — bem menor que a versão da
+   galeria, canto superior-direito (livre: corner-photo fica embaixo-
+   direita, corner-photo--tl fica em cima-esquerda, título é central) */
+.cap7-wheel-echo {
+  width: min(30vw, 320px); height: min(30vw, 320px);
+  right: -6%; top: 2%; left: auto;
+}
+@media (max-width: 700px) { .cap7-wheel-echo { display: none; } }
+
+/* Transição 11 (Lote 3, cap-7→cap-historico): ambas cenas verdes com
+   foto de fundo escurecida — cor já quase igual, então o eco é mais
+   rápido/sutil que a média (não é onde o esforço visual precisa se
+   concentrar). Nasce visível e dissolve bem cedo. */
+.cap-historico-verde-echo { background: radial-gradient(ellipse 60% 45% at 30% 0%, rgba(10,36,16,0.45), transparent 70%); }
+
+/* Transição 12 (Lote 3, cap-historico→cap-quem): mudança grande (verde-
+   escuro/motor → preto quieto) — dissolve LENTO e gradual de propósito
+   (desacelera o ritmo do usuário antes da cena mais pessoal do site).
+   Mesmo par visual dos dois lados da fronteira: um escurecimento amplo
+   que cresce por cima do verde no fim do cap-historico e já nasce
+   presente no início do cap-quem, dissolvendo aos poucos até sumir. */
+.cap-quem-preto-echo-in,
+.cap-quem-preto-echo {
+  background: radial-gradient(ellipse 80% 65% at 50% 60%, rgba(5,13,5,0.88), transparent 75%);
+}
+
+/* Transição 13 (Lote 3, cap-quem→cap-final): virada de tom preto→
+   amarelo/entardecer, com mais energia que a transição 12 — glow quente
+   amplo nascendo do centro-baixo (onde o decor-glow--3-warmgrow já
+   cresceu por trás do retrato), mesmo par visual dos dois lados. */
+.cap-final-amarelo-echo-in,
+.cap-final-amarelo-echo {
+  background: radial-gradient(ellipse 90% 70% at 50% 70%, rgba(255,180,40,0.6), transparent 76%);
+}
+
+/* nota: sem regra de z-index/position genérica pros filhos aqui de
+   propósito — a ordem no DOM (deco vem antes do conteúdo) já garante
+   que a galeria pinte por cima, e uma regra ampla quebraria o
+   position:sticky do .gallery-filters (que já tem seu próprio
+   z-index:20 explícito) */
+
+/* entrada cinematográfica — pequeno pin curto, não a página toda */
+.gallery-intro-pin { height: 130vh; position: relative; }
+.gallery-intro-stage {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  overflow: hidden; text-align: center;
+}
+.gallery-intro-photos { position: absolute; inset: 0; z-index: 0; }
+/* wrapper (gip-N) carrega posição/tamanho + o drift ambiente (CSS);
+   o filho .gallery-intro-photo carrega o frame visual + a animação
+   scroll-scrubada do GSAP — em elementos separados de propósito, pra
+   uma animação CSS contínua nunca competir com o transform que o
+   GSAP escreve quadro a quadro no mesmo elemento. */
+.gallery-intro-photos > div { position: absolute; }
+.gallery-intro-photo {
+  width: 100%; height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+  opacity: 0;
+}
+.gallery-intro-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gip-1 { width: min(30vw, 300px); aspect-ratio: 4/5; top: 14%; left: 8%; }
+.gip-2 { width: min(26vw, 260px); aspect-ratio: 3/4; top: 55%; left: 20%; }
+.gip-3 { width: min(32vw, 320px); aspect-ratio: 4/3; top: 10%; right: 8%; }
+.gip-4 { width: min(24vw, 240px); aspect-ratio: 3/4; top: 58%; right: 14%; }
+.gip-5 { width: min(18vw, 170px); aspect-ratio: 1/1; top: 3%; left: 38%; }
+.gip-6 { width: min(20vw, 190px); aspect-ratio: 3/4; bottom: 3%; right: 34%; }
+@media (max-width: 768px) {
+  .gip-1 { width: 40vw; left: 4%; top: 10%; }
+  .gip-2 { width: 34vw; left: 30%; top: 60%; }
+  .gip-3 { width: 40vw; right: 4%; top: 8%; }
+  .gip-4 { width: 32vw; right: 8%; top: 62%; }
+  .gip-5 { width: 26vw; left: 40%; top: 2%; }
+  .gip-6 { width: 28vw; right: 30%; bottom: 2%; }
+}
+/* fotos "flutuando" ao redor do texto — vida ambiente, independente
+   do scroll (a entrada/saída continua scroll-scrubada via inout no
+   próprio .gallery-intro-photo; o drift aqui é só na embalagem) */
+.orbit-drift { animation: introDrift ease-in-out infinite; }
+@keyframes introDrift {
+  0%, 100% { transform: translate(0,0) rotate(0deg); }
+  25%      { transform: translate(9px,-11px) rotate(2.4deg); }
+  50%      { transform: translate(-8px,9px) rotate(-2deg); }
+  75%      { transform: translate(-11px,-5px) rotate(1.6deg); }
+}
+/* acento gráfico — não é foto, é personalidade/surpresa no meio da órbita */
+.gip-accent {
+  position: absolute;
+  top: 40%; left: 3%;
+  width: min(9vw, 76px); height: min(9vw, 76px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+}
+.gip-accent .fx { opacity: 0; }
+@media (max-width: 768px) { .gip-accent { left: 2%; top: 32%; } }
+
+.gallery-intro-text { position: relative; z-index: 2; }
+.gallery-kicker {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: clamp(0.72rem, 1.05vw, 0.9rem);
+  color: var(--amarelo);
+  margin-bottom: 18px;
+  opacity: 0;
+}
+.gallery-title {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 900;
+  color: var(--texto-claro);
+  font-size: clamp(2.1rem, 6vw, 4.2rem);
+  line-height: 1.02;
+  max-width: 16ch;
+  margin: 0 auto 18px;
+  opacity: 0;
+}
+.gallery-sub {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+  opacity: 0;
+}
+
+/* filtros — sticky enquanto o usuário explora o grid */
+.gallery-filters {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  padding: 22px 6vw;
+  background: linear-gradient(180deg, var(--verde-profundo) 72%, rgba(10,36,16,0));
+}
+.filter-btn {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 50px;
+  padding: 10px 18px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.filter-btn span {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  opacity: 0.65;
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 1px 7px;
+}
+.filter-btn:hover { border-color: rgba(249,201,35,0.6); transform: translateY(-2px); }
+.filter-btn.active { background: var(--amarelo); border-color: var(--amarelo); color: var(--verde-escuro); }
+.filter-btn.active span { background: rgba(15,58,15,0.18); color: var(--verde-escuro); }
+@media (max-width: 768px) {
+  .gallery-filters {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 5vw;
+    gap: 8px;
+  }
+  .filter-btn { flex: 0 0 auto; }
+}
+
+/* grid masonry — CSS columns, sem JS de layout */
+.gallery-grid {
+  column-count: 4;
+  column-gap: 14px;
+  padding: 10px 6vw 0;
+}
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(18px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.gallery-item.in-view { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease; }
+.gallery-item.is-hidden { display: none; }
+.gallery-item:hover { transform: translateY(-4px) scale(1.015); box-shadow: 0 18px 40px rgba(0,0,0,0.5); }
+.gallery-item img { width: 100%; height: auto; display: block; background: rgba(255,255,255,0.04); }
+.gallery-item::after {
+  content: attr(data-num);
+  position: absolute; left: 8px; bottom: 8px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.65rem;
+  color: rgba(255,255,255,0.85);
+  background: rgba(5,15,5,0.55);
+  padding: 3px 8px; border-radius: 20px;
+  opacity: 0; transition: opacity 0.2s;
+}
+.gallery-item:hover::after { opacity: 1; }
+
+@media (max-width: 1100px) { .gallery-grid { column-count: 3; } }
+@media (max-width: 700px)  { .gallery-grid { column-count: 2; column-gap: 10px; padding: 10px 4vw 0; } }
+@media (max-width: 420px)  { .gallery-grid { column-count: 2; } .gallery-item { margin-bottom: 10px; } }
+
+/* ── Lightbox ── */
+.lightbox {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(5,15,5,0.96);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox-img { max-width: 88vw; max-height: 80vh; border-radius: 10px; box-shadow: 0 10px 60px rgba(0,0,0,0.6); object-fit: contain; }
+.lightbox-counter {
+  position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 0.85rem;
+  color: rgba(255,255,255,0.85); letter-spacing: 0.05em;
+  background: rgba(255,255,255,0.08); padding: 6px 16px; border-radius: 20px;
+}
+.lightbox-close, .lightbox-prev, .lightbox-next {
+  position: absolute;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  color: #fff;
+  border-radius: 50%;
+  width: 46px; height: 46px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s;
+}
+.lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,0.25); }
+.lightbox-close { top: 20px; right: 20px; }
+.lightbox-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 20px; top: 50%; transform: translateY(-50%); }
+@media (max-width: 640px) {
+  .lightbox-close, .lightbox-prev, .lightbox-next { width: 42px; height: 42px; font-size: 1.15rem; }
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+  .lightbox-img { max-height: 74vh; }
+}
+
+/* ═══════════════════════════════════════
+   FALLBACK ESTÁTICO — sem GSAP ou
+   prefers-reduced-motion.
+═══════════════════════════════════════ */
+html.no-motion .fx,
+html.no-motion .photo-frame,
+html.no-motion .photo-frame img,
+html.no-motion .corner-photo,
+html.no-motion .scene-bg-photo,
+html.no-motion .cartoon-pop,
+html.no-motion .gallery-intro-photo,
+html.no-motion .gallery-kicker,
+html.no-motion .gallery-title,
+html.no-motion .gallery-sub {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+html.no-motion .scene-bg-photo img { filter: grayscale(0.25) brightness(0.55) contrast(1.1) !important; }
+/* #cap-final precisa manter o tom quente + blur permanente mesmo no
+   fallback estático — sem isso a regra genérica acima (escurecida,
+   pensada pras cenas verde) sobrescreveria com !important e o texto
+   escuro da cena amarela perderia contraste contra um fundo escuro
+   errado. Precisa vir DEPOIS da regra genérica (cascata + especificidade
+   igual, ordem de arquivo decide). */
+html.no-motion #cap-final .scene-bg-photo img { filter: blur(13px) brightness(1.08) contrast(0.96) saturate(1.15) sepia(0.32) hue-rotate(-8deg) !important; }
+html.no-motion #cap-historico .scene-bg-photo img { filter: grayscale(0.5) brightness(0.32) contrast(1.02) sepia(0.12) hue-rotate(60deg) blur(2px) !important; }
+/* ATO 1 UNIFICADO (#act1) no fallback estático: o mecanismo de pin
+   único (.act1-pin, sticky+overflow:hidden) e o palco absoluto
+   (.act1-layer) só existem pro modo com scroll progressivo — sem
+   ele, precisam desmontar de volta pro fluxo normal empilhado
+   (hero, depois cap-1, depois cap-2, cada um legível na ordem),
+   exatamente como cada .scene isolada já faz no resto do fallback.
+   #cap-1/#cap-2 já têm suas próprias regras de-static logo abaixo
+   (preexistentes) — aqui só falta desarmar os 2 wrappers novos e a
+   camada de cor contínua (que não faz sentido sem scroll scrubado). */
+html.no-motion .act1-wrap { height: auto; }
+html.no-motion .act1-pin { position: static; height: auto; overflow: visible; }
+html.no-motion .act1-bgcolor { display: none; }
+html.no-motion .act1-layer { position: static; width: 100%; height: auto; z-index: auto !important; }
+/* bug real encontrado testando o fallback: `.bg` (o pôster do hero)
+   é `position:absolute;inset:0`, e sua âncora de posicionamento é
+   `.page` — se `.page` virar `position:static` aqui, `.bg` "escala"
+   pro próximo ancestral posicionado acima (`.act1-wrap`, ainda
+   `position:relative`), esticando/borrando a ilustração pela altura
+   do Ato 1 inteiro (~7700px) em vez de só a altura do hero. Fix:
+   `.page` mantém `position:relative` (continua sendo a âncora de
+   `.bg`, sem sair do fluxo normal) — só `min-height` muda pra caber
+   como qualquer seção comum no fallback. */
+html.no-motion .act1-layer--hero .page {
+  position: relative; min-height: 100svh;
+}
+html.no-motion #cap-3, html.no-motion #cap-3 .scene-pin { height: auto; overflow: visible; position: static; }
+html.no-motion #cap-2, html.no-motion #cap-2 .scene-pin { height: auto; overflow: visible; position: static; }
+html.no-motion .cap2-shot1-bg,
+html.no-motion .cap2-shot2-photo,
+html.no-motion .cap2-shot3-corner,
+html.no-motion .cap2-shot3-sticker,
+html.no-motion .cap2-shot4-photo,
+html.no-motion .cap2-shot4-engate { position: static !important; width: min(50vw, 260px) !important; margin: 10px auto !important; inset: auto !important; }
+html.no-motion .cap2b-ambient { display: none; }
+html.no-motion .ficha-bleed { display: none; }
+html.no-motion .ficha-beat4-bg { position: static; width: min(60vw, 260px); margin: 0 auto 16px; border-radius: 12px; opacity: 0.5; }
+html.no-motion .ficha-sheet, html.no-motion .decor-paper-grain { display: none; }
+html.no-motion .ficha-beat-photo-wrap { margin: 0 auto 14px; }
+/* Lote 1 (transição 4): pré-visualização da ficha some no fallback
+   estático junto com a folha real — sem scroll progressivo não faz
+   sentido um elemento "chegando" parado na tela. */
+html.no-motion .ficha-sheet-preview-wrap { display: none; }
+/* Lote 1 (transição 5): bug real encontrado testando o fallback estático
+   — a regra genérica `.fx{opacity:1!important; transform:none!important}`
+   NÃO zera `position`, então os dois `.selo--transicao` (fim do cap-3 /
+   início do cap-4) permaneciam `position:absolute; left:50%; top:50%`,
+   ambos plenamente opacos e sobrepostos ao texto real de cap-4 ("ELA
+   BEBE." etc — confirmado visualmente, o selo ficava por cima do meio do
+   parágrafo). É um elemento puramente de transição de scroll (a peça que
+   "atravessa" a costura) — sem scroll progressivo não há costura a
+   atravessar, então some no fallback como os outros elementos de
+   transição já tratados acima. */
+html.no-motion .selo--transicao { display: none; }
+/* Lote 2: mesmo raciocínio acima — elementos puramente de transição de
+   scroll (o carrinho "continuando a sair" no início do cap-5, o eco de
+   saída da foto-âncora e as miniaturas-fantasma que antecipam a órbita
+   da galeria no fim do cap-estado) não fazem sentido sem scroll
+   progressivo e ficariam sobrepostos/competindo com o conteúdo real no
+   fallback estático (a regra genérica .fx{opacity:1!important} não zera
+   position, então todos ficariam plenamente opacos no lugar errado). */
+html.no-motion .cap5-cartoon-echo,
+html.no-motion .cap-estado-anchor-echo,
+html.no-motion .cap-estado-gip-preview,
+html.no-motion .cap7-wheel-echo { display: none; }
+html.no-motion .gallery-wheel-deco { animation: none !important; }
+html.no-motion .cap6-kinetic-title,
+html.no-motion .cap6-collage,
+html.no-motion .cap6-quiet-line { position: static; transform: none; inset: auto; }
+html.no-motion .cap6-collage { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; padding: 20px 6vw; }
+html.no-motion .cap6-photo { position: static; width: min(60vw, 280px) !important; transform: rotate(0deg) !important; }
+/* no fallback estático o "chip" arredondado (pensado pra uma linha só,
+   sobreposta à colagem) quebra em várias linhas dentro de um
+   width:fit-content estreito e vira um círculo estranho — sem
+   posicionamento sobreposto pra justificar a pílula, aqui é só texto
+   de fechamento normal, largura generosa e cantos discretos. */
+html.no-motion .cap6-quiet-line { margin: 24px auto; width: fit-content; max-width: 80%; border-radius: 12px; }
+html.no-motion .btn-final { animation: none !important; }
+html.no-motion .flash-hit .scene-pin { animation: none !important; }
+html.no-motion .chapter-rail { display: none !important; }
+html.no-motion .gallery-intro-pin { height: auto; }
+html.no-motion .gallery-intro-stage { position: relative; height: auto; padding: 60px 0 20px; }
+html.no-motion .gallery-intro-photos { display: none; }
+html.no-motion .orbit-drift { animation: none !important; }
+html.no-motion .rodape-car,
+html.no-motion .rodape-road-line,
+html.no-motion .rodape-bird { opacity: 1 !important; transition: none !important; }
+html.no-motion .rodape-car { right: 62% !important; transform: scale(0.46) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fx, .photo-frame, .photo-frame img, .corner-photo, .scene-bg-photo, .cartoon-pop,
+  .gallery-intro-photo, .gallery-kicker, .gallery-title, .gallery-sub {
+    opacity: 1 !important; transform: none !important; filter: none !important;
+  }
+  .scene-bg-photo img { filter: grayscale(0.25) brightness(0.55) contrast(1.1) !important; }
+  #cap-final .scene-bg-photo img { filter: blur(13px) brightness(1.08) contrast(0.96) saturate(1.15) sepia(0.32) hue-rotate(-8deg) !important; }
+  #cap-historico .scene-bg-photo img { filter: grayscale(0.5) brightness(0.32) contrast(1.02) sepia(0.12) hue-rotate(60deg) blur(2px) !important; }
+  /* Ato 1 unificado (#act1) — mesmo raciocínio do bloco html.no-motion
+     equivalente acima: desmonta o pin único/palco absoluto de volta
+     pro fluxo normal empilhado. */
+  .act1-wrap { height: auto; }
+  .act1-pin { position: static; height: auto; overflow: visible; }
+  .act1-bgcolor { display: none; }
+  .act1-layer { position: static; width: 100%; height: auto; z-index: auto !important; }
+  /* mesmo bug/fix do bloco html.no-motion equivalente acima: `.page`
+     precisa continuar `position:relative` (âncora de `.bg`), só sai
+     do "modo hero fixo" via min-height normal. */
+  .act1-layer--hero .page { position: relative; min-height: 100svh; }
+  #cap-3, #cap-3 .scene-pin { height: auto; overflow: visible; position: static; }
+  #cap-2, #cap-2 .scene-pin { height: auto; overflow: visible; position: static; }
+  .cap2-shot1-bg, .cap2-shot2-photo, .cap2-shot3-corner, .cap2-shot3-sticker,
+  .cap2-shot4-photo, .cap2-shot4-engate { position: static !important; width: min(50vw, 260px) !important; margin: 10px auto !important; inset: auto !important; }
+  .cap2b-ambient { display: none; }
+  .ficha-bleed { display: none; }
+  .ficha-beat4-bg { position: static; width: min(60vw, 260px); margin: 0 auto 16px; border-radius: 12px; opacity: 0.5; }
+  .ficha-sheet, .decor-paper-grain { display: none; }
+  .ficha-beat-photo-wrap { margin: 0 auto 14px; }
+  .ficha-sheet-preview-wrap { display: none; }
+  .shot-stage, #cap-3 .shot-stage { height: auto; }
+  .shot { position: static; display: block; padding: 34px 6vw; min-height: 56vh; text-align: center; }
+  .shot-photo { margin: 0 auto 22px; }
+  .shot-text, .shot-text--wide { position: static; max-width: 90%; margin: 10px auto; text-align: center; }
+  .particle { display: none; }
+  #cap-2b, #cap-2b .scene-pin { height: auto; overflow: visible; position: static; }
+  #cap-estado, #cap-estado .scene-pin { height: auto; overflow: visible; position: static; }
+  .cap1-polaroid, .cap1-polaroid--3 {
+    position: static; display: inline-block; width: min(30vw, 160px); margin: 8px; transform: none !important;
+  }
+  #cap-1 .scene-decor { position: static; display: flex; flex-wrap: wrap; justify-content: center; padding: 20px 6vw 0; }
+  #cap-1 .bird-silhouette, #cap-1 .decor-road,
+  #cap-1 .decor-road-line, #cap-1 .scene-icon,
+  #cap-1 .cap1-amber-echo { display: none; }
+  #cap-1, #cap-1 .scene-pin { position: static; height: auto; overflow: visible; }
+  .cap1-shot4-corner { position: static !important; width: min(50vw, 300px) !important; margin: 16px auto 0 !important; }
+  #cap-1 .shot-photo { position: static !important; inset: auto !important; }
+  #cap-6, #cap-6 .scene-pin { height: auto; overflow: visible; position: static; }
+  #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
+  .cap6-kinetic-title, .cap6-collage, .cap6-quiet-line { position: static; transform: none; inset: auto; }
+  .cap6-collage { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; padding: 20px 6vw; }
+  .cap6-photo { position: static; width: min(60vw, 280px) !important; transform: rotate(0deg) !important; }
+  .cap6-quiet-line { margin: 24px auto; width: fit-content; max-width: 80%; border-radius: 12px; }
+  .btn-final { animation: none !important; }
+  .flash-hit .scene-pin { animation: none !important; }
+  .chapter-rail { display: none !important; }
+  .gallery-intro-pin { height: auto; }
+  .gallery-intro-stage { position: relative; height: auto; padding: 60px 0 20px; }
+  .gallery-intro-photos { display: none; }
+  .orbit-drift { animation: none !important; }
+  .rodape-car, .rodape-road-line, .rodape-bird { opacity: 1 !important; transition: none !important; }
+  .rodape-car { right: 62% !important; transform: scale(0.46) !important; }
+  /* Lote 2 — mesmo raciocínio do bloco html.no-motion acima: elementos
+     puramente de transição de scroll somem sem scroll progressivo. */
+  .cap5-cartoon-echo,
+  .cap-estado-anchor-echo,
+  .cap-estado-gip-preview,
+  .cap7-wheel-echo { display: none; }
+  .gallery-wheel-deco { animation: none !important; }
+}
