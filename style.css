@@ -31,16 +31,68 @@
 
 :root {
   --verde-escuro:   #0f3a0f;
+  --verde-escuro-rgb:   15,58,15;
   --verde-medio:    #1e6b1e;
   --verde-profundo: #0a2410;
+  --verde-profundo-rgb: 10,36,16;
   --preto-verde:    #050d05;
+  --preto-verde-rgb:    5,13,5;
   --amarelo:        #f9c923;
+  --amarelo-rgb:        249,201,35;
   --amarelo-dark:   #c49200;
   --laranja:        #ff8c00;
+  --laranja-rgb:        255,140,0;
   --creme:          #f7ecd3;
+  --creme-rgb:          247,236,211;
   --creme-texto:    #21300f;
+  --creme-texto-rgb:    33,48,15;
   --branco:         #ffffff;
+  --branco-rgb:         255,255,255;
   --texto-claro:  rgba(255,255,255,0.97);
+
+  /* Paleta de acentos usados especificamente em glows/ecos de
+     transição entre cenas (Subtarefa 2 — consolidação de paleta).
+     Cada token abaixo foi extraído de um valor que já existia
+     hardcoded em algum glow/eco ambiente do site — não são cores
+     novas, só nomeadas/centralizadas. Os "-rgb" (tripla R,G,B sem
+     parênteses) existem pra permitir `rgba(var(--x-rgb), alpha)` nos
+     glows que variam opacidade, preservando o valor exato de antes. */
+  --ambar-hero:         #ffb43c; /* eco residual da luz do hero em #cap-1 (.cap1-amber-echo) */
+  --ambar-hero-rgb:     255,180,60;
+  --ambar-quente:       #ffa03c; /* glow âmbar reaproveitado cap-4→cap-5 e cap-6 (.cap4-warm-echo / .cap6-glow--amber) */
+  --ambar-quente-rgb:   255,160,60;
+  /* AMBÍGUO (sinalizado pro diretor, ver relatório desta subtarefa):
+     .cap5-warm-echo-in é descrito no comentário original como "par de
+     entrada" de .cap4-warm-echo (mesmo glow atravessando a costura),
+     mas usa um RGB ligeiramente diferente de --ambar-quente. Mantido
+     como token PRÓPRIO (não unificado) até confirmação — pode ser
+     drift acidental ou intencional (mesma dualidade "tom mais escuro
+     no lado preto / mais claro no lado creme" já usada em
+     .cap2-creme-echo vs .cap2b-creme-echo-in). */
+  --ambar-quente-claro:     #ffaa46;
+  --ambar-quente-claro-rgb: 255,170,70;
+  --ambar-creme:        #ffc85a; /* eco de transição amarelo→creme (.cap2b-creme-echo-in) */
+  --ambar-creme-rgb:    255,200,90;
+  --ambar-retrato:      #ffb428; /* glow atrás do retrato + eco cap-quem→cap-final (.decor-glow--3-warmgrow / .cap-final-amarelo-echo*) */
+  --ambar-retrato-rgb:  255,180,40;
+  --verde-vivo:         #3cb45a; /* verde mais vívido, só como antecipação do #cap-estado (.cap6-glow--green / .cap-estado-green-echo-in) */
+  --verde-vivo-rgb:     60,180,90;
+  --amarelo-pastel:     #ffe08c; /* 1º stop do tint de foto de fundo em .scene--amarelo */
+  --amarelo-pastel-rgb: 255,224,140;
+  --laranja-foto:       #ff9628; /* 2º stop do mesmo tint (mais quente que --laranja) */
+  --laranja-foto-rgb:   255,150,40;
+  --preto-historico:    #040a04; /* tint mais escuro que --preto-verde, só na foto de fundo do #cap-historico (deliberadamente mais escuro, ver comentário original na regra) */
+  --preto-historico-rgb: 4,10,4;
+
+  /* Subtarefa 2, Parte B — acento único de assinatura pessoal. Usado
+     em EXATAMENTE 3 lugares no site inteiro: o halo/hover dos botões
+     "Chamar no WhatsApp" (.btn-wpp no hero, .btn-final no cap-final e
+     no rodapé — extensão pedida pelo usuário após a entrega inicial,
+     que cobria só .btn-wpp) e o nome "Marcus Túlio" no rodapé
+     (.rodape-assinatura-linha strong). Não usar em nenhum outro lugar
+     sem decisão explícita de direção de arte. */
+  --acento-assinatura:     #4A8CFF; /* Sapphire Glow */
+  --acento-assinatura-rgb: 74,140,255;
 
   --stroke-escuro:
     -2px -2px 0 #0a2a0a,
@@ -113,7 +165,7 @@ html, body {
    acontecer. Fica acima do .bg mas abaixo do conteúdo do hero. */
 #heroDarkenEcho {
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to bottom, transparent 40%, rgba(15,58,15,0.85) 100%);
+  background: linear-gradient(to bottom, transparent 40%, rgba(var(--verde-escuro-rgb),0.85) 100%);
   opacity: 0;
   pointer-events: none;
 }
@@ -297,7 +349,13 @@ html, body {
   box-shadow: 0 4px 20px rgba(37,211,102,0.50), 0 2px 8px rgba(0,0,0,0.3);
   transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
 }
-.btn-wpp:hover { transform: translateY(-3px) scale(1.04); }
+/* halo/hover recebe o acento de assinatura (Subtarefa 2, Parte B) —
+   só o brilho extra no hover/foco, o fundo/repouso do botão continua
+   100% verde WhatsApp, propositalmente intocado. */
+.btn-wpp:hover, .btn-wpp:focus-visible {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 4px 20px rgba(37,211,102,0.50), 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(var(--acento-assinatura-rgb),0.55);
+}
 .btn-wpp svg { flex-shrink: 0; }
 .btn-wpp span {
   font-family: var(--font-body);
@@ -405,7 +463,7 @@ html, body {
   font-size: clamp(0.84rem, 1.1vw, 0.95rem);
   color: rgba(255,255,255,0.78);
 }
-.rodape-assinatura-linha strong { color: var(--amarelo); font-weight: 800; }
+.rodape-assinatura-linha strong { color: var(--acento-assinatura); font-weight: 800; }
 .rodape-assinatura-tagline {
   font-family: var(--font-body);
   font-weight: 600;
@@ -733,7 +791,7 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
   z-index: 500;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(180deg, #050d05 0%, #f7ecd3 100%);
+  background: linear-gradient(180deg, var(--preto-verde) 0%, var(--creme) 100%);
 }
 
 /* ═══════════════════════════════════════
@@ -769,10 +827,10 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    o par (.cap2-verde-echo) nasce no início do cap-2 ainda puxando
    pro verde, dissolvendo. */
 .cap1-yellow-echo {
-  background: radial-gradient(ellipse 90% 70% at 85% 100%, rgba(249,201,35,0.55), transparent 72%);
+  background: radial-gradient(ellipse 90% 70% at 85% 100%, rgba(var(--amarelo-rgb),0.55), transparent 72%);
 }
 .cap2-verde-echo {
-  background: radial-gradient(ellipse 90% 70% at 15% 0%, rgba(15,58,15,0.5), transparent 72%);
+  background: radial-gradient(ellipse 90% 70% at 15% 0%, rgba(var(--verde-escuro-rgb),0.5), transparent 72%);
 }
 /* linhas de velocidade gêmeas do .cap1-icon--speed, "atravessando" a
    costura pro início do cap-2 — mesma arte reaproveitada (não um
@@ -781,7 +839,7 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
 .cap2-yellow-streak {
   position: absolute; top: 14%; left: 10%; width: clamp(90px,12vw,150px); height: auto;
   opacity: 0; z-index: 2;
-  filter: drop-shadow(0 0 6px rgba(15,58,15,0.5));
+  filter: drop-shadow(0 0 6px rgba(var(--verde-escuro-rgb),0.5));
 }
 @media (max-width: 900px) { .cap2-yellow-streak { top: 9%; left: 6%; } }
 
@@ -793,7 +851,7 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    dissolve puro já resolve a maior parte — este eco é só o reforço de
    continuidade pedido. */
 .cap2b-creme-echo-in {
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,200,90,0.4), transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(var(--ambar-creme-rgb),0.4), transparent 70%);
 }
 
 /* Transição 4 — cap-2b (creme) → cap-3 (verde2, ficha técnica): a pior
@@ -803,10 +861,10 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    apagão. Nasce escurecendo no fim do cap-2b; o par simétrico
    (.cap3-creme-echo-in) nasce claro no início do cap-3, dissolvendo. */
 .cap2b-verde2-echo {
-  background: radial-gradient(ellipse 95% 75% at 50% 100%, rgba(10,36,16,0.68), transparent 75%);
+  background: radial-gradient(ellipse 95% 75% at 50% 100%, rgba(var(--verde-profundo-rgb),0.68), transparent 75%);
 }
 .cap3-creme-echo-in {
-  background: radial-gradient(ellipse 95% 75% at 50% 0%, rgba(247,236,211,0.42), transparent 75%);
+  background: radial-gradient(ellipse 95% 75% at 50% 0%, rgba(var(--creme-rgb),0.42), transparent 75%);
 }
 
 /* pré-visualização da folha de ficha — a MESMA .ficha-sheet, só que
@@ -823,8 +881,8 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
 }
 .ficha-sheet-preview {
   position: absolute; inset: 0;
-  background: linear-gradient(168deg, rgba(15,58,15,0.10) 0%, rgba(15,58,15,0.05) 60%, rgba(0,0,0,0.08) 100%);
-  border: 1px solid rgba(15,58,15,0.16);
+  background: linear-gradient(168deg, rgba(var(--verde-escuro-rgb),0.10) 0%, rgba(var(--verde-escuro-rgb),0.05) 60%, rgba(0,0,0,0.08) 100%);
+  border: 1px solid rgba(var(--verde-escuro-rgb),0.16);
   border-radius: 6px;
   box-shadow: 0 30px 70px rgba(0,0,0,0.18);
 }
@@ -833,10 +891,10 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    de luminosidade pequena — dissolve sutil e rápido, mais curto que o
    resto do lote de propósito. */
 .cap3-preto-echo {
-  background: radial-gradient(ellipse 85% 65% at 50% 100%, rgba(5,13,5,0.6), transparent 72%);
+  background: radial-gradient(ellipse 85% 65% at 50% 100%, rgba(var(--preto-verde-rgb),0.6), transparent 72%);
 }
 .cap4-verde2-echo {
-  background: radial-gradient(ellipse 85% 65% at 50% 0%, rgba(10,36,16,0.5), transparent 72%);
+  background: radial-gradient(ellipse 85% 65% at 50% 0%, rgba(var(--verde-profundo-rgb),0.5), transparent 72%);
 }
 
 /* ═══════════════════════════════════════
@@ -852,9 +910,9 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
   border-radius: 50%;
   filter: blur(60px);
 }
-.decor-glow--1 { width: 42vw; height: 42vw; top: -10%; right: -8%; background: radial-gradient(circle, rgba(249,201,35,0.5), transparent 70%); }
-.decor-glow--2 { width: 34vw; height: 34vw; bottom: -12%; left: -6%; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%); }
-.decor-glow--3 { width: 26vw; height: 26vw; top: 30%; left: 46%; background: radial-gradient(circle, rgba(255,140,0,0.35), transparent 70%); }
+.decor-glow--1 { width: 42vw; height: 42vw; top: -10%; right: -8%; background: radial-gradient(circle, rgba(var(--amarelo-rgb),0.5), transparent 70%); }
+.decor-glow--2 { width: 34vw; height: 34vw; bottom: -12%; left: -6%; background: radial-gradient(circle, rgba(var(--branco-rgb),0.22), transparent 70%); }
+.decor-glow--3 { width: 26vw; height: 26vw; top: 30%; left: 46%; background: radial-gradient(circle, rgba(var(--laranja-rgb),0.35), transparent 70%); }
 /* Transição 13 (Lote 3, cap-quem→cap-final): 2ª instância de decor-glow--3
    (precisa vir DEPOIS da classe base pra vencer a cascata — mesma regra
    já validada nesta sessão) maior e mais quente/amarela, ancorada mais
@@ -863,14 +921,14 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
 .decor-glow--3-warmgrow {
   width: 46vw; height: 46vw;
   top: auto; bottom: -12%; left: 30%;
-  background: radial-gradient(circle, rgba(255,180,40,0.55), transparent 72%);
+  background: radial-gradient(circle, rgba(var(--ambar-retrato-rgb),0.55), transparent 72%);
 }
-.scene--amarelo .decor-glow--1 { background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%); }
-.scene--amarelo .decor-glow--2 { background: radial-gradient(circle, rgba(15,58,15,0.28), transparent 70%); }
+.scene--amarelo .decor-glow--1 { background: radial-gradient(circle, rgba(var(--branco-rgb),0.4), transparent 70%); }
+.scene--amarelo .decor-glow--2 { background: radial-gradient(circle, rgba(var(--verde-escuro-rgb),0.28), transparent 70%); }
 /* fundo creme já é claro por natureza — glow branco some nele, então
    troca pra tons verde/laranja que dão contraste sem escurecer a cena */
-.scene--creme .decor-glow--1 { background: radial-gradient(circle, rgba(255,140,0,0.28), transparent 70%); }
-.scene--creme .decor-glow--2 { background: radial-gradient(circle, rgba(15,58,15,0.18), transparent 70%); }
+.scene--creme .decor-glow--1 { background: radial-gradient(circle, rgba(var(--laranja-rgb),0.28), transparent 70%); }
+.scene--creme .decor-glow--2 { background: radial-gradient(circle, rgba(var(--verde-escuro-rgb),0.18), transparent 70%); }
 
 /* eco residual da luz quente do hero — só #cap-1 usa isso: a cena
    nasce com um resquício âmbar (mesma cor do sol/luz do hero) que se
@@ -880,7 +938,7 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    ver o data-range no HTML e o novo heroTl no <script>). */
 .cap1-amber-echo {
   position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(ellipse 70% 55% at 50% 8%, rgba(255,180,60,0.38), transparent 68%);
+  background: radial-gradient(ellipse 70% 55% at 50% 8%, rgba(var(--ambar-hero-rgb),0.38), transparent 68%);
 }
 
 /* pista/estrada estilizada — trapézio 2D convergindo pro horizonte,
@@ -1006,7 +1064,7 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    (mesma especificidade, 0,2,0) — por isso vem DEPOIS dela no arquivo,
    mesma lição já documentada neste projeto pra .fx que precisa de cor
    própria dentro de uma cena com cor de texto padrão diferente. */
-.fx.cap2-yellow-streak { color: rgba(255,255,255,0.6); }
+.fx.cap2-yellow-streak { color: rgba(var(--branco-rgb),0.6); }
 
 .fx-accent { color: var(--amarelo); }
 .scene--amarelo .fx-accent { color: var(--verde-escuro); }
@@ -1055,7 +1113,7 @@ html.no-motion .journey-item-svg, html.no-motion .journey-car { display: none; }
    espalhando do outro lado do corte, não reinicia. */
 .cap2-creme-echo {
   position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(247,236,211,0.55), transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(var(--creme-rgb),0.55), transparent 70%);
 }
 .cap2-shot1-bg {
   position: absolute; inset: -6%; z-index: 0;
@@ -1428,13 +1486,13 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
 .scene-bg-photo::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(5,13,5,0.5), rgba(5,13,5,0.88) 72%);
+  background: linear-gradient(180deg, rgba(var(--preto-verde-rgb),0.5), rgba(var(--preto-verde-rgb),0.88) 72%);
 }
 .scene--creme .scene-bg-photo::after {
-  background: linear-gradient(180deg, rgba(247,236,211,0.5), rgba(247,236,211,0.92) 72%);
+  background: linear-gradient(180deg, rgba(var(--creme-rgb),0.5), rgba(var(--creme-rgb),0.92) 72%);
 }
 .scene--amarelo .scene-bg-photo::after {
-  background: linear-gradient(160deg, rgba(255,224,140,0.55) 0%, rgba(255,150,40,0.62) 100%);
+  background: linear-gradient(160deg, rgba(var(--amarelo-pastel-rgb),0.55) 0%, rgba(var(--laranja-foto-rgb),0.62) 100%);
 }
 /* blur permanente — a foto NUNCA tenta focar, fica atmosfera o tempo
    inteiro (diferente de .fx[data-fx="blur-in"], que desfoca→foca). */
@@ -1447,7 +1505,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
    blur, mais escuro, quase abstrata. Precisa vir DEPOIS de
    .scene-bg-photo.tint-verde (cascata). */
 #cap-historico .scene-bg-photo img { filter: grayscale(0.5) brightness(0.32) contrast(1.02) sepia(0.12) hue-rotate(60deg) blur(2px); }
-#cap-historico .scene-bg-photo::after { background: linear-gradient(180deg, rgba(4,10,4,0.68), rgba(4,10,4,0.94) 72%); }
+#cap-historico .scene-bg-photo::after { background: linear-gradient(180deg, rgba(var(--preto-historico-rgb),0.68), rgba(var(--preto-historico-rgb),0.94) 72%); }
 
 /* faixa de estrada fina na base — sugere que o cartoon "chega dirigindo"
    até o lugar onde assenta (cap.04) */
@@ -1473,8 +1531,8 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
    e a borda da tela + inset do reservatório de fluido, no pico de
    "Ela bebe." + glow quente crescendo no fim, preparando a transição
    pro creme do cap-5 (fade-echo real, com fade-out — não "fade" genérico). */
-.cap4-glow--1 { width: 30vw; height: 30vw; top: -6%; left: -8%; background: radial-gradient(circle, rgba(255,140,0,0.4), transparent 70%); }
-.cap4-glow--2 { width: 24vw; height: 24vw; bottom: -10%; right: 4%; background: radial-gradient(circle, rgba(249,201,35,0.3), transparent 70%); }
+.cap4-glow--1 { width: 30vw; height: 30vw; top: -6%; left: -8%; background: radial-gradient(circle, rgba(var(--laranja-rgb),0.4), transparent 70%); }
+.cap4-glow--2 { width: 24vw; height: 24vw; bottom: -10%; right: 4%; background: radial-gradient(circle, rgba(var(--amarelo-rgb),0.3), transparent 70%); }
 /* brilho vertical fino, tipo poste de posto de gasolina — canto
    oposto ao carro cartoon (que assenta à direita, bottom:8%) */
 .cap4-gas-post {
@@ -1488,7 +1546,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
 @media (max-width: 900px) { .cap4-gas-post { left: 5%; top: 4%; bottom: 30%; } }
 .cap4-warm-echo {
   position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,160,60,0.4), transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(var(--ambar-quente-rgb),0.4), transparent 70%);
 }
 /* inset do reservatório — canto inferior-esquerdo, um pouco acima do
    .decor-road-mini pra não colidir com ela */
@@ -1501,7 +1559,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
    forte, porque aqui já precisa carregar sozinho o grosso do trabalho
    de dissolver o preto absoluto pro creme claro). */
 .cap5-warm-echo-in {
-  background: radial-gradient(ellipse 85% 65% at 50% 0%, rgba(255,170,70,0.5), transparent 74%);
+  background: radial-gradient(ellipse 85% 65% at 50% 0%, rgba(var(--ambar-quente-claro-rgb),0.5), transparent 74%);
 }
 /* carrinho "ainda se afastando" — mesma posição/tamanho de descanso do
    original no cap-4 (right/bottom), só menor (já mais longe na estrada) */
@@ -1557,12 +1615,12 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
 .cap6-glow--amber {
   width: min(38vw, 420px); height: min(38vw, 420px);
   left: -8%; top: -10%;
-  background: radial-gradient(circle, rgba(255,160,60,0.30), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--ambar-quente-rgb),0.30), transparent 70%);
 }
 .cap6-glow--green {
   width: min(44vw, 480px); height: min(44vw, 480px);
   right: -10%; bottom: -12%;
-  background: radial-gradient(circle, rgba(60,180,90,0.26), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--verde-vivo-rgb),0.26), transparent 70%);
 }
 @media (max-width: 900px) {
   .cap6-glow--amber { width: min(60vw, 320px); height: min(60vw, 320px); }
@@ -1657,7 +1715,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
 
 /* ── Transição 8 (Lote 2): cap-6 (preto) → cap-estado (verde2) ── */
 .cap-estado-green-echo-in {
-  background: radial-gradient(ellipse 70% 55% at 100% 100%, rgba(60,180,90,0.4), transparent 72%);
+  background: radial-gradient(ellipse 70% 55% at 100% 100%, rgba(var(--verde-vivo-rgb),0.4), transparent 72%);
 }
 /* eco de saída da foto-âncora — canto discreto inferior-esquerdo,
    abaixo/fora da área do texto+foto do Shot A (split texto-esquerda/
@@ -1692,7 +1750,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
 }
 .cap-estado-gip img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cap-estado-gallery-echo {
-  background: radial-gradient(ellipse 60% 45% at 30% 100%, rgba(249,201,35,0.14), transparent 70%);
+  background: radial-gradient(ellipse 60% 45% at 30% 100%, rgba(var(--amarelo-rgb),0.14), transparent 70%);
 }
 .cap-estado-gip--1 { top: 8%; right: 6%; }
 .cap-estado-gip--2 { bottom: 10%; right: 16%; }
@@ -1843,7 +1901,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
 }
 .selo .selo-check { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .selo .selo-label { font-family: var(--font-body); font-weight: 600; font-size: clamp(0.66rem, 1vw, 0.8rem); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.15; padding: 0 6px; }
-.scene--creme .selo, .scene--amarelo .selo { border-color: rgba(33,48,15,0.4); }
+.scene--creme .selo, .scene--amarelo .selo { border-color: rgba(var(--creme-texto-rgb),0.4); }
 
 /* selo-row--3: variante com 3 badges (ficha técnica, Beat 4) — mesmo
    equilíbrio visual dos pares de 2, só levemente mais compacta pra caber. */
@@ -2091,7 +2149,17 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
   animation: ctaPulse 2.4s ease-in-out infinite;
   transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
 }
-.btn-final:hover { transform: translateY(-3px) scale(1.03); }
+/* halo/hover recebe o acento de assinatura (Subtarefa 2, Parte B,
+   extensão pedida pelo usuário) — mesmo tratamento do .btn-wpp: só o
+   brilho extra no hover/foco. Pausa o ctaPulse durante o hover pra o
+   halo azul ficar visível (a animação sobrescreveria um box-shadow
+   estático a cada frame); fora do hover, o pulso verde contínuo
+   continua 100% intocado. */
+.btn-final:hover {
+  transform: translateY(-3px) scale(1.03);
+  animation-play-state: paused;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35), 0 0 0 8px rgba(37,211,102,0.35), 0 0 26px rgba(var(--acento-assinatura-rgb),0.55);
+}
 .btn-final span { font-family: var(--font-body); font-weight: 600; font-size: clamp(1.02rem, 1.9vw, 1.25rem); color: #fff; }
 @keyframes ctaPulse {
   0%, 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.35), 0 0 0 0 rgba(37,211,102,0.45); }
@@ -2164,7 +2232,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
    foto de fundo escurecida — cor já quase igual, então o eco é mais
    rápido/sutil que a média (não é onde o esforço visual precisa se
    concentrar). Nasce visível e dissolve bem cedo. */
-.cap-historico-verde-echo { background: radial-gradient(ellipse 60% 45% at 30% 0%, rgba(10,36,16,0.45), transparent 70%); }
+.cap-historico-verde-echo { background: radial-gradient(ellipse 60% 45% at 30% 0%, rgba(var(--verde-profundo-rgb),0.45), transparent 70%); }
 
 /* Transição 12 (Lote 3, cap-historico→cap-quem): mudança grande (verde-
    escuro/motor → preto quieto) — dissolve LENTO e gradual de propósito
@@ -2174,7 +2242,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
    presente no início do cap-quem, dissolvendo aos poucos até sumir. */
 .cap-quem-preto-echo-in,
 .cap-quem-preto-echo {
-  background: radial-gradient(ellipse 80% 65% at 50% 60%, rgba(5,13,5,0.88), transparent 75%);
+  background: radial-gradient(ellipse 80% 65% at 50% 60%, rgba(var(--preto-verde-rgb),0.88), transparent 75%);
 }
 
 /* Transição 13 (Lote 3, cap-quem→cap-final): virada de tom preto→
@@ -2183,7 +2251,7 @@ html.no-motion #cap-6 .scene-pin { display: block; padding: 40px 6vw; }
    cresceu por trás do retrato), mesmo par visual dos dois lados. */
 .cap-final-amarelo-echo-in,
 .cap-final-amarelo-echo {
-  background: radial-gradient(ellipse 90% 70% at 50% 70%, rgba(255,180,40,0.6), transparent 76%);
+  background: radial-gradient(ellipse 90% 70% at 50% 70%, rgba(var(--ambar-retrato-rgb),0.6), transparent 76%);
 }
 
 /* nota: sem regra de z-index/position genérica pros filhos aqui de
