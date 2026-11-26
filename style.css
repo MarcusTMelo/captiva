@@ -1263,6 +1263,302 @@ html.sem-rolagem {
   }
 }
 
+/* ============ 6. #fim ============ */
+#fim {
+  overflow: hidden; /* bilhete inclinado e rabiscos não vazam na lateral */
+  padding-top: clamp(2.5rem, 2rem + 3vw, 5rem);
+}
+
+.fim__conteudo {
+  display: grid;
+  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.fim__topo {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+
+.fim__titulo-wrap {
+  position: relative;
+  padding-right: 2.5rem; /* espaço do rabisco */
+}
+
+.fim__rabisco {
+  right: 0;
+  top: -0.4rem;
+  width: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
+  transform: scaleX(-1);
+}
+
+.fim__estrela {
+  right: 0.6rem;
+  bottom: -0.5rem;
+  width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
+}
+
+/* Mesmo acabamento de adesivo das imagens do #carrao e do #alcoolatra */
+.fim__img {
+  width: 100%;
+  border-radius: 1.25rem;
+  border: 6px solid var(--branco);
+  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+}
+
+/* Condições: 2×2 no celular, linha de 4 no desktop. Visor (preço) + 3 selos oliva */
+.fim__condicoes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.fim__condicao {
+  display: grid; /* visor e selo esticam até a altura da linha */
+}
+
+.fim__visor {
+  /* "R$ 40.000" inteiro numa coluna de 2×2 até em 320px */
+  --visor-fs: clamp(1.2rem, 0.55rem + 3.2vw, 2rem);
+  padding: 0.7rem 0.75rem 0.8rem;
+  display: grid;
+  align-content: center;
+  gap: 0.15rem;
+  /* contorno branco por dentro (borda), igual aos selos ao lado */
+  border: 3px solid var(--branco);
+  box-shadow: 0 6px 16px rgb(4 15 28 / 0.15);
+}
+
+.fim__selo {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 0.2rem;
+  background: var(--verde-oliva);
+  color: var(--branco); /* 8.83:1 */
+  padding: 0.7rem 0.75rem 0.8rem;
+  border: 3px solid var(--branco);
+  border-radius: var(--raio);
+  box-shadow: 0 6px 16px rgb(4 15 28 / 0.15);
+}
+
+.fim__selo svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fim__selo-titulo {
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.fim__detalhe {
+  font-size: var(--fs-pequeno);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Bilhete do dono + combinado */
+.fim__papo {
+  display: grid;
+  gap: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+  align-items: start;
+}
+
+/* Bilhete: papel branco quente colado com fita, levemente torto.
+   "rotate" (e não transform) pra somar com o slide do .reveal. */
+.bilhete {
+  position: relative;
+  rotate: -1.5deg;
+  margin: 0.75rem 0.25rem 0;
+  background: var(--branco);
+  background: color-mix(in srgb, var(--creme) 35%, var(--branco));
+  padding: 1.75rem 1.4rem 1.25rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 10px 24px rgb(4 15 28 / 0.14), 0 1px 2px rgb(4 15 28 / 0.1);
+}
+
+/* fita adesiva translúcida no topo */
+.bilhete::before {
+  content: "";
+  position: absolute;
+  top: -0.8rem;
+  left: 50%;
+  width: 6.5rem;
+  height: 1.6rem;
+  translate: -50% 0;
+  rotate: 2.5deg;
+  background: rgb(60 81 19 / 0.22);
+  background: color-mix(in srgb, var(--verde-oliva) 22%, transparent);
+  border-inline: 2px dashed rgb(255 255 255 / 0.6);
+  box-shadow: 0 1px 3px rgb(4 15 28 / 0.1);
+}
+
+.bilhete blockquote {
+  margin: 0;
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.2rem);
+  line-height: 1.55;
+}
+
+.bilhete figcaption {
+  margin-top: 0.75rem;
+  text-align: right;
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.3rem, 1.15rem + 0.8vw, 1.7rem);
+  line-height: 1.1;
+  color: var(--verde-oliva); /* ~7.5:1 no branco quente */
+}
+
+.fim__subtitulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--verde-oliva);
+  margin-bottom: 0.9rem;
+}
+
+.combinado__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.combinado__lista li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  column-gap: 0.75rem;
+  align-items: start;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.combinado__lista svg {
+  margin-top: -0.1rem;
+}
+
+.combinado__lista circle {
+  fill: var(--verde-oliva);
+}
+
+.combinado__lista path {
+  fill: none;
+  stroke: var(--branco);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Botão + aviso (+ QR no desktop) */
+.fim__chamada {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.fim__acao {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.fim__aviso {
+  font-size: var(--fs-pequeno);
+  max-width: 44ch;
+}
+
+/* QR: só no desktop. display:none no celular → a imagem lazy nem é baixada */
+.fim__qr {
+  display: none;
+}
+
+/* Fecho do folder: onda creme sobre a faixa oliva, que continua no rodapé */
+.fim__onda {
+  display: block;
+  width: 100%;
+  height: clamp(2rem, 1.4rem + 3vw, 4rem);
+  margin-top: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  margin-bottom: -1px; /* sem fresta entre a onda e o rodapé */
+  fill: var(--verde-oliva);
+}
+
+.rodape {
+  background: var(--verde-oliva);
+  color: var(--branco); /* 8.83:1 */
+  padding: 0.25rem var(--gutter) 1.25rem;
+  text-align: center;
+  font-size: var(--fs-pequeno);
+}
+
+.rodape__dominio {
+  white-space: nowrap; /* se quebrar, o "·" desce junto com o domínio */
+}
+
+@media (min-width: 52rem) {
+  .fim__img {
+    /* imagem larga: corta só céu e chão, carro e Brasília inteiros */
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: 50% 72%;
+  }
+  .fim__condicoes {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .fim__visor {
+    --visor-fs: clamp(1.5rem, 0.2rem + 2.4vw, 2.4rem);
+  }
+  .fim__visor,
+  .fim__selo {
+    padding: 0.9rem 1.1rem 1rem;
+  }
+  .fim__papo {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 1rem + 3vw, 4rem);
+  }
+  .bilhete {
+    padding: 2rem 1.9rem 1.5rem;
+  }
+  .fim__chamada {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: clamp(2rem, 1rem + 3vw, 4rem);
+  }
+  .fim__acao .botao--whatsapp {
+    justify-self: start;
+  }
+  .fim__qr {
+    display: grid;
+    grid-template-columns: auto 12rem;
+    align-items: center;
+    gap: 1rem;
+  }
+  .fim__qr img {
+    width: 11rem; /* 176px ≥ 160px: lê fácil da tela */
+    height: 11rem;
+    padding: 0.4rem;
+    background: var(--branco);
+    border: 3px solid var(--verde-oliva);
+    border-radius: 1rem;
+    box-shadow: 0 6px 16px rgb(4 15 28 / 0.12);
+  }
+  .fim__qr figcaption {
+    font-weight: 700;
+    line-height: 1.35;
+  }
+}
+
 /* ============ Reveal (fade + slide de entrada) ============
    Só esconde quando o JS marcou <html class="js"> e o usuário não pediu menos movimento.
    Sem JS, ou com reduced-motion, tudo aparece direto. */

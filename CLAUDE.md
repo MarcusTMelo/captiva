@@ -18,8 +18,8 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 | 2 | `carrao` | O carrão (espaço, conforto, câmbio/piloto automático, engate, ficha curta) | `img/cartoon/portas-abertas.webp` | ✅ pronta |
 | 3 | `alcoolatra` | O lado alcoólatra (confissão + consumo real) | `img/cartoon/bomba-na-boca.webp` | ✅ pronta |
 | 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` + `img/fotos/thumbs/*.webp` | ✅ pronta |
-| 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | `img/recortes/*.webp` (notas fiscais nunca entram) | em validação (sessão 5) |
-| 6 | `fim` | Fim da história (condições + WhatsApp + "Começo da sua.") | `img/cartoon/carro-no-morro.webp` | — |
+| 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | `img/recortes/*.webp` (notas fiscais nunca entram) | ✅ pronta |
+| 6 | `fim` | Fim da história (condições + WhatsApp + "Começo da sua.") | `img/cartoon/carro-no-morro{-800,}.webp` + `img/qr-whatsapp.svg` | em validação (sessão 6) |
 
 ### Decisões da galeria (#fotos)
 - Filtros: **Todas (76) · Por fora (27) · Por dentro (23) · Detalhes (26)**. **"lateral" entra no filtro Por fora (27)** = `externa` (20) + `lateral` (7). Por dentro = `interna`; Detalhes = `detalhes`.
@@ -30,6 +30,11 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Classes com prefixo `corrida__` / `linha-tempo` / `selo` / `polaroid` — `.ficha` já é a ficha técnica do #carrao.
 - Recortes: `img/recortes/*.webp` (lado maior 800px, qualidade 80, transparência preservada, recortados no conteúdo). Os PNG ficam no repo mas fora do HTML. Placa tarjada de preto (inclusive nos PNG).
 - Polaroids inclinam com a propriedade `rotate` (não `transform`) pra não brigar com o `.reveal`.
+
+### Decisões do fim (#fim)
+- Classes com prefixo `fim__` / `bilhete` / `combinado` / `rodape`. Condições = 1 `.visor` (preço) + 3 `.fim__selo`; 2×2 no celular, linha de 4 no desktop.
+- QR (`img/qr-whatsapp.svg`) gerado uma vez com segno (nível M, azul-marinho sobre branco, margem de 4 módulos) e verificado decodificando para a URL exata. Só aparece no desktop (≥ 52rem); no celular fica `display:none` e não é baixado. Mudou a URL, regenera e verifica de novo.
+- O site fecha com a onda verde-oliva do folder (`.fim__onda`) emendada no `<footer class="rodape">`, que fica fora do `<main>`.
 
 ## Dados oficiais (não alterar, não completar)
 - Preço: **R$ 40.000, negociável**
@@ -49,6 +54,7 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Final da placa: não divulgar
 - **Placa, chassi, RENAVAM e dados do proprietário nunca entram no site nem no repo.**
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
+- **Contato só por WhatsApp; o dono não atende ligação de número desconhecido; o número não aparece escrito no site.**
 - Manutenção (notas disponíveis na visita; quase R$ 15 mil desde 2024, tudo com nota fiscal):
   - **2024:** troca de óleo e filtros; válvula termostática nova.
   - **2025:** caixa de direção nova; discos e pastilhas de freio dianteiros; amortecedor dianteiro, buchas e bieletas; 2 pneus novos, com alinhamento e balanceamento.
@@ -80,6 +86,7 @@ URL única do site (já codificada):
 `https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20do%20Captiva%20e%20quero%20saber%20mais%20sobre%20ele%20(inclusive%20o%20lado%20alco%C3%B3latra).`
 
 - **Todo botão de WhatsApp do site usa exatamente esta URL, sem variação** (nem no texto, nem nos parâmetros).
+- **Contato só por WhatsApp; o dono não atende ligação de número desconhecido; o número não aparece escrito no site** (só dentro da URL do `wa.me` e do QR).
 
 ## Stack
 - HTML + CSS + JS puro (`index.html`, `style.css`, `script.js`, `fotos.json`). Mobile first.

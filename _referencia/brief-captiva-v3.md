@@ -27,8 +27,8 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 | 2 | O carrão | detalhes | Espaço, conforto, câmbio automático, piloto automático, engate. Ficha técnica curta | portas-abertas | ✅ pronta |
 | 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) | ✅ pronta |
 | 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros: Todas (76), Por fora (27), Por dentro (23), Detalhes (26). **Decisão: "lateral" entra no filtro Por fora (27)** (externa 20 + lateral 7) | fotos reais | ✅ pronta |
-| 5 | Ficha corrida | detalhes | Destaque "arrefecimento renovado em 2026", linha do tempo 2024–2026, selos IPVA/licenciamento 2026, donos, marcas de uso (8 recortes em polaroid). Notas disponíveis na visita | `img/recortes/*.webp` (notas fiscais ficam fora do site) | em validação (sessão 5) |
-| 6 | Fim da história | — | Condições da venda + WhatsApp + "Começo da sua." | CarronoMorro | — |
+| 5 | Ficha corrida | detalhes | Destaque "arrefecimento renovado em 2026", linha do tempo 2024–2026, selos IPVA/licenciamento 2026, donos, marcas de uso (8 recortes em polaroid). Notas disponíveis na visita | `img/recortes/*.webp` (notas fiscais ficam fora do site) | ✅ pronta |
+| 6 | Fim da história | — | Condições da venda + WhatsApp + "Começo da sua." | CarronoMorro (`carro-no-morro.webp`) + QR em SVG local (só desktop) + rodapé | em validação (sessão 6) |
 
 **Fora da v1** (vai para o Estacionamento): smooth scroll, pinning, cenas encadeadas, novos cartoons, versão em outro idioma, analytics.
 
@@ -51,6 +51,7 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 - Final da placa: não divulgar por enquanto
 - **Placa, chassi, RENAVAM e dados do proprietário nunca entram no site nem no repo.**
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
+- **Contato só por WhatsApp; o dono não atende ligação de número desconhecido; o número não aparece escrito no site.**
 - Manutenção (notas disponíveis na visita; quase R$ 15 mil desde 2024, tudo com nota fiscal):
   - **2024:** troca de óleo e filtros; válvula termostática nova.
   - **2025:** caixa de direção nova; discos e pastilhas de freio dianteiros; amortecedor dianteiro, buchas e bieletas; 2 pneus novos, com alinhamento e balanceamento.
@@ -103,4 +104,4 @@ CLAUDE.md   (cópia resumida deste brief para o Claude Code)
 
 ## 8. Estacionamento (Lots-o'-Parking 🅿️)
 
-- *(vazio — ideias entram aqui durante o trabalho)*
+- Favicon: hoje o navegador pede `/favicon.ico` e recebe 404 (único erro no console). Avaliar um ícone simples depois da v1 no ar.
