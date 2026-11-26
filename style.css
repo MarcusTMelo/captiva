@@ -530,6 +530,50 @@ body {
   .card--destaque { grid-column: 1 / -1; }
 }
 
+/* Celular/tablet estreito: imagem mais baixa, cards mais compactos */
+@media (max-width: 51.999rem) {
+  .carrao__img {
+    /* 4/3 cortaria o topo do porta-malas aberto (carro ocupa y 275–1300 de 1308);
+       5/4 é a proporção mais baixa que mantém carro e portas inteiros. Perde só céu. */
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+    object-position: 50% 100%;
+  }
+  .card {
+    padding: 0.9rem 1rem 1rem;
+    column-gap: 0.75rem;
+  }
+  .card__icone {
+    width: 36px;
+    height: 36px;
+  }
+  /* destaque: ícone em cima, título com a largura toda */
+  .card--destaque {
+    grid-template-columns: 1fr;
+    padding: 1.1rem 1.1rem 1.2rem;
+  }
+  .card--destaque .card__icone {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Celular estreito: ficha empilhada (rótulo pequeno em cima, valor embaixo) */
+@media (max-width: 29.999rem) {
+  .ficha dl {
+    grid-template-columns: 1fr;
+  }
+  .ficha dt {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    padding-bottom: 0;
+  }
+  .ficha dd {
+    border-top: 0;
+    padding-top: 0.1rem;
+  }
+}
+
 /* ============ Reveal (fade + slide de entrada) ============
    Só esconde quando o JS marcou <html class="js"> e o usuário não pediu menos movimento.
    Sem JS, ou com reduced-motion, tudo aparece direto. */
