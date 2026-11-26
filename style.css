@@ -1,0 +1,38 @@
+/* Captiva v3 — fundação. Nada de layout aqui ainda. */
+
+/* Paleta (placeholder — valores a definir):
+   quente de fim de tarde + verde "gasolina" do folder (_referencia/folder.png) */
+:root {
+  /* --cor-fundo: ; */
+  /* --cor-texto: ; */
+  /* --cor-sol: ;        laranja/âmbar fim de tarde */
+  /* --cor-poente: ;     vermelho/rosado fim de tarde */
+  /* --cor-gasolina: ;   verde do folder */
+}
+
+/* Reset mínimo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Desligar aqui as animações de entrada (fade/slide) quando existirem. */
+}

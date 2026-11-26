@@ -1,0 +1,13 @@
+# Material de apoio local (não versionar)
+_legado/
+img/cartoon/_originais/
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+
+# Ferramentas
+node_modules/
+__pycache__/
