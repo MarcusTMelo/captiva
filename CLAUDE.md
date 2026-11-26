@@ -10,6 +10,7 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 ## Tom
 - Debochado, brasiliense, autoconsciente.
 - Regra de ouro: **a piada nunca esconde informação — todo exagero vem com um dado real.**
+- **A palavra 'bebe' aparece no máximo 2 vezes no site.**
 
 ## As 6 seções (ids fixos, nesta ordem)
 | # | id | Seção | Imagem-chave | Status |
@@ -44,12 +45,13 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Motor/câmbio (confirmados pelo CRLV): **2.4 Ecotec 16V, 185 cv / 2400 cc, gasolina · automático de 6 marchas com modo manual (+/−) · tração dianteira**
 - Porta-malas **821 L** · tanque **73 L** · **5 lugares**
 - Itens: ar-condicionado, piloto automático, computador de bordo, freio de mão elétrico, engate, câmera de ré, bancos de couro com aquecimento nos dois dianteiros, ajuste lombar no banco do motorista, rádio original de fábrica
+- Botão ECO (do lado da alavanca) — fonte: manual do proprietário, p. 6-54: troca de marcha antecipada, acelerador menos sensível, marcha lenta 625 ± 25 rpm; **sem número de consumo**
 - **NÃO tem sensor de estacionamento** (nunca dizer que tem)
 - Consumo real: **cidade 7,2 km/l · estrada 9,7 km/l**
 - Consumo oficial de ficha (fábrica): **cidade 10,0 km/l · estrada 14,9 km/l** — só para a piada, nunca como consumo do carro
 - Peso: **1.680 kg** (ficha de fábrica)
 - Autonomia calculada (73 L × consumo real): **~525 km na cidade · ~700 km na estrada**
-- Donos: **3 ou mais** — com humor ("passou por várias mãos, todas cuidaram"), sempre ao lado do histórico de manutenção
+- Donos: **não mencionar número de donos no site; contado na visita.**
 - Onde ver: **Águas Claras, Brasília/DF**
 - Final da placa: não divulgar
 - **Placa, chassi, RENAVAM e dados do proprietário nunca entram no site nem no repo.**

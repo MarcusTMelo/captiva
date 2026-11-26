@@ -684,6 +684,7 @@ body {
       "topo  topo"
       "img   placar"
       "img   card"
+      "img   eco"
       "nota  nota";
     column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
   }
@@ -691,6 +692,7 @@ body {
   .alcool__img { grid-area: img; align-self: center; } /* centrada na altura de placar + card */
   .alcool__placar { grid-area: placar; }
   .alcool__card { grid-area: card; align-self: start; }
+  #alcoolatra .alcool__eco { grid-area: eco; align-self: start; } /* vence o .card:nth-child(n + 5) do #carrao */
   .alcool__nota { grid-area: nota; }
   .alcool__visor { --visor-fs: clamp(2rem, 1rem + 2.4vw, 3rem); padding: 0.75rem 1.1rem 0.85rem; }
 }
