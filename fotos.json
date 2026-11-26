@@ -1,382 +1,610 @@
 [
   {
     "arquivo": "img/fotos/IMG_1136.avif",
+    "thumb": "img/fotos/thumbs/IMG_1136.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Captiva prata de frente, parado num estacionamento aberto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1138.avif",
+    "thumb": "img/fotos/thumbs/IMG_1138.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Frente em diagonal pelo lado esquerdo, com rack de teto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1139.avif",
+    "thumb": "img/fotos/thumbs/IMG_1139.webp",
     "categoria": "lateral",
-    "alt": ""
+    "alt": "Lateral esquerda inteira, com prédios ao fundo",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1140.avif",
+    "thumb": "img/fotos/thumbs/IMG_1140.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Traseira em diagonal pelo lado esquerdo, com engate",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1141.avif",
+    "thumb": "img/fotos/thumbs/IMG_1141.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Traseira em diagonal, vista mais de longe, com engate",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1143.avif",
+    "thumb": "img/fotos/thumbs/IMG_1143.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Traseira de frente, com lanternas, engate e escapamento",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1145.avif",
+    "thumb": "img/fotos/thumbs/IMG_1145.webp",
     "categoria": "lateral",
-    "alt": ""
+    "alt": "Lateral direita inteira, com prédios ao fundo",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1146.avif",
+    "thumb": "img/fotos/thumbs/IMG_1146.webp",
     "categoria": "lateral",
-    "alt": ""
+    "alt": "Lateral direita vista um pouco mais de perto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1149.avif",
+    "thumb": "img/fotos/thumbs/IMG_1149.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Frente pelo lado direito, com arranhões no para-choque dianteiro",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1150.avif",
+    "thumb": "img/fotos/thumbs/IMG_1150.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Portas do lado direito e retrovisor, vistos de perto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1151.avif",
+    "thumb": "img/fotos/thumbs/IMG_1151.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Frente em diagonal pelo lado direito, com árvores ao fundo",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1155.avif",
+    "thumb": "img/fotos/thumbs/IMG_1155.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Carro de frente em diagonal, com a Torre de TV de Brasília ao fundo",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1160.avif",
+    "thumb": "img/fotos/thumbs/IMG_1160.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Roda dianteira esquerda, para-lama e retrovisor",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1162.avif",
+    "thumb": "img/fotos/thumbs/IMG_1162.webp",
     "categoria": "lateral",
-    "alt": ""
+    "alt": "Lateral esquerda vista de longe, com prédios e árvores",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1163.avif",
+    "thumb": "img/fotos/thumbs/IMG_1163.webp",
     "categoria": "lateral",
-    "alt": ""
+    "alt": "Metade dianteira da lateral esquerda",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1164.avif",
+    "thumb": "img/fotos/thumbs/IMG_1164.webp",
     "categoria": "lateral",
-    "alt": ""
+    "alt": "Metade traseira da lateral esquerda, com a tampa do tanque",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1166.avif",
+    "thumb": "img/fotos/thumbs/IMG_1166.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Traseira em diagonal pelo lado esquerdo, de baixo para cima",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1167.avif",
+    "thumb": "img/fotos/thumbs/IMG_1167.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Canto traseiro esquerdo do para-choque, com refletor e engate",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1168.avif",
+    "thumb": "img/fotos/thumbs/IMG_1168.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Canto traseiro direito do para-choque, com engate e escapamento",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1169.avif",
+    "thumb": "img/fotos/thumbs/IMG_1169.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Roda traseira direita e porta traseira, foto na vertical",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1170.avif",
+    "thumb": "img/fotos/thumbs/IMG_1170.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Portas do lado direito de perto, com marcas na lataria",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1171.avif",
+    "thumb": "img/fotos/thumbs/IMG_1171.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Arranhões e marcas na porta traseira direita e na borda do para-lama",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1172.avif",
+    "thumb": "img/fotos/thumbs/IMG_1172.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Porta de perto, com marcas e manchas na pintura",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1173.avif",
+    "thumb": "img/fotos/thumbs/IMG_1173.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Roda dianteira direita e saída de ar do para-lama",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1174.avif",
+    "thumb": "img/fotos/thumbs/IMG_1174.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Canto dianteiro direito, com arranhões no para-choque",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1175.avif",
+    "thumb": "img/fotos/thumbs/IMG_1175.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Para-choque dianteiro direito arranhado, visto de perto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1176.avif",
+    "thumb": "img/fotos/thumbs/IMG_1176.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Tampa traseira de perto, com logotipo Chevrolet e nome Captiva",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1177.avif",
+    "thumb": "img/fotos/thumbs/IMG_1177.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Traseira com a tampa do porta-malas aberta",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1183.avif",
+    "thumb": "img/fotos/thumbs/IMG_1183.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta-malas aberto e vazio, com a cobertura retrátil",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1184.avif",
+    "thumb": "img/fotos/thumbs/IMG_1184.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Lateral interna do porta-malas, com marcas de uso no plástico",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1186.avif",
+    "thumb": "img/fotos/thumbs/IMG_1186.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta-malas visto de lado, com o assoalho forrado",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1188.avif",
+    "thumb": "img/fotos/thumbs/IMG_1188.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Traseira com o porta-malas aberto, foto na vertical",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1189.avif",
+    "thumb": "img/fotos/thumbs/IMG_1189.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Porta-malas aberto, com a cobertura retrátil e os bancos ao fundo",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1190.avif",
+    "thumb": "img/fotos/thumbs/IMG_1190.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta-malas com o assoalho levantado, mostrando o compartimento de baixo",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1191.avif",
+    "thumb": "img/fotos/thumbs/IMG_1191.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Compartimento sob o assoalho do porta-malas, com bandeja de isopor",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1193.avif",
+    "thumb": "img/fotos/thumbs/IMG_1193.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Estepe e macaco guardados sob o assoalho do porta-malas",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1196.avif",
+    "thumb": "img/fotos/thumbs/IMG_1196.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta aberta vista de perto, com a maçaneta e a borda inferior",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1197.avif",
+    "thumb": "img/fotos/thumbs/IMG_1197.webp",
     "categoria": "lateral",
-    "alt": ""
+    "alt": "Lateral direita com as portas e o porta-malas abertos",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1203.avif",
+    "thumb": "img/fotos/thumbs/IMG_1203.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Lateral esquerda com as portas e o porta-malas abertos",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1207.avif",
+    "thumb": "img/fotos/thumbs/IMG_1207.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Frente com as portas dianteiras e o porta-malas abertos",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1211.avif",
+    "thumb": "img/fotos/thumbs/IMG_1211.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Para-choque dianteiro, grade e faróis, de frente e de perto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1214.avif",
+    "thumb": "img/fotos/thumbs/IMG_1214.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Capô aberto, com o compartimento do motor",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1215.avif",
+    "thumb": "img/fotos/thumbs/IMG_1215.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Motor com a tampa Ecotec, reservatórios e bateria",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1216.avif",
+    "thumb": "img/fotos/thumbs/IMG_1216.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Tampa do motor Ecotec e caixa do filtro de ar, de perto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1217.avif",
+    "thumb": "img/fotos/thumbs/IMG_1217.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Tampa do motor Ecotec, reservatório de expansão e bateria",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1218.avif",
+    "thumb": "img/fotos/thumbs/IMG_1218.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Bateria e reservatório de expansão no compartimento do motor",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1225.avif",
+    "thumb": "img/fotos/thumbs/IMG_1225.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Interior visto pelo porta-malas, com bancos traseiros e painel ao fundo",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1226.avif",
+    "thumb": "img/fotos/thumbs/IMG_1226.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Interior visto do banco traseiro, entre os encostos dianteiros",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1227.avif",
+    "thumb": "img/fotos/thumbs/IMG_1227.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Volante e painel vistos do banco traseiro",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1232.avif",
+    "thumb": "img/fotos/thumbs/IMG_1232.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Banco do motorista e volante, com a porta aberta",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1233.avif",
+    "thumb": "img/fotos/thumbs/IMG_1233.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Posto do motorista visto pela porta aberta, com volante e painel",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1235.avif",
+    "thumb": "img/fotos/thumbs/IMG_1235.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta dianteira aberta, mostrando o forro interno",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1236.avif",
+    "thumb": "img/fotos/thumbs/IMG_1236.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Banco traseiro de couro visto pela porta aberta",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1237.avif",
+    "thumb": "img/fotos/thumbs/IMG_1237.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta traseira aberta e encosto do banco dianteiro",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1239.avif",
+    "thumb": "img/fotos/thumbs/IMG_1239.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Banco traseiro e forro da porta traseira, com a porta aberta",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1241.avif",
+    "thumb": "img/fotos/thumbs/IMG_1241.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Bancos de couro vistos pela porta traseira aberta, foto na vertical",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1249.avif",
+    "thumb": "img/fotos/thumbs/IMG_1249.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Painel de instrumentos com o computador de bordo mostrando o odômetro",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1252.avif",
+    "thumb": "img/fotos/thumbs/IMG_1252.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Volante e console central com a central multimídia",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1256.avif",
+    "thumb": "img/fotos/thumbs/IMG_1256.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Volante com comandos e painel de instrumentos atrás",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1257.avif",
+    "thumb": "img/fotos/thumbs/IMG_1257.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Saídas de ar e tela da central multimídia, de perto",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1258.avif",
+    "thumb": "img/fotos/thumbs/IMG_1258.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Console central, alavanca do câmbio e porta-luvas",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1265.avif",
+    "thumb": "img/fotos/thumbs/IMG_1265.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Apoio de braço central entre os bancos dianteiros, visto de trás",
+    "largura": 1363,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1270.avif",
+    "thumb": "img/fotos/thumbs/IMG_1270.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Painel completo visto do banco traseiro, com volante e central multimídia",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1271.avif",
+    "thumb": "img/fotos/thumbs/IMG_1271.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Volante de perto, com os botões de comando",
+    "largura": 2048,
+    "altura": 1363
   },
   {
     "arquivo": "img/fotos/IMG_1275.avif",
+    "thumb": "img/fotos/thumbs/IMG_1275.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Painel, console central e alavanca do câmbio automático",
+    "largura": 2048,
+    "altura": 1365
   },
   {
     "arquivo": "img/fotos/IMG_1276.avif",
+    "thumb": "img/fotos/thumbs/IMG_1276.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Apoio de braço central de couro, visto de cima",
+    "largura": 1365,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1278.avif",
+    "thumb": "img/fotos/thumbs/IMG_1278.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Banco do passageiro dianteiro em couro e tapete de borracha",
+    "largura": 2048,
+    "altura": 1365
   },
   {
     "arquivo": "img/fotos/IMG_1279.avif",
+    "thumb": "img/fotos/thumbs/IMG_1279.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Forro da porta do passageiro e porta-luvas",
+    "largura": 2048,
+    "altura": 1365
   },
   {
     "arquivo": "img/fotos/IMG_1281.avif",
+    "thumb": "img/fotos/thumbs/IMG_1281.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Alavanca do câmbio automático e botão do freio de mão elétrico",
+    "largura": 2048,
+    "altura": 1365
   },
   {
     "arquivo": "img/fotos/IMG_1283.avif",
+    "thumb": "img/fotos/thumbs/IMG_1283.webp",
     "categoria": "detalhes",
-    "alt": ""
+    "alt": "Console central com central multimídia, comandos do ar e câmbio",
+    "largura": 1365,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1285.avif",
+    "thumb": "img/fotos/thumbs/IMG_1285.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Interior visto pela porta do motorista, com painel e volante",
+    "largura": 2048,
+    "altura": 1365
   },
   {
     "arquivo": "img/fotos/IMG_1286.avif",
+    "thumb": "img/fotos/thumbs/IMG_1286.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Porta traseira aberta, com o forro interno, foto na vertical",
+    "largura": 1365,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1288.avif",
+    "thumb": "img/fotos/thumbs/IMG_1288.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Banco traseiro de couro e forro da porta, de perto",
+    "largura": 1365,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1291.avif",
+    "thumb": "img/fotos/thumbs/IMG_1291.webp",
     "categoria": "externa",
-    "alt": ""
+    "alt": "Traseira com as portas traseiras e o porta-malas abertos",
+    "largura": 2048,
+    "altura": 1365
   },
   {
     "arquivo": "img/fotos/IMG_1293.avif",
+    "thumb": "img/fotos/thumbs/IMG_1293.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta-malas com o banco traseiro rebatido, foto na vertical",
+    "largura": 1365,
+    "altura": 2048
   },
   {
     "arquivo": "img/fotos/IMG_1294.avif",
+    "thumb": "img/fotos/thumbs/IMG_1294.webp",
     "categoria": "interna",
-    "alt": ""
+    "alt": "Porta-malas com o banco traseiro rebatido, assoalho plano até os bancos da frente",
+    "largura": 2048,
+    "altura": 1365
   }
 ]

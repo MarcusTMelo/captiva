@@ -25,8 +25,8 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 |---|-------|--------------------|----------|--------------|--------|
 | 1 | Hero | — | "Tô vendendo... Quer comprar?" + preço + WhatsApp | Cena do folder (recorte da arte, sem texto e sem QR) | ✅ pronta |
 | 2 | O carrão | detalhes | Espaço, conforto, câmbio automático, piloto automático, engate. Ficha técnica curta | portas-abertas | ✅ pronta |
-| 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) | em validação (sessão 3) |
-| 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros (externa, interna, detalhes) | fotos reais | — |
+| 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) | ✅ pronta |
+| 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros: Todas (76), Por fora (27), Por dentro (23), Detalhes (26). **Decisão: "lateral" entra no filtro Por fora (27)** (externa 20 + lateral 7) | fotos reais | em validação (sessão 4) |
 | 5 | Ficha corrida | detalhes | Manutenções por ano, IPVA/licenciamento, pequenos defeitos assumidos | notas fiscais | — |
 | 6 | Fim da história | — | Condições da venda + WhatsApp + "Começo da sua." | CarronoMorro | — |
 

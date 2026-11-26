@@ -12,14 +12,19 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Regra de ouro: **a piada nunca esconde informação — todo exagero vem com um dado real.**
 
 ## As 6 seções (ids fixos, nesta ordem)
-| # | id | Seção | Imagem-chave |
-|---|----|-------|--------------|
-| 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/folder-cena-{800,1600}.webp` (cena do folder, sem texto e sem QR) |
-| 2 | `carrao` | O carrão (espaço, conforto, câmbio/piloto automático, engate, ficha curta) | `img/cartoon/portas-abertas.webp` |
-| 3 | `alcoolatra` | O lado alcoólatra (confissão + consumo real) | `img/cartoon/bomba-na-boca.webp` |
-| 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` |
-| 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | notas fiscais + `img/recortes/*.png` |
-| 6 | `fim` | Fim da história (condições + WhatsApp + "Começo da sua.") | `img/cartoon/carro-no-morro.webp` |
+| # | id | Seção | Imagem-chave | Status |
+|---|----|-------|--------------|--------|
+| 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/folder-cena-{800,1600}.webp` (cena do folder, sem texto e sem QR) | ✅ pronta |
+| 2 | `carrao` | O carrão (espaço, conforto, câmbio/piloto automático, engate, ficha curta) | `img/cartoon/portas-abertas.webp` | ✅ pronta |
+| 3 | `alcoolatra` | O lado alcoólatra (confissão + consumo real) | `img/cartoon/bomba-na-boca.webp` | ✅ pronta |
+| 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` + `img/fotos/thumbs/*.webp` | em validação (sessão 4) |
+| 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | notas fiscais + `img/recortes/*.png` | — |
+| 6 | `fim` | Fim da história (condições + WhatsApp + "Começo da sua.") | `img/cartoon/carro-no-morro.webp` | — |
+
+### Decisões da galeria (#fotos)
+- Filtros: **Todas (76) · Por fora (27) · Por dentro (23) · Detalhes (26)**. **"lateral" entra no filtro Por fora (27)** = `externa` (20) + `lateral` (7). Por dentro = `interna`; Detalhes = `detalhes`.
+- A grade é HTML estático gerado a partir do `fotos.json` (mesma ordem; `data-cat` = fora/dentro/detalhes). Mudou o `fotos.json`, regenera a grade.
+- Miniaturas em `img/fotos/thumbs/*.webp` (480px no lado maior, qualidade 70). A AVIF grande só baixa ao abrir o visualizador.
 
 ## Dados oficiais (não alterar, não completar)
 - Preço: **R$ 40.000, negociável**

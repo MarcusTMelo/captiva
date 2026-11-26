@@ -190,8 +190,142 @@
     </section>
 
     <section id="fotos" aria-labelledby="fotos-titulo">
-      <h2 id="fotos-titulo">Fotos</h2>
-      <!-- Seção 4: fotos — conteúdo na sessão 4 -->
+      <div class="fotos__conteudo">
+        <header class="fotos__topo">
+          <p class="etiqueta">Mais fotos</p>
+          <div class="fotos__titulo-wrap">
+            <svg class="rabisco fotos__rabisco" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
+              <path d="M30 6 L36 16 M8 22 L26 26 M10 42 L27 34"/>
+            </svg>
+            <svg class="estrela fotos__estrela" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+            <h2 id="fotos-titulo" class="titulo-adesivo reveal">76 fotos, zero maquiagem.</h2>
+          </div>
+          <p class="fotos__abertura reveal">Tiradas no celular, sem filtro e sem ângulo esperto. O que você vê é o que você leva.</p>
+        </header>
+
+        <!-- Filtros e "Mostrar mais" só existem com JS (script.js tira o hidden). Sem JS, a grade aparece inteira. -->
+        <div class="fotos__filtros reveal" role="group" aria-label="Filtrar fotos" hidden>
+          <button type="button" class="filtro" data-filtro="todas" aria-pressed="true">Todas (<span data-conta="todas">76</span>)</button>
+          <button type="button" class="filtro" data-filtro="fora" aria-pressed="false">Por fora (<span data-conta="fora">27</span>)</button>
+          <button type="button" class="filtro" data-filtro="dentro" aria-pressed="false">Por dentro (<span data-conta="dentro">23</span>)</button>
+          <button type="button" class="filtro" data-filtro="detalhes" aria-pressed="false">Detalhes (<span data-conta="detalhes">26</span>)</button>
+        </div>
+        <p class="so-leitor" aria-live="polite" data-anuncio></p>
+
+        <!-- Grade gerada a partir de fotos.json (mesma ordem). data-cat: fora = externa + lateral, dentro = interna, detalhes = detalhes -->
+        <ul class="galeria" role="list">
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1136.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1136.webp" alt="Captiva prata de frente, parado num estacionamento aberto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1138.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1138.webp" alt="Frente em diagonal pelo lado esquerdo, com rack de teto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1139.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1139.webp" alt="Lateral esquerda inteira, com prédios ao fundo" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1140.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1140.webp" alt="Traseira em diagonal pelo lado esquerdo, com engate" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1141.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1141.webp" alt="Traseira em diagonal, vista mais de longe, com engate" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1143.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1143.webp" alt="Traseira de frente, com lanternas, engate e escapamento" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1145.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1145.webp" alt="Lateral direita inteira, com prédios ao fundo" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1146.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1146.webp" alt="Lateral direita vista um pouco mais de perto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1149.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1149.webp" alt="Frente pelo lado direito, com arranhões no para-choque dianteiro" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1150.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1150.webp" alt="Portas do lado direito e retrovisor, vistos de perto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1151.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1151.webp" alt="Frente em diagonal pelo lado direito, com árvores ao fundo" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1155.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1155.webp" alt="Carro de frente em diagonal, com a Torre de TV de Brasília ao fundo" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1160.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1160.webp" alt="Roda dianteira esquerda, para-lama e retrovisor" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1162.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1162.webp" alt="Lateral esquerda vista de longe, com prédios e árvores" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1163.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1163.webp" alt="Metade dianteira da lateral esquerda" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1164.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1164.webp" alt="Metade traseira da lateral esquerda, com a tampa do tanque" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1166.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1166.webp" alt="Traseira em diagonal pelo lado esquerdo, de baixo para cima" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1167.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1167.webp" alt="Canto traseiro esquerdo do para-choque, com refletor e engate" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1168.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1168.webp" alt="Canto traseiro direito do para-choque, com engate e escapamento" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1169.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1169.webp" alt="Roda traseira direita e porta traseira, foto na vertical" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1170.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1170.webp" alt="Portas do lado direito de perto, com marcas na lataria" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1171.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1171.webp" alt="Arranhões e marcas na porta traseira direita e na borda do para-lama" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1172.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1172.webp" alt="Porta de perto, com marcas e manchas na pintura" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1173.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1173.webp" alt="Roda dianteira direita e saída de ar do para-lama" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1174.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1174.webp" alt="Canto dianteiro direito, com arranhões no para-choque" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1175.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1175.webp" alt="Para-choque dianteiro direito arranhado, visto de perto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1176.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1176.webp" alt="Tampa traseira de perto, com logotipo Chevrolet e nome Captiva" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1177.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1177.webp" alt="Traseira com a tampa do porta-malas aberta" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1183.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1183.webp" alt="Porta-malas aberto e vazio, com a cobertura retrátil" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1184.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1184.webp" alt="Lateral interna do porta-malas, com marcas de uso no plástico" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1186.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1186.webp" alt="Porta-malas visto de lado, com o assoalho forrado" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1188.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1188.webp" alt="Traseira com o porta-malas aberto, foto na vertical" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1189.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1189.webp" alt="Porta-malas aberto, com a cobertura retrátil e os bancos ao fundo" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1190.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1190.webp" alt="Porta-malas com o assoalho levantado, mostrando o compartimento de baixo" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1191.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1191.webp" alt="Compartimento sob o assoalho do porta-malas, com bandeja de isopor" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1193.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1193.webp" alt="Estepe e macaco guardados sob o assoalho do porta-malas" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1196.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1196.webp" alt="Porta aberta vista de perto, com a maçaneta e a borda inferior" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1197.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1197.webp" alt="Lateral direita com as portas e o porta-malas abertos" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1203.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1203.webp" alt="Lateral esquerda com as portas e o porta-malas abertos" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1207.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1207.webp" alt="Frente com as portas dianteiras e o porta-malas abertos" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1211.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1211.webp" alt="Para-choque dianteiro, grade e faróis, de frente e de perto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1214.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1214.webp" alt="Capô aberto, com o compartimento do motor" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1215.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1215.webp" alt="Motor com a tampa Ecotec, reservatórios e bateria" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1216.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1216.webp" alt="Tampa do motor Ecotec e caixa do filtro de ar, de perto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1217.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1217.webp" alt="Tampa do motor Ecotec, reservatório de expansão e bateria" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1218.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1218.webp" alt="Bateria e reservatório de expansão no compartimento do motor" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1225.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1225.webp" alt="Interior visto pelo porta-malas, com bancos traseiros e painel ao fundo" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1226.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1226.webp" alt="Interior visto do banco traseiro, entre os encostos dianteiros" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1227.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1227.webp" alt="Volante e painel vistos do banco traseiro" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1232.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1232.webp" alt="Banco do motorista e volante, com a porta aberta" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1233.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1233.webp" alt="Posto do motorista visto pela porta aberta, com volante e painel" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1235.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1235.webp" alt="Porta dianteira aberta, mostrando o forro interno" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1236.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1236.webp" alt="Banco traseiro de couro visto pela porta aberta" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1237.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1237.webp" alt="Porta traseira aberta e encosto do banco dianteiro" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1239.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1239.webp" alt="Banco traseiro e forro da porta traseira, com a porta aberta" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1241.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1241.webp" alt="Bancos de couro vistos pela porta traseira aberta, foto na vertical" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1249.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1249.webp" alt="Painel de instrumentos com o computador de bordo mostrando o odômetro" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1252.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1252.webp" alt="Volante e console central com a central multimídia" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1256.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1256.webp" alt="Volante com comandos e painel de instrumentos atrás" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1257.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1257.webp" alt="Saídas de ar e tela da central multimídia, de perto" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1258.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1258.webp" alt="Console central, alavanca do câmbio e porta-luvas" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1265.avif" data-largura="1363" data-altura="2048"><img src="img/fotos/thumbs/IMG_1265.webp" alt="Apoio de braço central entre os bancos dianteiros, visto de trás" width="319" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1270.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1270.webp" alt="Painel completo visto do banco traseiro, com volante e central multimídia" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1271.avif" data-largura="2048" data-altura="1363"><img src="img/fotos/thumbs/IMG_1271.webp" alt="Volante de perto, com os botões de comando" width="480" height="319" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1275.avif" data-largura="2048" data-altura="1365"><img src="img/fotos/thumbs/IMG_1275.webp" alt="Painel, console central e alavanca do câmbio automático" width="480" height="320" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1276.avif" data-largura="1365" data-altura="2048"><img src="img/fotos/thumbs/IMG_1276.webp" alt="Apoio de braço central de couro, visto de cima" width="320" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1278.avif" data-largura="2048" data-altura="1365"><img src="img/fotos/thumbs/IMG_1278.webp" alt="Banco do passageiro dianteiro em couro e tapete de borracha" width="480" height="320" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1279.avif" data-largura="2048" data-altura="1365"><img src="img/fotos/thumbs/IMG_1279.webp" alt="Forro da porta do passageiro e porta-luvas" width="480" height="320" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1281.avif" data-largura="2048" data-altura="1365"><img src="img/fotos/thumbs/IMG_1281.webp" alt="Alavanca do câmbio automático e botão do freio de mão elétrico" width="480" height="320" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="detalhes"><a href="img/fotos/IMG_1283.avif" data-largura="1365" data-altura="2048"><img src="img/fotos/thumbs/IMG_1283.webp" alt="Console central com central multimídia, comandos do ar e câmbio" width="320" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1285.avif" data-largura="2048" data-altura="1365"><img src="img/fotos/thumbs/IMG_1285.webp" alt="Interior visto pela porta do motorista, com painel e volante" width="480" height="320" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1286.avif" data-largura="1365" data-altura="2048"><img src="img/fotos/thumbs/IMG_1286.webp" alt="Porta traseira aberta, com o forro interno, foto na vertical" width="320" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1288.avif" data-largura="1365" data-altura="2048"><img src="img/fotos/thumbs/IMG_1288.webp" alt="Banco traseiro de couro e forro da porta, de perto" width="320" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="fora"><a href="img/fotos/IMG_1291.avif" data-largura="2048" data-altura="1365"><img src="img/fotos/thumbs/IMG_1291.webp" alt="Traseira com as portas traseiras e o porta-malas abertos" width="480" height="320" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1293.avif" data-largura="1365" data-altura="2048"><img src="img/fotos/thumbs/IMG_1293.webp" alt="Porta-malas com o banco traseiro rebatido, foto na vertical" width="320" height="480" loading="lazy" decoding="async"></a></li>
+          <li class="galeria__item" data-cat="dentro"><a href="img/fotos/IMG_1294.avif" data-largura="2048" data-altura="1365"><img src="img/fotos/thumbs/IMG_1294.webp" alt="Porta-malas com o banco traseiro rebatido, assoalho plano até os bancos da frente" width="480" height="320" loading="lazy" decoding="async"></a></li>
+        </ul>
+
+        <button type="button" class="botao-mais" data-mais hidden>Mostrar mais (<span data-restantes>0</span> restantes)</button>
+
+        <div class="fotos__fecho">
+          <p>Quer ver alguma coisa que não está aqui? Me chama que eu fotografo.</p>
+          <a class="botao botao--whatsapp"
+             href="https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20do%20Captiva%20e%20quero%20saber%20mais%20sobre%20ele%20(inclusive%20o%20lado%20alco%C3%B3latra)."
+             target="_blank" rel="noopener">
+            <svg class="botao__icone" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3.2 20.8l1.4-4.6a8.6 8.6 0 1 1 3.3 3.2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M8.6 7.4c.3-.4.8-.4 1.1 0l1.1 1.8c.2.3.1.7-.1 1l-.6.6c.6 1.3 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.8 1.1c.4.3.4.8 0 1.1l-.8.8c-.6.6-1.5.7-2.3.4-2.4-1-4.3-2.9-5.3-5.3-.3-.8-.2-1.7.4-2.3z" fill="currentColor"/>
+            </svg>
+            <span>Pedir foto no WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Visualizador (só com JS) -->
+      <dialog class="visualizador" aria-label="Foto ampliada">
+        <button type="button" class="visualizador__botao visualizador__fechar" data-fechar aria-label="Fechar foto">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <div class="visualizador__palco" data-palco>
+          <img class="visualizador__img" alt="" data-foto>
+        </div>
+        <div class="visualizador__barra">
+          <button type="button" class="visualizador__botao" data-anterior aria-label="Foto anterior">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <p class="visualizador__contador" aria-live="polite" data-contador>1 / 76</p>
+          <button type="button" class="visualizador__botao" data-proxima aria-label="Próxima foto">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </dialog>
     </section>
 
     <section id="ficha" aria-labelledby="ficha-titulo">
