@@ -21,14 +21,14 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 
 ## 3. Escopo da v1 (fechado — 6 seções)
 
-| # | Seção | Promessa do folder | Conteúdo | Imagem-chave |
-|---|-------|--------------------|----------|--------------|
-| 1 | Hero | — | "Tô vendendo... Quer comprar?" + preço + WhatsApp | Cena do folder (recorte da arte, sem texto e sem QR) |
-| 2 | O carrão | detalhes | Espaço, conforto, câmbio automático, piloto automático, engate. Ficha técnica curta | portas-abertas |
-| 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) |
-| 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros (externa, interna, detalhes) | fotos reais |
-| 5 | Ficha corrida | detalhes | Manutenções por ano, IPVA/licenciamento, pequenos defeitos assumidos | notas fiscais |
-| 6 | Fim da história | — | Condições da venda + WhatsApp + "Começo da sua." | CarronoMorro |
+| # | Seção | Promessa do folder | Conteúdo | Imagem-chave | Status |
+|---|-------|--------------------|----------|--------------|--------|
+| 1 | Hero | — | "Tô vendendo... Quer comprar?" + preço + WhatsApp | Cena do folder (recorte da arte, sem texto e sem QR) | ✅ pronta |
+| 2 | O carrão | detalhes | Espaço, conforto, câmbio automático, piloto automático, engate. Ficha técnica curta | portas-abertas | ✅ pronta |
+| 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) | em validação (sessão 3) |
+| 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros (externa, interna, detalhes) | fotos reais | — |
+| 5 | Ficha corrida | detalhes | Manutenções por ano, IPVA/licenciamento, pequenos defeitos assumidos | notas fiscais | — |
+| 6 | Fim da história | — | Condições da venda + WhatsApp + "Começo da sua." | CarronoMorro | — |
 
 **Fora da v1** (vai para o Estacionamento): smooth scroll, pinning, cenas encadeadas, novos cartoons, versão em outro idioma, analytics.
 
@@ -43,6 +43,9 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 - Itens: ar-condicionado, piloto automático, computador de bordo, freio de mão elétrico, engate, câmera de ré, bancos de couro com aquecimento nos dois dianteiros, ajuste lombar no banco do motorista, rádio original de fábrica
 - **NÃO tem sensor de estacionamento**
 - Consumo real: **cidade 7,2 km/l · estrada 9,7 km/l**
+- Consumo oficial de ficha (fábrica): **cidade 10,0 km/l · estrada 14,9 km/l** — só para a piada, nunca como consumo do carro
+- Peso: **1.680 kg** (ficha de fábrica)
+- Autonomia calculada (73 L × consumo real): **~525 km na cidade · ~700 km na estrada**
 - Donos: **3 ou mais** — assumir com humor ("passou por várias mãos, todas cuidaram"), sempre ao lado do histórico de manutenção
 - Onde ver: **Águas Claras, Brasília/DF**
 - Final da placa: não divulgar por enquanto

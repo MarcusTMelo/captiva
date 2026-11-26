@@ -48,9 +48,9 @@
         <div class="hero__oferta">
           <p class="hero__sub">Espaço de sobra, câmbio automático e uma sede que eu não vou esconder: 7,2&nbsp;km/l na cidade.</p>
 
-          <div class="hero__visor">
-            <p class="hero__rotulo">Total a pagar</p>
-            <p class="hero__valor">R$&nbsp;40.000</p>
+          <div class="visor hero__visor">
+            <p class="visor__rotulo">Total a pagar</p>
+            <p class="visor__valor">R$&nbsp;40.000</p>
             <p class="hero__condicao">negociável · só à vista</p>
           </div>
 
@@ -141,8 +141,52 @@
     </section>
 
     <section id="alcoolatra" aria-labelledby="alcoolatra-titulo">
-      <h2 id="alcoolatra-titulo">O lado alcoólatra</h2>
-      <!-- Seção 3: alcoolatra — conteúdo na sessão 3 -->
+      <div class="alcool__conteudo">
+        <header class="alcool__topo">
+          <p class="etiqueta">O lado alcoólatra</p>
+          <div class="alcool__titulo-wrap">
+            <svg class="rabisco alcool__rabisco" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
+              <path d="M30 6 L36 16 M8 22 L26 26 M10 42 L27 34"/>
+            </svg>
+            <svg class="estrela alcool__estrela" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+            <h2 id="alcoolatra-titulo" class="titulo-adesivo reveal">Oi, meu nome é Captiva e eu&nbsp;bebo.</h2>
+          </div>
+          <p class="alcool__abertura">Não vou te enrolar como vendedor de feirão. Ele bebe. Os números abaixo foram medidos na vida real, sem ajuda da fábrica.</p>
+        </header>
+
+        <img class="alcool__img reveal"
+             src="img/cartoon/bomba-na-boca.webp"
+             srcset="img/cartoon/bomba-na-boca-800.webp 800w, img/cartoon/bomba-na-boca.webp 1600w"
+             sizes="(min-width: 52rem) min(38rem, 52vw), 100vw"
+             width="1600" height="872"
+             loading="lazy" decoding="async"
+             alt="Cartoon do Captiva prata, olhos arregalados e sorriso de quem não se arrepende, com o bico da bomba enfiado na boca feito canudinho, ao lado de galões de gasolina num estacionamento ao entardecer.">
+
+        <div class="alcool__placar">
+          <figure class="alcool__medida reveal" style="--i:0">
+            <div class="visor alcool__visor">
+              <p class="visor__rotulo">CIDADE</p>
+              <p class="visor__valor">7,2<span class="visor__unidade">&nbsp;km/l</span></p>
+            </div>
+            <figcaption>A fábrica jurou 10. Ele bebeu a promessa.</figcaption>
+          </figure>
+          <figure class="alcool__medida reveal" style="--i:1">
+            <div class="visor alcool__visor">
+              <p class="visor__rotulo">ESTRADA</p>
+              <p class="visor__valor">9,7<span class="visor__unidade">&nbsp;km/l</span></p>
+            </div>
+            <figcaption>A fábrica falou em 14,9. Ninguém acreditou, nem ele. Mas na estrada ele se comporta.</figcaption>
+          </figure>
+        </div>
+
+        <div class="card alcool__card reveal">
+          <svg class="card__icone" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="24"/><g><path d="M14 19h12l7 7v11H14z"/><path d="M18 19v-4h6v4"/><path d="M33 26l3-8"/><path d="M20 26l7 6M27 26l-7 6"/></g></svg>
+          <p>Tanque de 73 litros: dá uns 525 km na cidade e uns 700 na estrada. Ele bebe muito, mas vai a Pirenópolis e volta sem pit stop.</p>
+          <p>Por que ele bebe? São 1.680 kg de carro, 185 cv e um câmbio automático que não te deixa passar raiva. Conforto tem preço, e ele paga no posto.</p>
+        </div>
+
+        <p class="alcool__nota">Consumo medido pelo dono, no uso real, com gasolina.</p>
+      </div>
     </section>
 
     <section id="fotos" aria-labelledby="fotos-titulo">

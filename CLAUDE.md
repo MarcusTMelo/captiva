@@ -31,6 +31,9 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Itens: ar-condicionado, piloto automático, computador de bordo, freio de mão elétrico, engate, câmera de ré, bancos de couro com aquecimento nos dois dianteiros, ajuste lombar no banco do motorista, rádio original de fábrica
 - **NÃO tem sensor de estacionamento** (nunca dizer que tem)
 - Consumo real: **cidade 7,2 km/l · estrada 9,7 km/l**
+- Consumo oficial de ficha (fábrica): **cidade 10,0 km/l · estrada 14,9 km/l** — só para a piada, nunca como consumo do carro
+- Peso: **1.680 kg** (ficha de fábrica)
+- Autonomia calculada (73 L × consumo real): **~525 km na cidade · ~700 km na estrada**
 - Donos: **3 ou mais** — com humor ("passou por várias mãos, todas cuidaram"), sempre ao lado do histórico de manutenção
 - Onde ver: **Águas Claras, Brasília/DF**
 - Final da placa: não divulgar

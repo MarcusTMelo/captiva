@@ -198,31 +198,35 @@ body {
   max-width: 40ch;
 }
 
-/* Preço = visor da bomba */
-.hero__visor {
+/* Visor da bomba — componente reutilizável (hero: preço; #alcoolatra: consumo) */
+.visor {
   background: var(--azul-marinho);
   color: var(--branco);
   border-radius: var(--raio);
   padding: 0.75rem 1.1rem 0.85rem;
   box-shadow: 0 0 0 3px var(--branco), 0 6px 16px rgb(4 15 28 / 0.22);
-  justify-self: start;
-  min-width: min(100%, 16rem);
 }
 
-.hero__rotulo {
+.visor__rotulo {
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.25em;
   text-transform: uppercase;
 }
 
-.hero__valor {
+.visor__valor {
   font-family: var(--fonte-mono);
-  font-size: var(--fs-preco);
+  font-size: var(--visor-fs, var(--fs-preco));
   font-weight: 700;
   line-height: 1.1;
   color: var(--amarelo-estrela);
   white-space: nowrap;
+}
+
+/* Preço = visor da bomba */
+.hero__visor {
+  justify-self: start;
+  min-width: min(100%, 16rem);
 }
 
 .hero__condicao {
@@ -572,6 +576,140 @@ body {
     border-top: 0;
     padding-top: 0.1rem;
   }
+}
+
+/* ============ 3. #alcoolatra ============ */
+#alcoolatra {
+  overflow: hidden;
+  padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
+  /* link do hero (#alcoolatra) aterrissa com etiqueta + h2 inteiros no topo, sem a folga do padding */
+  scroll-margin-top: calc(-1 * clamp(2.5rem, 2rem + 3vw, 5rem) + 0.75rem);
+}
+
+.alcool__conteudo {
+  display: grid;
+  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.alcool__topo {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+
+.alcool__titulo-wrap {
+  position: relative;
+  padding-right: 2.5rem; /* espaço do rabisco */
+}
+
+.alcool__rabisco {
+  right: 0;
+  top: -0.4rem;
+  width: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
+  transform: scaleX(-1);
+}
+
+.alcool__estrela {
+  right: 0.6rem;
+  bottom: -0.5rem;
+  width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
+}
+
+.alcool__abertura {
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+  max-width: 44ch;
+}
+
+/* Mesmo acabamento de adesivo da imagem do #carrao */
+.alcool__img {
+  width: 100%;
+  border-radius: 1.25rem;
+  border: 6px solid var(--branco);
+  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+}
+
+/* Placar: 2 visores lado a lado até em 320px (número grande, unidade menor) */
+.alcool__placar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 0.5rem + 1.5vw, 1.5rem);
+  align-items: start;
+}
+
+.alcool__medida {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.alcool__visor {
+  --visor-fs: clamp(1.75rem, 1rem + 4vw, 3rem);
+  padding: 0.7rem 0.8rem 0.75rem;
+}
+
+.visor__unidade {
+  font-size: 0.5em;
+}
+
+.alcool__medida figcaption {
+  color: var(--azul-marinho);
+  font-size: clamp(0.92rem, 0.88rem + 0.25vw, 1.02rem);
+  line-height: 1.4;
+}
+
+/* Card da autonomia: ícone à esquerda, textos na coluna da direita */
+.alcool__card {
+  align-items: start;
+  row-gap: 0.75rem;
+}
+
+.alcool__card .card__icone {
+  grid-row: 1 / span 2;
+}
+
+.alcool__card p {
+  grid-column: 2;
+}
+
+.alcool__nota {
+  font-size: var(--fs-pequeno);
+  font-style: italic;
+}
+
+@media (min-width: 52rem) {
+  .alcool__conteudo {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "topo  topo"
+      "img   placar"
+      "img   card"
+      "nota  nota";
+    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  }
+  .alcool__topo { grid-area: topo; }
+  .alcool__img { grid-area: img; align-self: center; } /* centrada na altura de placar + card */
+  .alcool__placar { grid-area: placar; }
+  .alcool__card { grid-area: card; align-self: start; }
+  .alcool__nota { grid-area: nota; }
+  .alcool__visor { --visor-fs: clamp(2rem, 1rem + 2.4vw, 3rem); padding: 0.75rem 1.1rem 0.85rem; }
+}
+
+@media (max-width: 51.999rem) {
+  .alcool__card {
+    padding: 0.9rem 1rem 1rem;
+    column-gap: 0.75rem;
+  }
+  .alcool__card .card__icone {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Celular estreito: visor mais justo pra o número não quebrar */
+@media (max-width: 22.5rem) {
+  .alcool__visor { padding-inline: 0.65rem; }
+  .alcool__visor .visor__rotulo { letter-spacing: 0.18em; }
 }
 
 /* ============ Reveal (fade + slide de entrada) ============
