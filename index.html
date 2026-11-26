@@ -310,21 +310,21 @@
 
       <!-- Visualizador (só com JS) -->
       <dialog class="visualizador" aria-label="Foto ampliada">
-        <button type="button" class="visualizador__botao visualizador__fechar" data-fechar aria-label="Fechar foto">
-          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
-        </button>
+        <div class="visualizador__topo">
+          <p class="visualizador__contador" aria-live="polite" data-contador>1 / 76</p>
+          <button type="button" class="visualizador__botao" data-fechar aria-label="Fechar foto">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
         <div class="visualizador__palco" data-palco>
           <img class="visualizador__img" alt="" data-foto>
         </div>
-        <div class="visualizador__barra">
-          <button type="button" class="visualizador__botao" data-anterior aria-label="Foto anterior">
-            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
-          </button>
-          <p class="visualizador__contador" aria-live="polite" data-contador>1 / 76</p>
-          <button type="button" class="visualizador__botao" data-proxima aria-label="Próxima foto">
-            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
+        <button type="button" class="visualizador__botao visualizador__anterior" data-anterior aria-label="Foto anterior">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button type="button" class="visualizador__botao visualizador__proxima" data-proxima aria-label="Próxima foto">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
       </dialog>
     </section>
 

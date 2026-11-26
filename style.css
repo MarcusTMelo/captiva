@@ -867,38 +867,72 @@ body {
   font-weight: 600;
 }
 
-/* Visualizador: <dialog> nativo em tela cheia */
+/* Visualizador: <dialog> nativo ocupando a viewport inteira.
+   Celular:  [contador · fechar] / [foto] / [anterior · próxima]
+   >= 52rem: [contador · fechar] / [anterior | foto | próxima]
+   Os controles ficam sempre em faixas próprias, nunca por cima da foto. */
 .visualizador {
-  width: 100%;
-  height: 100%;
+  --fundo-visualizador: rgb(4 15 28 / 0.96); /* azul-marinho quase opaco */
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
   max-width: none;
   max-height: none;
   margin: 0;
   padding: 0;
   border: 0;
-  background: transparent;
+  background: var(--fundo-visualizador);
   color: var(--branco);
   overflow: hidden;
 }
 
+.visualizador::backdrop {
+  background: var(--fundo-visualizador);
+}
+
 .visualizador[open] {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "topo     topo"
+    "palco    palco"
+    "anterior proxima";
+  column-gap: 1.25rem;
 }
 
-.visualizador::backdrop {
-  background: rgb(4 15 28 / 0.95); /* azul-marinho */
+.visualizador__topo {
+  grid-area: topo;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem 0.75rem 1rem;
 }
 
+.visualizador__contador {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--branco);
+}
+
+/* A área da foto tem tamanho definido pela grade; a foto se ajusta dentro dela */
 .visualizador__palco {
-  display: grid;
-  place-items: center;
+  grid-area: palco;
+  position: relative;
+  min-width: 0;
   min-height: 0;
-  padding: 3.75rem 0.5rem 0.5rem;
+  margin: 0 0.5rem;
   touch-action: pan-y pinch-zoom; /* swipe lateral fica com o JS; pinça continua nativa */
 }
 
 .visualizador__img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
   max-width: 100%;
   max-height: 100%;
   width: auto;
@@ -910,19 +944,38 @@ body {
   -webkit-user-drag: none;
 }
 
-.visualizador__barra {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  padding: 0.75rem 1rem max(1rem, env(safe-area-inset-bottom));
+.visualizador__anterior {
+  grid-area: anterior;
+  justify-self: end;
 }
 
-.visualizador__contador {
-  min-width: 5.5ch;
-  text-align: center;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+.visualizador__proxima {
+  grid-area: proxima;
+  justify-self: start;
+}
+
+.visualizador__anterior,
+.visualizador__proxima {
+  margin: 0.75rem 0 max(1rem, env(safe-area-inset-bottom));
+}
+
+@media (min-width: 52rem) {
+  .visualizador[open] {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "topo     topo  topo"
+      "anterior palco proxima";
+    column-gap: 0;
+  }
+  .visualizador__topo { padding-inline: 1.5rem 1rem; }
+  .visualizador__palco { margin: 0 1rem 1.5rem; }
+  .visualizador__anterior,
+  .visualizador__proxima {
+    align-self: center;
+    justify-self: center;
+    margin: 0 1rem 1.5rem;
+  }
 }
 
 .visualizador__botao {
@@ -948,13 +1001,6 @@ body {
   stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-.visualizador__fechar {
-  position: absolute;
-  top: max(0.75rem, env(safe-area-inset-top));
-  right: 0.75rem;
-  z-index: 1;
 }
 
 /* Trava o scroll da página com o visualizador aberto */
