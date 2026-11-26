@@ -1,13 +1,24 @@
-/* Captiva v3 — fundação. Nada de layout aqui ainda. */
+/* Captiva v3 */
 
-/* Paleta (placeholder — valores a definir):
-   quente de fim de tarde + verde "gasolina" do folder (_referencia/folder.png) */
+/* Paleta — extraída de _referencia/folder.png (Pillow, quantize 8 cores + amostragem por região).
+   Contraste (WCAG): texto/fundo 16.7:1 · texto/suave 14.8:1 · texto do botão/destaque 8.9:1
+                     gasolina/fundo 7.9:1 · gasolina/suave 7.0:1
+   ATENÇÃO: --cor-destaque sobre --cor-fundo dá só 1.9:1 → nunca usar como cor de texto, só como fundo. */
 :root {
-  /* --cor-fundo: ; */
-  /* --cor-texto: ; */
-  /* --cor-sol: ;        laranja/âmbar fim de tarde */
-  /* --cor-poente: ;     vermelho/rosado fim de tarde */
-  /* --cor-gasolina: ;   verde do folder */
+  --cor-fundo: #faeedd;    /* creme do rodapé/céu do folder (cor nº 1 do quantize, 19.5%) */
+  --cor-texto: #0a1018;    /* azul-quase-preto do "TÔ VENDENDO..." (quantize #090c0d / amostra #000818) */
+  --cor-destaque: #f0a040; /* âmbar do sol de fim de tarde no fundo do folder (amostra dos tons quentes) */
+  --cor-gasolina: #3a5012; /* verde do "QUER COMPRAR?" e dos galões (amostra #385010) */
+  --cor-suave: #f1e0c9;    /* bege mais quente do folder (quantize #f1e0c9, 4.8%) */
+
+  --fonte: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fs-pequeno: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem);
+  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  --fs-h1: clamp(2.4rem, 1.6rem + 4vw, 4.5rem);
+  --fs-preco: clamp(2.6rem, 2rem + 3vw, 4rem);
+
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+  --raio: 0.9rem;
 }
 
 /* Reset mínimo */
@@ -33,6 +44,153 @@ img {
   display: block;
 }
 
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--cor-gasolina);
+  outline-offset: 3px;
+}
+
+/* ============ 1. #hero ============ */
+#hero {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 1rem + 2vw, 3rem) var(--gutter) clamp(2rem, 1.5rem + 3vw, 4rem);
+}
+
+.hero__modelo {
+  font-size: var(--fs-pequeno);
+  letter-spacing: 0.02em;
+  opacity: 0.8; /* #0a1018 a 80% sobre o creme ainda passa de 9:1 */
+}
+
+#hero h1 {
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-top: 0.35rem;
+}
+
+.hero__pergunta {
+  display: block;
+  color: var(--cor-gasolina);
+}
+
+/* O webp tem muita margem transparente (carro ocupa x 279–1364, y 120–775 de 1600×873).
+   Recorte via CSS, sem mexer no arquivo: largura 1600/1085 e margens negativas proporcionais. */
+.hero__carro {
+  width: 100%;
+  max-width: 17rem; /* celular: limita a altura (~165px) pra o botão do WhatsApp caber na 1ª tela em 360×740 */
+  margin-inline: auto;
+  overflow: hidden;
+}
+
+.hero__carro img {
+  width: 147.47%;
+  max-width: none;
+  margin: -11.06% 0 -9.03% -25.71%;
+}
+
+.hero__oferta {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.hero__sub {
+  max-width: 34ch;
+}
+
+.hero__preco {
+  background: var(--cor-suave);
+  border-left: 6px solid var(--cor-gasolina);
+  border-radius: var(--raio);
+  padding: 1rem 1.25rem;
+}
+
+.hero__valor {
+  font-size: var(--fs-preco);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--cor-gasolina);
+}
+
+.hero__condicao {
+  font-weight: 700;
+  margin-top: 0.35rem;
+}
+
+.hero__local {
+  font-size: var(--fs-pequeno);
+  margin-top: 0.25rem;
+}
+
+.botao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.botao--whatsapp {
+  background: var(--cor-destaque);
+  color: var(--cor-texto);
+  box-shadow: 0 3px 0 var(--cor-texto);
+}
+
+.botao--whatsapp:hover {
+  filter: brightness(1.06);
+}
+
+.botao--whatsapp:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--cor-texto);
+}
+
+.hero__link {
+  justify-self: center;
+  padding: 0.5rem;
+  color: var(--cor-gasolina);
+  font-weight: 700;
+  text-underline-offset: 0.2em;
+}
+
+/* Telas largas: texto à esquerda, carro à direita */
+@media (min-width: 52rem) {
+  #hero {
+    grid-template-columns: 1fr 1.1fr;
+    grid-template-areas:
+      "texto  carro"
+      "oferta carro";
+    align-items: center;
+    column-gap: 2.5rem;
+    min-height: 100svh;
+  }
+  .hero__texto { grid-area: texto; align-self: end; }
+  .hero__oferta { grid-area: oferta; align-self: start; }
+  .hero__carro { grid-area: carro; max-width: none; }
+  .botao--whatsapp { justify-self: start; }
+  .hero__link { justify-self: start; padding-inline: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* Desligar aqui as animações de entrada (fade/slide) quando existirem. */
+  .botao--whatsapp:active { transform: none; }
 }

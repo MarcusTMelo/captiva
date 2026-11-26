@@ -32,6 +32,13 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Final da placa: não divulgar
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
 
+## WhatsApp
+URL única do site (já codificada):
+
+`https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20do%20Captiva%20e%20quero%20saber%20mais%20sobre%20ele%20(inclusive%20o%20lado%20alco%C3%B3latra).`
+
+- **Todo botão de WhatsApp do site usa exatamente esta URL, sem variação** (nem no texto, nem nos parâmetros).
+
 ## Stack
 - HTML + CSS + JS puro (`index.html`, `style.css`, `script.js`, `fotos.json`). Mobile first.
 - Caminhos sempre relativos.
