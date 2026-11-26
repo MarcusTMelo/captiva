@@ -313,7 +313,239 @@ body {
   .botao--whatsapp { justify-self: start; }
 }
 
+/* ============ Componentes compartilhados (seções 2+) ============ */
+.etiqueta {
+  display: inline-block;
+  background: var(--verde-oliva);
+  color: var(--branco);
+  font-size: var(--fs-pequeno);
+  font-weight: 700;
+  line-height: 1.3;
+  padding: 0.3em 0.9em;
+  border-radius: 999px;
+}
+
+/* Título "adesivo" das seções: mesma receita do h1 do hero, menor */
+.titulo-adesivo {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 1.2rem + 3.5vw, 3.25rem);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--azul-marinho);
+  -webkit-text-stroke: 0.16em var(--branco);
+  paint-order: stroke fill;
+  text-shadow: 0 0.06em 0.12em rgb(4 15 28 / 0.28);
+}
+
+/* ============ 2. #carrao ============ */
+#carrao {
+  overflow: hidden;
+  padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
+}
+
+.carrao__conteudo {
+  display: grid;
+  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.carrao__topo {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+
+.carrao__titulo-wrap {
+  position: relative;
+  padding-right: 2.5rem; /* espaço do rabisco */
+}
+
+.carrao__rabisco {
+  right: 0;
+  top: -0.4rem;
+  width: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
+  transform: scaleX(-1);
+}
+
+.carrao__estrela {
+  right: 0.6rem;
+  bottom: -0.5rem;
+  width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
+}
+
+.carrao__abertura {
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+  max-width: 44ch;
+}
+
+/* Imagem = cena ilustrada com acabamento de adesivo */
+.carrao__img {
+  width: 100%;
+  border-radius: 1.25rem;
+  border: 6px solid var(--branco);
+  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+}
+
+.carrao__cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--branco);
+  background: color-mix(in srgb, var(--creme) 35%, var(--branco)); /* branco quente */
+  border: 1.5px solid var(--verde-oliva);
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgb(4 15 28 / 0.08);
+  padding: 1.1rem 1.2rem 1.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.9rem;
+  row-gap: 0.35rem;
+  align-items: center;
+}
+
+.card__icone {
+  width: 2.75rem;
+  height: 2.75rem;
+  grid-row: span 1;
+}
+
+.card__icone circle:first-child {
+  fill: var(--verde-oliva);
+}
+
+.card__icone g {
+  fill: none;
+  stroke: var(--branco);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card h3 {
+  font-size: 1.15rem;
+  line-height: 1.25;
+  color: var(--verde-oliva);
+}
+
+.card p {
+  grid-column: 1 / -1;
+}
+
+.card--destaque {
+  padding: 1.4rem 1.5rem 1.6rem;
+  border-width: 2.5px;
+}
+
+.card--destaque .card__icone {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.card--destaque h3 {
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+}
+
+.card--destaque p {
+  font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.15rem);
+}
+
+/* Ficha técnica: card oliva, rótulos amarelos (5.79:1), valores brancos (8.83:1) */
+.ficha {
+  background: var(--verde-oliva);
+  color: var(--branco);
+  border-radius: 1.25rem;
+  border: 3px solid var(--branco);
+  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+  padding: 1.25rem 1.4rem 1.4rem;
+  align-self: center;
+}
+
+.ficha h3 {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+}
+
+/* Uma grade só pro <dl> inteiro: a coluna de rótulos tem a largura do maior rótulo */
+.ficha dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+}
+
+.ficha dl > div {
+  display: contents;
+}
+
+.ficha dt,
+.ficha dd {
+  padding: 0.55rem 0;
+  border-top: 1px solid rgb(255 255 255 / 0.22);
+}
+
+.ficha dl > div:first-child > * {
+  border-top: 0;
+}
+
+.ficha dt {
+  color: var(--amarelo-estrela);
+  font-weight: 700;
+}
+
+.ficha dd {
+  margin: 0;
+}
+
+@media (min-width: 52rem) {
+  .carrao__conteudo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "topo  topo"
+      "img   ficha"
+      "cards cards";
+    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  }
+  .carrao__topo { grid-area: topo; }
+  .carrao__img { grid-area: img; }
+  .ficha { grid-area: ficha; }
+  .carrao__cards {
+    grid-area: cards;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  .card { grid-column: span 2; align-content: start; }
+  .card:nth-child(n + 5) { grid-column: span 3; }
+  .card--destaque { grid-column: 1 / -1; }
+}
+
+/* ============ Reveal (fade + slide de entrada) ============
+   Só esconde quando o JS marcou <html class="js"> e o usuário não pediu menos movimento.
+   Sem JS, ou com reduced-motion, tudo aparece direto. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 450ms ease-out, transform 450ms ease-out;
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  /* Desligar aqui as animações de entrada (fade/slide) quando existirem. */
   .botao--whatsapp:active { transform: none; }
 }

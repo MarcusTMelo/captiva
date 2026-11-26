@@ -37,11 +37,16 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 - Preço: **R$ 40.000, negociável**
 - Pagamento: **só à vista** (sem troca, sem financiamento)
 - Aceita **vistoria / laudo cautelar** por conta do comprador
-- Quilometragem: mais de 172.961 km — **número atual pendente**
+- Quilometragem: **179.044 km**
+- Motor/câmbio (confirmados pelo CRLV): **2.4 Ecotec 16V, 185 cv / 2400 cc, gasolina · automático de 6 marchas com modo manual (+/−) · tração dianteira**
+- Porta-malas **821 L** · tanque **73 L** · **5 lugares**
+- Itens: ar-condicionado, piloto automático, computador de bordo, freio de mão elétrico, engate, câmera de ré, bancos de couro com aquecimento nos dois dianteiros, ajuste lombar no banco do motorista, rádio original de fábrica
+- **NÃO tem sensor de estacionamento**
 - Consumo real: **cidade 7,2 km/l · estrada 9,7 km/l**
 - Donos: **3 ou mais** — assumir com humor ("passou por várias mãos, todas cuidaram"), sempre ao lado do histórico de manutenção
 - Onde ver: **Águas Claras, Brasília/DF**
 - Final da placa: não divulgar por enquanto
+- **Placa, chassi, RENAVAM e dados do proprietário nunca entram no site nem no repo.**
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
 
 ## 5. Regras técnicas
