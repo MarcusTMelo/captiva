@@ -1,34 +1,41 @@
-/* Captiva v3 */
+/* Captiva v3 — o site é o folder ganhando vida */
 
-/* Paleta — direção visual: POSTO DE GASOLINA RETRÔ (decidida em 25/11/2026).
+/* Fonte do título: Lilita One (SIL OFL 1.1), hospedada no repo — ver fonts/OFL.txt */
+@font-face {
+  font-family: "Lilita One";
+  src: url("fonts/lilita-one.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Paleta — medida em _referencia/folder.png (mediana dos pixels de cada elemento).
    Contraste (WCAG):
-     branco / verde-posto ........ 5.43:1  (AA texto normal)
-     amarelo / verde-posto ....... 3.69:1  (SÓ texto grande ≥ 24px bold — usado só no h1)
-     verde-escuro / amarelo ...... 5.69:1  (etiqueta do modelo)
-     amarelo / visor ............. 12.84:1
-     branco / visor .............. 18.88:1
-     branco / vermelho ........... 4.51:1  (#E8322A dava 4.27:1 → escurecido para #E13029)
-     anel amarelo / verde-posto .. 3.69:1  (indicador de foco, não-texto ≥ 3:1) */
+     azul-marinho / creme ....... 16.69:1
+     verde-oliva / creme ......... 7.65:1
+     branco / verde-oliva ........ 8.83:1  (botão, etiqueta)
+     amarelo / azul-marinho ..... 12.62:1  (dígitos do visor)
+     branco / azul-marinho ...... 19.26:1  (rótulos do visor)
+     título sobre contorno branco: azul 19.26:1 · oliva 8.83:1
+     anel de foco: amarelo/creme dá só 1.32:1 → anel amarelo SEMPRE com halo azul-marinho (16.69:1) */
 :root {
-  --verde-posto: #0F7A3A;  /* fundo do hero */
-  --verde-escuro: #0A5A2A;
-  --amarelo: #FFD000;
-  --vermelho: #E13029;     /* pedido: #E8322A; escurecido p/ branco passar 4.5:1 */
-  --visor: #111111;
+  --creme: #F9EDDE;         /* rodapé do folder (pedido #F7EFE2, medido #F9EDDE) */
+  --azul-marinho: #040F1C;  /* "TÔ VENDENDO…" (pedido #0E1A26, medido #040F1C) */
+  --verde-oliva: #3C5113;   /* "QUER COMPRAR?" (pedido #4A6B1F, medido #3C5113) */
+  --oliva-escuro: #2B3B0E;  /* verde-oliva escurecido ~30% (no folder só existe como sombra) */
+  --amarelo-estrela: #FCCB42; /* estrelinhas (pedido #F5C518, medido #FCCB42) */
   --branco: #FFFFFF;
-  --creme: #FFF6E5;        /* reservado para as próximas seções */
 
   --fonte: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fonte-titulo: "Lilita One", system-ui, sans-serif;
   --fonte-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --fs-pequeno: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem);
-  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
-  /* 10vw garante "QUER COMPRAR?" numa linha até em 320px; teto de 5rem no desktop */
-  --fs-h1: clamp(1.75rem, 10vw, 5rem);
-  --fs-preco: clamp(2.5rem, 1.9rem + 3vw, 4rem);
+  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+  --fs-h1: clamp(2rem, 10.5vw, 4.5rem);
+  --fs-preco: clamp(2.2rem, 1.8rem + 2vw, 3.2rem);
 
   --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
-  --raio: 0.5rem;
-  --faixa: 4.5rem;          /* altura da faixa listrada da base do hero */
+  --raio: 0.75rem;
 }
 
 /* Reset mínimo */
@@ -56,7 +63,7 @@ img {
 
 body {
   background: var(--creme);
-  color: var(--visor);
+  color: var(--azul-marinho);
   font-family: var(--fonte);
   font-size: var(--fs-base);
   line-height: 1.5;
@@ -64,61 +71,51 @@ body {
 }
 
 :focus-visible {
-  outline: 3px solid var(--amarelo);
-  outline-offset: 3px;
+  outline: 3px solid var(--amarelo-estrela);
+  outline-offset: 0;
+  box-shadow: 0 0 0 6px var(--azul-marinho); /* halo: amarelo sozinho some no creme */
 }
 
-/* ============ 1. #hero — posto de gasolina retrô ============ */
+/* ============ 1. #hero ============ */
 #hero {
-  position: relative;
-  background: var(--verde-posto);
-  color: var(--branco);
-  /* espaço embaixo = metade da faixa: o carro "estaciona" com as rodas dentro dela */
-  padding: clamp(1rem, 0.8rem + 1.5vw, 2.5rem) var(--gutter) calc(var(--faixa) * 0.45);
-  overflow: hidden;
+  overflow: hidden; /* rabiscos/estrelas nunca geram rolagem lateral */
 }
 
-/* Faixa de listras horizontais da cobertura do posto */
-#hero::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: var(--faixa);
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--amarelo) 0 0.75rem,
-    var(--vermelho) 0.75rem 1.5rem,
-    var(--branco) 1.5rem 2.25rem
-  );
-}
-
-.hero__conteudo {
-  position: relative;
-  z-index: 1; /* acima da faixa */
+.hero__topo {
   display: grid;
-  gap: 1rem;
-  max-width: 72rem;
-  margin-inline: auto;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: clamp(0.9rem, 0.6rem + 1.5vw, 1.75rem) var(--gutter) 0;
+  text-align: center;
 }
 
 .hero__modelo {
-  display: inline-block;
-  background: var(--amarelo);
-  color: var(--verde-escuro);
+  background: var(--verde-oliva);
+  color: var(--branco);
   font-size: var(--fs-pequeno);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.3;
-  padding: 0.3em 0.65em;
-  border-radius: 0.3rem;
+  padding: 0.3em 0.9em;
+  border-radius: 999px;
 }
 
+.hero__titulo-wrap {
+  position: relative;
+  padding-inline: clamp(1.4rem, 1rem + 3vw, 4.5rem); /* espaço dos rabiscos */
+}
+
+/* Título "adesivo": contorno branco grosso por trás + sombra suave */
 #hero h1 {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
   font-size: var(--fs-h1);
-  font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: -0.01em;
+  line-height: 0.98;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
-  margin-top: 0.6rem;
+  color: var(--azul-marinho);
+  -webkit-text-stroke: 0.16em var(--branco);
+  paint-order: stroke fill;
+  text-shadow: 0 0.06em 0.12em rgb(4 15 28 / 0.28);
 }
 
 .hero__linha {
@@ -127,13 +124,74 @@ body {
 }
 
 .hero__pergunta {
-  color: var(--amarelo); /* 3.69:1 — ok só porque é texto grande bold */
+  color: var(--verde-oliva);
+}
+
+.rabisco,
+.estrela {
+  position: absolute;
+  pointer-events: none;
+}
+
+.rabisco {
+  width: clamp(1.4rem, 1rem + 2.5vw, 3rem);
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.rabisco--esq { left: 0; top: 0.2em; }
+.rabisco--dir { right: 0; top: 0.2em; }
+
+.estrela {
+  fill: var(--amarelo-estrela);
+  width: clamp(0.8rem, 0.6rem + 1vw, 1.4rem);
+}
+
+.estrela--1 { right: 6%; bottom: -0.6rem; }
+.estrela--2 { left: 4%; bottom: 0.2rem; width: clamp(0.6rem, 0.5rem + 0.6vw, 1rem); }
+.estrela--3 { right: 0.2rem; bottom: 40%; width: clamp(0.5rem, 0.45rem + 0.4vw, 0.8rem); }
+
+/* Cena do folder: recorte da arte, bordas se dissolvendo no creme */
+.hero__cena {
+  margin: -0.5rem auto 0;
+  width: 100%;
+}
+
+.hero__cena img {
+  width: 100%;
+  /* celular: corta as laterais pra o carro ficar maior (cena 8:3 → ~1.9:1) */
+  aspect-ratio: 1.9;
+  object-fit: cover;
+  object-position: 52% 50%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%);
+}
+
+/* Faixa da oferta: rodapé do folder, borda superior ondulada */
+.hero__faixa {
+  position: relative;
+  margin-top: -0.75rem;
+  padding: 0 var(--gutter) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.hero__onda {
+  display: block;
+  width: 100%;
+  height: clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 5;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
 }
 
 .hero__oferta {
   display: grid;
-  gap: 0.85rem;
-  align-content: start;
+  gap: 1rem;
+  max-width: 72rem;
+  margin-inline: auto;
 }
 
 .hero__sub {
@@ -142,12 +200,13 @@ body {
 
 /* Preço = visor da bomba */
 .hero__visor {
-  background: var(--visor);
-  border: 3px solid var(--amarelo);
+  background: var(--azul-marinho);
+  color: var(--branco);
   border-radius: var(--raio);
-  padding: 0.7rem 1rem 0.8rem;
+  padding: 0.75rem 1.1rem 0.85rem;
+  box-shadow: 0 0 0 3px var(--branco), 0 6px 16px rgb(4 15 28 / 0.22);
   justify-self: start;
-  min-width: min(100%, 17rem);
+  min-width: min(100%, 16rem);
 }
 
 .hero__rotulo {
@@ -161,8 +220,8 @@ body {
   font-family: var(--fonte-mono);
   font-size: var(--fs-preco);
   font-weight: 700;
-  line-height: 1.05;
-  color: var(--amarelo);
+  line-height: 1.1;
+  color: var(--amarelo-estrela);
   white-space: nowrap;
 }
 
@@ -170,11 +229,16 @@ body {
   font-weight: 600;
 }
 
-.hero__local {
-  font-size: var(--fs-pequeno);
-  margin-top: -0.25rem;
+.hero__acao {
+  display: grid;
+  gap: 0.6rem;
 }
 
+.hero__local {
+  font-size: var(--fs-pequeno);
+}
+
+/* Botão adesivo */
 .botao {
   display: flex;
   align-items: center;
@@ -182,7 +246,7 @@ body {
   gap: 0.6rem;
   min-height: 3.25rem;
   padding: 0.85rem 1.5rem;
-  border-radius: var(--raio);
+  border-radius: 999px;
   font-weight: 800;
   font-size: 1.1rem;
   text-align: center;
@@ -190,10 +254,11 @@ body {
 }
 
 .botao--whatsapp {
-  background: var(--vermelho);
+  background: var(--verde-oliva);
   color: var(--branco);
-  box-shadow: 0 5px 0 var(--visor);
-  margin-bottom: 5px; /* reserva o espaço da sombra */
+  border: 3px solid var(--branco);
+  box-shadow: 0 4px 0 var(--oliva-escuro), 0 8px 18px rgb(4 15 28 / 0.25);
+  margin-bottom: 4px;
 }
 
 .botao__icone {
@@ -201,74 +266,51 @@ body {
 }
 
 .botao--whatsapp:hover {
-  filter: brightness(1.08);
+  background: var(--oliva-escuro);
 }
 
 .botao--whatsapp:active {
-  transform: translateY(5px);
-  box-shadow: none;
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--oliva-escuro), 0 3px 8px rgb(4 15 28 / 0.2);
+}
+
+.botao--whatsapp:focus-visible {
+  box-shadow: 0 0 0 6px var(--azul-marinho);
 }
 
 .hero__link {
-  justify-self: center;
-  padding: 0.35rem;
-  color: var(--branco);
+  justify-self: start;
+  color: var(--azul-marinho);
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-.hero__link:hover {
-  color: var(--amarelo);
-}
-
-/* Carro estacionado sobre a faixa */
-.hero__vaga {
-  position: relative;
-  width: 100%;
-  max-width: 17rem; /* celular: limita a altura pra caber na 1ª tela */
-  margin-inline: auto;
-}
-
-/* Sombra elíptica difusa embaixo das rodas */
-.hero__vaga::before {
-  content: "";
-  position: absolute;
-  left: 4%;
-  right: 2%;
-  bottom: -6%;
-  height: 22%;
-  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0));
-}
-
-/* O webp tem muita margem transparente (carro ocupa x 279–1364, y 120–775 de 1600×873).
-   Recorte via CSS, sem mexer no arquivo: largura 1600/1085 e margens negativas proporcionais. */
-.hero__carro {
-  position: relative;
-  overflow: hidden;
-}
-
-.hero__carro img {
-  width: 147.47%;
-  max-width: none;
-  margin: -11.06% 0 -9.03% -25.71%;
-}
-
-/* Telas largas: título em cima, oferta à esquerda, carro à direita sobre a faixa */
+/* Telas largas: composição de folder */
 @media (min-width: 52rem) {
-  .hero__conteudo {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    grid-template-areas:
-      "texto  texto"
-      "oferta vaga";
-    column-gap: 3rem;
-    row-gap: 1.25rem;
+  .hero__cena {
+    /* cena inteira, com altura limitada pela tela pra a oferta caber na 1ª dobra */
+    width: min(100%, 72rem, calc(40svh * 8 / 3));
   }
-  .hero__texto { grid-area: texto; }
-  .hero__oferta { grid-area: oferta; padding-bottom: calc(var(--faixa) * 0.7); }
-  .hero__vaga { grid-area: vaga; align-self: end; max-width: 36rem; }
+  .hero__cena img {
+    aspect-ratio: 8 / 3;
+    /* no desktop a cena não encosta na borda da tela: dissolve as laterais também */
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+    mask-composite: intersect;
+  }
+  .hero__oferta {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  }
+  .hero__visor { justify-self: center; }
   .botao--whatsapp { justify-self: start; }
-  .hero__link { justify-self: start; padding-inline: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -14,7 +14,7 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 ## As 6 seções (ids fixos, nesta ordem)
 | # | id | Seção | Imagem-chave |
 |---|----|-------|--------------|
-| 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/beberrao-sem-fundo.webp` |
+| 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/folder-cena-{800,1600}.webp` (cena do folder, sem texto e sem QR) |
 | 2 | `carrao` | O carrão (espaço, conforto, câmbio/piloto automático, engate, ficha curta) | `img/cartoon/portas-abertas.webp` |
 | 3 | `alcoolatra` | O lado alcoólatra (confissão + consumo real) | `img/cartoon/bomba-na-boca.webp` |
 | 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` |
@@ -32,21 +32,22 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Final da placa: não divulgar
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
 
-## Paleta — posto de gasolina retrô
-Direção visual decidida em 25/11/2026. Variáveis em `:root` do `style.css`:
+## Direção visual e paleta
+**O site é o folder ganhando vida:** carro sempre dentro de cena ilustrada, título adesivo em Lilita One, creme + azul-marinho + verde-oliva, rabiscos à mão, faixa ondulada.
+
+Variáveis em `:root` do `style.css` (hex medidos em `_referencia/folder.png`):
 | Variável | Hex | Uso |
 |---|---|---|
-| `--verde-posto` | `#0F7A3A` | fundo do hero |
-| `--verde-escuro` | `#0A5A2A` | texto sobre amarelo (etiquetas) |
-| `--amarelo` | `#FFD000` | destaques, visor, anel de foco |
-| `--vermelho` | `#E13029` | botão WhatsApp (escurecido de #E8322A p/ branco passar 4.5:1) |
-| `--visor` | `#111111` | painel do preço (visor da bomba) |
-| `--branco` | `#FFFFFF` | texto sobre verde/vermelho/visor |
-| `--creme` | `#FFF6E5` | reservado para as próximas seções |
+| `--creme` | `#F9EDDE` | fundo da página e das faixas |
+| `--azul-marinho` | `#040F1C` | texto, "TÔ VENDENDO…", fundo do visor |
+| `--verde-oliva` | `#3C5113` | "QUER COMPRAR?", botão, etiquetas, rabiscos, onda |
+| `--oliva-escuro` | `#2B3B0E` | hover e sombra do botão |
+| `--amarelo-estrela` | `#FCCB42` | só estrelinhas, dígitos do visor e anel de foco |
+| `--branco` | `#FFFFFF` | contorno do título, texto sobre oliva/azul |
 
-- Amarelo sobre verde dá 3.69:1 → **só texto grande (≥ 24px bold)**.
-- Preço sempre exibido como visor de bomba (fonte mono do sistema).
-- Fontes só do sistema; nada externo.
+- Amarelo nunca é texto sobre creme (1.32:1). O anel de foco amarelo leva halo azul-marinho.
+- Título: Lilita One, caixa alta, contorno branco grosso + sombra suave. Texto corrido: fonte do sistema.
+- Fontes hospedadas no próprio repo (`fonts/*.woff2` + `fonts/OFL.txt`), nada de CDN.
 
 ## WhatsApp
 URL única do site (já codificada):

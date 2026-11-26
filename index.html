@@ -5,17 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Captiva 2011 — Tô vendendo</title>
   <meta name="description" content="Chevrolet Captiva 2011/12 à venda em Águas Claras, Brasília/DF.">
+  <link rel="preload" href="fonts/lilita-one.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
   <main>
     <section id="hero" aria-labelledby="hero-titulo">
-      <div class="hero__conteudo">
-        <div class="hero__texto">
-          <p class="hero__modelo">Chevrolet Captiva 2011/12 · 2.4 Ecotec · Automática</p>
+      <div class="hero__topo">
+        <p class="hero__modelo">Chevrolet Captiva 2011/12 · 2.4 Ecotec · Automática</p>
+
+        <div class="hero__titulo-wrap">
+          <!-- rabiscos e estrelinhas (decorativos, imitando o folder) -->
+          <svg class="rabisco rabisco--esq" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
+            <path d="M30 6 L36 16 M8 22 L26 26 M10 42 L27 34"/>
+          </svg>
+          <svg class="rabisco rabisco--dir" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
+            <path d="M10 6 L4 16 M32 22 L14 26 M30 42 L13 34"/>
+          </svg>
+          <svg class="estrela estrela--1" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg class="estrela estrela--2" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+          <svg class="estrela estrela--3" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+
           <h1 id="hero-titulo"><span class="hero__linha">Tô&nbsp;vendendo…</span> <span class="hero__linha hero__pergunta">Quer comprar?</span></h1>
         </div>
+      </div>
+
+      <div class="hero__cena">
+        <img src="img/cartoon/folder-cena-1600.webp"
+             srcset="img/cartoon/folder-cena-800.webp 800w, img/cartoon/folder-cena-1600.webp 1600w"
+             sizes="(min-width: 52rem) min(72rem, 100vw), 100vw"
+             width="1600" height="600"
+             alt="O Captiva prata em cartoon, com cara de quem já tomou umas, estacionado num posto ao entardecer, entre galões de gasolina e uma mangueira de bomba pingando."
+             fetchpriority="high">
+      </div>
+
+      <div class="hero__faixa">
+        <svg class="hero__onda" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M0 40 C 360 4, 1080 4, 1440 40"/>
+        </svg>
 
         <div class="hero__oferta">
           <p class="hero__sub">Espaço de sobra, câmbio automático e uma sede que eu não vou esconder: 7,2&nbsp;km/l na cidade.</p>
@@ -25,27 +53,19 @@
             <p class="hero__valor">R$&nbsp;40.000</p>
             <p class="hero__condicao">negociável · só à vista</p>
           </div>
-          <p class="hero__local">Pra ver em Águas Claras, Brasília/DF</p>
 
-          <a class="botao botao--whatsapp"
-             href="https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20do%20Captiva%20e%20quero%20saber%20mais%20sobre%20ele%20(inclusive%20o%20lado%20alco%C3%B3latra)."
-             target="_blank" rel="noopener">
-            <svg class="botao__icone" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
-              <path d="M3.2 20.8l1.4-4.6a8.6 8.6 0 1 1 3.3 3.2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-              <path d="M8.6 7.4c.3-.4.8-.4 1.1 0l1.1 1.8c.2.3.1.7-.1 1l-.6.6c.6 1.3 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.8 1.1c.4.3.4.8 0 1.1l-.8.8c-.6.6-1.5.7-2.3.4-2.4-1-4.3-2.9-5.3-5.3-.3-.8-.2-1.7.4-2.3z" fill="currentColor"/>
-            </svg>
-            <span>Quero ver ele de perto</span>
-          </a>
-
-          <a class="hero__link" href="#alcoolatra">Ver o lado alcoólatra dele ↓</a>
-        </div>
-
-        <div class="hero__vaga">
-          <div class="hero__carro">
-            <img src="img/cartoon/beberrao-sem-fundo.webp"
-                 width="1600" height="873"
-                 alt="Cartoon do Captiva prata com cara de quem já tomou umas: olhos pesados, bochechas coradas e um sorriso torto de satisfeito."
-                 fetchpriority="high">
+          <div class="hero__acao">
+            <a class="botao botao--whatsapp"
+               href="https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20do%20Captiva%20e%20quero%20saber%20mais%20sobre%20ele%20(inclusive%20o%20lado%20alco%C3%B3latra)."
+               target="_blank" rel="noopener">
+              <svg class="botao__icone" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                <path d="M3.2 20.8l1.4-4.6a8.6 8.6 0 1 1 3.3 3.2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M8.6 7.4c.3-.4.8-.4 1.1 0l1.1 1.8c.2.3.1.7-.1 1l-.6.6c.6 1.3 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.8 1.1c.4.3.4.8 0 1.1l-.8.8c-.6.6-1.5.7-2.3.4-2.4-1-4.3-2.9-5.3-5.3-.3-.8-.2-1.7.4-2.3z" fill="currentColor"/>
+              </svg>
+              <span>Quero ver ele de perto</span>
+            </a>
+            <p class="hero__local">Pra ver em Águas Claras, Brasília/DF</p>
+            <a class="hero__link" href="#alcoolatra">Ver o lado alcoólatra dele ↓</a>
           </div>
         </div>
       </div>

@@ -17,13 +17,13 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 - Debochado, brasiliense, autoconsciente. O carro sabe que bebe e não esconde.
 - A piada nunca esconde informação: todo exagero vem com um dado real logo depois.
 - Estilo visual: cartoon 3D (estilo animação) do Captiva com cara, misturado com fotos reais sem maquiagem.
-- Direção visual (decidida em 25 de novembro de 2026): posto de gasolina retrô. Verde posto forte, amarelo, vermelho e preto de visor de bomba; preço exibido como no visor da bomba.
+- Direção visual (decidida em 25 de novembro de 2026): o site é o folder ganhando vida: carro sempre dentro de cena ilustrada, título adesivo em Lilita One, creme + azul-marinho + verde-oliva, rabiscos à mão, faixa ondulada.
 
 ## 3. Escopo da v1 (fechado — 6 seções)
 
 | # | Seção | Promessa do folder | Conteúdo | Imagem-chave |
 |---|-------|--------------------|----------|--------------|
-| 1 | Hero | — | "Tô vendendo... Quer comprar?" + preço + WhatsApp | Carro_beberrao_sem_fundo |
+| 1 | Hero | — | "Tô vendendo... Quer comprar?" + preço + WhatsApp | Cena do folder (recorte da arte, sem texto e sem QR) |
 | 2 | O carrão | detalhes | Espaço, conforto, câmbio automático, piloto automático, engate. Ficha técnica curta | portas-abertas |
 | 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) |
 | 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros (externa, interna, detalhes) | fotos reais |
@@ -52,6 +52,7 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 - Imagens em AVIF/WebP com fallback, `loading="lazy"` abaixo da dobra, `alt` em todas.
 - Caminhos relativos; nada apontando para `dev.` em produção.
 - QR code gerado localmente (SVG), sem API de terceiros.
+- Fontes hospedadas no próprio repo (woff2 + OFL), nada de CDN.
 - Repositório: MarcusTMelo/captiva · VPS em /root/Projetos/Captiva-v3 · publica em dev, troca em produção só quando a v1 estiver pronta.
 
 ## 6. Inventário de assets (repo MarcusTMelo/captiva, branch main)
