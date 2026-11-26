@@ -17,14 +17,19 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 | 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/folder-cena-{800,1600}.webp` (cena do folder, sem texto e sem QR) | ✅ pronta |
 | 2 | `carrao` | O carrão (espaço, conforto, câmbio/piloto automático, engate, ficha curta) | `img/cartoon/portas-abertas.webp` | ✅ pronta |
 | 3 | `alcoolatra` | O lado alcoólatra (confissão + consumo real) | `img/cartoon/bomba-na-boca.webp` | ✅ pronta |
-| 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` + `img/fotos/thumbs/*.webp` | em validação (sessão 4) |
-| 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | notas fiscais + `img/recortes/*.png` | — |
+| 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` + `img/fotos/thumbs/*.webp` | ✅ pronta |
+| 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | `img/recortes/*.webp` (notas fiscais nunca entram) | em validação (sessão 5) |
 | 6 | `fim` | Fim da história (condições + WhatsApp + "Começo da sua.") | `img/cartoon/carro-no-morro.webp` | — |
 
 ### Decisões da galeria (#fotos)
 - Filtros: **Todas (76) · Por fora (27) · Por dentro (23) · Detalhes (26)**. **"lateral" entra no filtro Por fora (27)** = `externa` (20) + `lateral` (7). Por dentro = `interna`; Detalhes = `detalhes`.
 - A grade é HTML estático gerado a partir do `fotos.json` (mesma ordem; `data-cat` = fora/dentro/detalhes). Mudou o `fotos.json`, regenera a grade.
 - Miniaturas em `img/fotos/thumbs/*.webp` (480px no lado maior, qualidade 70). A AVIF grande só baixa ao abrir o visualizador.
+
+### Decisões da ficha corrida (#ficha)
+- Classes com prefixo `corrida__` / `linha-tempo` / `selo` / `polaroid` — `.ficha` já é a ficha técnica do #carrao.
+- Recortes: `img/recortes/*.webp` (lado maior 800px, qualidade 80, transparência preservada, recortados no conteúdo). Os PNG ficam no repo mas fora do HTML. Placa tarjada de preto (inclusive nos PNG).
+- Polaroids inclinam com a propriedade `rotate` (não `transform`) pra não brigar com o `.reveal`.
 
 ## Dados oficiais (não alterar, não completar)
 - Preço: **R$ 40.000, negociável**
@@ -44,6 +49,13 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Final da placa: não divulgar
 - **Placa, chassi, RENAVAM e dados do proprietário nunca entram no site nem no repo.**
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
+- Manutenção (notas disponíveis na visita; quase R$ 15 mil desde 2024, tudo com nota fiscal):
+  - **2024:** troca de óleo e filtros; válvula termostática nova.
+  - **2025:** caixa de direção nova; discos e pastilhas de freio dianteiros; amortecedor dianteiro, buchas e bieletas; 2 pneus novos, com alinhamento e balanceamento.
+  - **2026:** arrefecimento renovado (bomba d'água, válvula termostática, sensor de temperatura, tampas e cano de água); 4 velas novas; óleo sintético e todos os filtros trocados, a última vez em outubro.
+- Documentação: **IPVA 2026 pago · licenciamento 2026 feito**
+- **Regra de copy do dono:** não mencionar multas nem alienação fiduciária; o histórico de aquecimento de 2025 aparece só como "arrefecimento renovado em 2026" (resolvido, confirmado pelo dono); detalhes contados pessoalmente na visita.
+- Notas fiscais, CRLV, CPF, endereço e placa **nunca** entram no site nem no repo (nem valores por manutenção nem nomes de oficinas).
 
 ## Direção visual e paleta
 **O site é o folder ganhando vida:** carro sempre dentro de cena ilustrada, título adesivo em Lilita One, creme + azul-marinho + verde-oliva, rabiscos à mão, faixa ondulada.

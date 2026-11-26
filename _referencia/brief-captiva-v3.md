@@ -26,8 +26,8 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 | 1 | Hero | — | "Tô vendendo... Quer comprar?" + preço + WhatsApp | Cena do folder (recorte da arte, sem texto e sem QR) | ✅ pronta |
 | 2 | O carrão | detalhes | Espaço, conforto, câmbio automático, piloto automático, engate. Ficha técnica curta | portas-abertas | ✅ pronta |
 | 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) | ✅ pronta |
-| 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros: Todas (76), Por fora (27), Por dentro (23), Detalhes (26). **Decisão: "lateral" entra no filtro Por fora (27)** (externa 20 + lateral 7) | fotos reais | em validação (sessão 4) |
-| 5 | Ficha corrida | detalhes | Manutenções por ano, IPVA/licenciamento, pequenos defeitos assumidos | notas fiscais | — |
+| 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros: Todas (76), Por fora (27), Por dentro (23), Detalhes (26). **Decisão: "lateral" entra no filtro Por fora (27)** (externa 20 + lateral 7) | fotos reais | ✅ pronta |
+| 5 | Ficha corrida | detalhes | Destaque "arrefecimento renovado em 2026", linha do tempo 2024–2026, selos IPVA/licenciamento 2026, donos, marcas de uso (8 recortes em polaroid). Notas disponíveis na visita | `img/recortes/*.webp` (notas fiscais ficam fora do site) | em validação (sessão 5) |
 | 6 | Fim da história | — | Condições da venda + WhatsApp + "Começo da sua." | CarronoMorro | — |
 
 **Fora da v1** (vai para o Estacionamento): smooth scroll, pinning, cenas encadeadas, novos cartoons, versão em outro idioma, analytics.
@@ -51,6 +51,13 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 - Final da placa: não divulgar por enquanto
 - **Placa, chassi, RENAVAM e dados do proprietário nunca entram no site nem no repo.**
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
+- Manutenção (notas disponíveis na visita; quase R$ 15 mil desde 2024, tudo com nota fiscal):
+  - **2024:** troca de óleo e filtros; válvula termostática nova.
+  - **2025:** caixa de direção nova; discos e pastilhas de freio dianteiros; amortecedor dianteiro, buchas e bieletas; 2 pneus novos, com alinhamento e balanceamento.
+  - **2026:** arrefecimento renovado (bomba d'água, válvula termostática, sensor de temperatura, tampas e cano de água); 4 velas novas; óleo sintético e todos os filtros trocados, a última vez em outubro.
+- Documentação: **IPVA 2026 pago · licenciamento 2026 feito**
+- **Regra de copy do dono:** não mencionar multas nem alienação fiduciária; o histórico de aquecimento de 2025 aparece só como "arrefecimento renovado em 2026" (resolvido, confirmado pelo dono); detalhes contados pessoalmente na visita.
+- Notas fiscais, CRLV, CPF, endereço e placa **nunca** entram no site nem no repo (nem valores por manutenção nem nomes de oficinas).
 
 ## 5. Regras técnicas
 

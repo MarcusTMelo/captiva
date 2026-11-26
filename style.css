@@ -1021,6 +1021,248 @@ html.sem-rolagem {
   from { opacity: 0; }
 }
 
+/* ============ 5. #ficha ============ */
+/* Prefixo "corrida__": a classe .ficha já é a ficha técnica do #carrao */
+#ficha {
+  overflow: hidden; /* polaroids inclinadas não vazam na lateral */
+  padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
+}
+
+.corrida__conteudo {
+  display: grid;
+  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.corrida__topo {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+
+.corrida__titulo-wrap {
+  position: relative;
+  padding-right: 2.5rem; /* espaço do rabisco */
+}
+
+.corrida__rabisco {
+  right: 0;
+  top: -0.4rem;
+  width: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
+  transform: scaleX(-1);
+}
+
+.corrida__estrela {
+  right: 0.6rem;
+  bottom: -0.5rem;
+  width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
+}
+
+.corrida__abertura {
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+  max-width: 44ch;
+}
+
+.corrida__historico,
+.corrida__papelada {
+  display: grid;
+  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  align-content: start;
+}
+
+/* Linha do tempo: selo do ano em oliva, traço oliva ligando os selos */
+.linha-tempo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.25rem;
+  position: relative;
+}
+
+.linha-tempo li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.25rem 1fr;
+  column-gap: 0.9rem;
+  align-items: start;
+}
+
+/* traço: do centro de um selo até o centro do próximo */
+.linha-tempo li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: calc(4.25rem / 2 - 2px);
+  top: 1rem;
+  bottom: calc(-1.25rem - 1rem);
+  width: 4px;
+  border-radius: 2px;
+  background: var(--verde-oliva);
+}
+
+.linha-tempo__ano {
+  position: relative; /* fica por cima do traço */
+  background: var(--verde-oliva);
+  color: var(--branco);
+  font-family: var(--fonte-titulo);
+  font-size: 1.05rem;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-align: center;
+  padding: 0.5em 0;
+  border: 3px solid var(--branco);
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgb(4 15 28 / 0.15);
+}
+
+.linha-tempo__ano + p {
+  padding-top: 0.2rem;
+}
+
+/* Selos de documentação: etiqueta adesivo oliva, texto branco (8.83:1) */
+.selos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.selo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--verde-oliva);
+  color: var(--branco);
+  font-weight: 700;
+  line-height: 1.25;
+  padding: 0.7rem 0.9rem;
+  border: 3px solid var(--branco);
+  border-radius: 1rem;
+  box-shadow: 0 6px 16px rgb(4 15 28 / 0.15);
+}
+
+.selo svg {
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.corrida__donos {
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+  max-width: 44ch;
+}
+
+.corrida__marcas {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.corrida__subtitulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--verde-oliva);
+}
+
+.corrida__marcas > p {
+  max-width: 52ch;
+}
+
+/* Polaroids: cartão branco, borda grossa, legenda embaixo, inclinação alternada.
+   "rotate" (e não transform) pra somar com o slide do .reveal sem um apagar o outro. */
+.polaroids {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 0.6rem + 2vw, 2rem) clamp(0.75rem, 0.5rem + 1.5vw, 1.75rem);
+}
+
+.polaroid {
+  rotate: -2deg;
+}
+
+.polaroid:nth-child(even) {
+  rotate: 2deg;
+}
+
+.polaroid figure {
+  background: var(--branco);
+  padding: clamp(0.45rem, 0.35rem + 0.5vw, 0.75rem);
+  padding-bottom: 0;
+  border-radius: 0.2rem;
+  box-shadow: 0 8px 20px rgb(4 15 28 / 0.16);
+}
+
+.polaroid__foto {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  background: var(--creme);
+}
+
+.polaroid__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.polaroid figcaption {
+  font-size: clamp(0.82rem, 0.78rem + 0.25vw, 0.95rem);
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  padding: 0.6rem 0.2rem 0.8rem;
+  min-height: 3.4em;
+  display: grid;
+  place-items: center;
+}
+
+@media (min-width: 52rem) {
+  .corrida__conteudo {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-areas:
+      "topo      topo"
+      "historico papelada"
+      "marcas    marcas";
+    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+    row-gap: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  }
+  .corrida__topo { grid-area: topo; }
+  .corrida__historico { grid-area: historico; }
+  .corrida__papelada { grid-area: papelada; }
+  .corrida__marcas { grid-area: marcas; }
+  .polaroids { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 51.999rem) {
+  .corrida__destaque {
+    padding: 1.1rem 1.1rem 1.2rem;
+  }
+}
+
+/* Celular estreito: selos continuam lado a lado, check em cima do texto */
+@media (max-width: 25rem) {
+  .selo {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+    text-align: center;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.5rem;
+  }
+}
+
 /* ============ Reveal (fade + slide de entrada) ============
    Só esconde quando o JS marcou <html class="js"> e o usuário não pediu menos movimento.
    Sem JS, ou com reduced-motion, tudo aparece direto. */
