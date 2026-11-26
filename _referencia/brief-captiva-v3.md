@@ -16,7 +16,8 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 
 - Debochado, brasiliense, autoconsciente. O carro sabe que bebe e não esconde.
 - A piada nunca esconde informação: todo exagero vem com um dado real logo depois.
-- Estilo visual: cartoon 3D (estilo animação) do Captiva com cara, misturado com fotos reais sem maquiagem. Paleta quente de fim de tarde + verde "gasolina" do folder.
+- Estilo visual: cartoon 3D (estilo animação) do Captiva com cara, misturado com fotos reais sem maquiagem.
+- Direção visual (decidida em 25 de novembro de 2026): posto de gasolina retrô. Verde posto forte, amarelo, vermelho e preto de visor de bomba; preço exibido como no visor da bomba.
 
 ## 3. Escopo da v1 (fechado — 6 seções)
 

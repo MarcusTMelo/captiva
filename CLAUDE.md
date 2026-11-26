@@ -32,6 +32,22 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Final da placa: não divulgar
 - WhatsApp: +55 61 99902-7520, **uma única mensagem pré-preenchida**
 
+## Paleta — posto de gasolina retrô
+Direção visual decidida em 25/11/2026. Variáveis em `:root` do `style.css`:
+| Variável | Hex | Uso |
+|---|---|---|
+| `--verde-posto` | `#0F7A3A` | fundo do hero |
+| `--verde-escuro` | `#0A5A2A` | texto sobre amarelo (etiquetas) |
+| `--amarelo` | `#FFD000` | destaques, visor, anel de foco |
+| `--vermelho` | `#E13029` | botão WhatsApp (escurecido de #E8322A p/ branco passar 4.5:1) |
+| `--visor` | `#111111` | painel do preço (visor da bomba) |
+| `--branco` | `#FFFFFF` | texto sobre verde/vermelho/visor |
+| `--creme` | `#FFF6E5` | reservado para as próximas seções |
+
+- Amarelo sobre verde dá 3.69:1 → **só texto grande (≥ 24px bold)**.
+- Preço sempre exibido como visor de bomba (fonte mono do sistema).
+- Fontes só do sistema; nada externo.
+
 ## WhatsApp
 URL única do site (já codificada):
 
