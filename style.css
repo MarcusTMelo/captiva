@@ -263,16 +263,6 @@ html {
   text-align: center;
 }
 
-.hero__modelo {
-  background: var(--verde-oliva);
-  color: var(--branco);
-  font-size: var(--fs-pequeno);
-  font-weight: 700;
-  line-height: 1.3;
-  padding: 0.3em 0.9em;
-  border-radius: 999px;
-}
-
 .hero__titulo-wrap {
   position: relative;
   padding-inline: clamp(1.4rem, 1rem + 3vw, 4.5rem); /* espaço dos rabiscos */
@@ -406,7 +396,11 @@ html {
 }
 
 .hero__acao .botao {
-  padding-inline: 1rem;
+  /* sempre numa linha só, do 320px ao desktop estreito */
+  gap: 0.45rem;
+  padding-inline: 0.75rem;
+  font-size: clamp(1rem, 0.85rem + 0.6vw, 1.1rem);
+  white-space: nowrap;
 }
 
 .hero__local {
@@ -538,7 +532,7 @@ html {
   }
   .hero__sub { max-width: none; }
   .hero__oferta {
-    width: clamp(16rem, 26vw, 23rem);
+    width: clamp(17rem, 26vw, 23rem);
     max-width: none;
     margin: 0;
     padding: clamp(0.85rem, 0.5rem + 0.6vw, 1.1rem);
@@ -549,6 +543,7 @@ html {
     padding: 0.7rem 1.1rem 0.8rem;
   }
   .hero__condicao { font-size: 1rem; }
+  .hero__acao .botao { font-size: clamp(0.95rem, 0.6rem + 0.7vw, 1.1rem); }
 }
 
 /* ============ Faixa de ícones (destaques) ============
@@ -558,7 +553,8 @@ html {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* auto: a coluna do "Ar‑condicionado" pega o espaço que precisa, o resto divide a sobra */
+  grid-template-columns: repeat(4, auto);
   width: calc(100% - 2 * var(--gutter));
   max-width: 72rem;
   margin: calc(-1 * var(--sobreposicao-destaques, 1rem)) auto 0;
@@ -606,6 +602,11 @@ html {
   overflow-wrap: break-word;
 }
 
+.destaque .destaque__longo {
+  white-space: nowrap; /* "Ar‑condicionado" (U+2011) nunca quebra no hífen */
+  font-size: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
+}
+
 .destaque span {
   font-size: clamp(0.68rem, 0.6rem + 0.35vw, 0.82rem);
   color: var(--verde-oliva);
@@ -614,7 +615,7 @@ html {
 @media (min-width: 52rem) {
   .destaques {
     --sobreposicao-destaques: 2rem;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(8, auto);
     padding: 0.5rem;
   }
   .destaque {
