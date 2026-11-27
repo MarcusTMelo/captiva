@@ -36,6 +36,8 @@
 
   --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
   --raio: 0.75rem;
+  --barra: 3.5rem;                                 /* altura da barra superior (máx. 56px) */
+  --pad-secao: clamp(2.5rem, 2rem + 3vw, 5rem);    /* respiro vertical das seções 2–6 */
 }
 
 /* Reset mínimo */
@@ -76,16 +78,188 @@ body {
   box-shadow: 0 0 0 6px var(--azul-marinho); /* halo: amarelo sozinho some no creme */
 }
 
-/* ============ 1. #hero ============ */
+/* ============ Barra superior ============
+   Barra fixa no topo (sticky) é permitida; pinning de cenas e scroll-jacking, não.
+   A altura (--barra) é descontada no pouso das âncoras: html usa scroll-padding-top
+   e cada seção desconta o próprio padding no scroll-margin-top. */
+html {
+  scroll-padding-top: var(--barra);
+}
+
+/* Âncoras (barra e "Ver o lado alcoólatra dele ↓") aterrissam com etiqueta + h2
+   inteiros logo abaixo da barra, sem a folga do padding da seção */
+#carrao,
+#alcoolatra,
+#fotos,
+#ficha,
+#fim {
+  scroll-margin-top: calc(0.75rem - var(--pad-secao));
+}
+
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgb(249 237 222 / 0.96); /* creme quase opaco */
+  box-shadow: 0 1px 0 rgb(4 15 28 / 0.08), 0 4px 14px rgb(4 15 28 / 0.1);
+}
+
+.barra__conteudo {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 0.4rem + 1.5vw, 1.75rem);
+  height: var(--barra);
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.barra__marca {
+  display: grid;
+  min-width: 0;
+  margin-right: auto;
+  color: var(--azul-marinho);
+  text-decoration: none;
+  line-height: 1.1;
+}
+
+.barra__nome {
+  font-family: var(--fonte-titulo);
+  font-size: 1.2rem;
+  letter-spacing: 0.01em;
+}
+
+.barra__versao {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--verde-oliva);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barra__nav {
+  display: none; /* celular: só marca + botão */
+}
+
+.barra__nav ul {
+  display: flex;
+  gap: clamp(0.5rem, 0.1rem + 1.2vw, 1.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.barra__nav a {
+  display: block;
+  padding: 0.5rem 0.25rem;
+  color: var(--azul-marinho);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.barra__nav a:hover {
+  color: var(--verde-oliva);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+
+/* Celular: botão redondo de 44px só com o ícone (nome vem do aria-label) */
+.barra__whatsapp {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--verde-oliva);
+  color: var(--branco);
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 3px 0 var(--oliva-escuro);
+}
+
+.barra__whatsapp:hover {
+  background: var(--oliva-escuro);
+}
+
+.barra__whatsapp:focus-visible {
+  box-shadow: 0 0 0 6px var(--azul-marinho);
+}
+
+.barra__whatsapp-texto {
+  display: none;
+}
+
+@media (min-width: 52rem) {
+  .barra__nav { display: block; }
+}
+
+@media (min-width: 64rem) {
+  .barra__whatsapp {
+    width: auto;
+    padding: 0 1.1rem 0 0.9rem;
+  }
+  .barra__whatsapp-texto { display: inline; }
+}
+
+/* ============ 1. #hero ============
+   Cena de Brasília em tela cheia; textos e oferta por cima, carro sempre livre.
+   Medidas da arte (pra o enquadramento):
+     desktop 1.6745:1 — carro em x 28.5–58.5 %, y 54–82 %
+     celular 0.4927:1 — carro em x 25–80 %,    y 67–83 % */
 #hero {
+  --onda: clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
+  --sobreposicao: 1rem;            /* quanto a faixa de ícones sobe no hero */
+  /* celular: a cena sobe um pouco e deixa um "chão" de grama pro painel do preço */
+  --chao: max(0px, 18rem - 35vw);
+  position: relative;
+  display: flex;
   overflow: hidden; /* rabiscos/estrelas nunca geram rolagem lateral */
+  height: calc(100vh - var(--barra));
+  height: calc(100svh - var(--barra));
+  min-height: 40rem; /* telas baixas (320×640): o hero passa um pouco da dobra em vez de cobrir o carro */
+  background: #506712; /* grama da base da cena (média medida) */
+}
+
+.hero__cena {
+  position: absolute;
+  inset: 0 0 var(--chao);
+}
+
+.hero__cena img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 100%;
+  /* a base da cena se dissolve no chão de grama */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent);
+}
+
+.hero__conteudo {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: clamp(0.75rem, 0.5rem + 1.5vw, 1.75rem) var(--gutter)
+           calc(var(--onda) + var(--sobreposicao) + 0.5rem);
 }
 
 .hero__topo {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); /* etiqueta e cartão quebram linha em vez de esticar a coluna */
   justify-items: center;
-  gap: 0.6rem;
-  padding: clamp(0.9rem, 0.6rem + 1.5vw, 1.75rem) var(--gutter) 0;
+  gap: 0.5rem;
   text-align: center;
 }
 
@@ -141,6 +315,11 @@ body {
   stroke-linecap: round;
 }
 
+/* sobre a cena, o rabisco ganha contorno branco de adesivo pra não sumir nas árvores */
+#hero .rabisco {
+  filter: drop-shadow(0 0 1.5px var(--branco)) drop-shadow(0 0 1.5px var(--branco));
+}
+
 .rabisco--esq { left: 0; top: 0.2em; }
 .rabisco--dir { right: 0; top: 0.2em; }
 
@@ -153,49 +332,36 @@ body {
 .estrela--2 { left: 4%; bottom: 0.2rem; width: clamp(0.6rem, 0.5rem + 0.6vw, 1rem); }
 .estrela--3 { right: 0.2rem; bottom: 40%; width: clamp(0.5rem, 0.45rem + 0.4vw, 0.8rem); }
 
-/* Cena do folder: recorte da arte, bordas se dissolvendo no creme */
-.hero__cena {
-  margin: -0.5rem auto 0;
-  width: 100%;
-}
-
-.hero__cena img {
-  width: 100%;
-  /* celular: corta as laterais pra o carro ficar maior (cena 8:3 → ~1.9:1) */
-  aspect-ratio: 1.9;
-  object-fit: cover;
-  object-position: 52% 50%;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%);
-}
-
-/* Faixa da oferta: rodapé do folder, borda superior ondulada */
-.hero__faixa {
-  position: relative;
-  margin-top: -0.75rem;
-  padding: 0 var(--gutter) clamp(1.5rem, 1rem + 2vw, 2.5rem);
-}
-
-.hero__onda {
-  display: block;
-  width: 100%;
-  height: clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
-  fill: none;
-  stroke: var(--verde-oliva);
-  stroke-width: 5;
-  vector-effect: non-scaling-stroke;
-  stroke-linecap: round;
-}
-
-.hero__oferta {
+/* Subtítulo + link: cartão creme por cima do céu (contraste garantido pelo cartão) */
+.hero__nota {
   display: grid;
-  gap: 1rem;
-  max-width: 72rem;
-  margin-inline: auto;
+  justify-items: center;
+  gap: 0.2rem;
+  max-width: 24rem;
+  padding: 0.5rem 0.9rem 0.55rem;
+  border-radius: 1rem;
+  background: rgb(249 237 222 / 0.94);
+  box-shadow: 0 4px 14px rgb(4 15 28 / 0.18);
+  font-size: 0.92rem;
+  line-height: 1.4;
 }
 
 .hero__sub {
   max-width: 40ch;
+  text-wrap: pretty;
+}
+
+/* Oferta: painel creme arredondado sobre a grama (celular) / à direita (desktop) */
+.hero__oferta {
+  display: grid;
+  gap: 0.7rem;
+  width: 100%;
+  max-width: 24rem;
+  margin-inline: auto;
+  padding: 0.65rem;
+  border-radius: 1.25rem;
+  background: rgb(249 237 222 / 0.96);
+  box-shadow: 0 6px 20px rgb(4 15 28 / 0.28);
 }
 
 /* Visor da bomba — componente reutilizável (hero: preço; #alcoolatra: consumo) */
@@ -225,21 +391,39 @@ body {
 
 /* Preço = visor da bomba */
 .hero__visor {
-  justify-self: start;
-  min-width: min(100%, 16rem);
+  --visor-fs: clamp(1.9rem, 1.5rem + 2vw, 2.4rem);
+  padding: 0.5rem 0.95rem 0.55rem;
 }
 
 .hero__condicao {
   font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .hero__acao {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.45rem;
+}
+
+.hero__acao .botao {
+  padding-inline: 1rem;
 }
 
 .hero__local {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
   font-size: var(--fs-pequeno);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.hero__pino {
+  flex: none;
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 2.2;
 }
 
 /* Botão adesivo */
@@ -283,38 +467,169 @@ body {
 }
 
 .hero__link {
-  justify-self: start;
   color: var(--azul-marinho);
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-/* Telas largas: composição de folder */
+/* Base do hero: a faixa ondulada do folder (creme por baixo, linha oliva em cima) */
+.hero__onda {
+  position: absolute;
+  inset: auto 0 -1px;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: var(--onda);
+}
+
+.hero__onda-fundo {
+  fill: var(--creme);
+}
+
+.hero__onda-linha {
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 5;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+
+/* Telas largas: título no céu à esquerda, oferta num painel à direita */
 @media (min-width: 52rem) {
-  .hero__cena {
-    /* cena inteira, com altura limitada pela tela pra a oferta caber na 1ª dobra */
-    width: min(100%, 72rem, calc(40svh * 8 / 3));
+  #hero {
+    --sobreposicao: 2rem;
+    --chao: 0px;
+    --fs-h1: clamp(2.4rem, 0.5rem + 4.4vw, 5rem);
+    /* ~min(92svh, 860px); em telas muito largas cresce um pouco (49vw) pra não
+       decapitar a Torre, e nunca passa da proporção da arte (62.5vw) */
+    height: min(92vh, max(860px, 49vw), 62.5vw);
+    height: min(92svh, max(860px, 49vw), 62.5vw);
+    min-height: 30rem;
   }
   .hero__cena img {
-    aspect-ratio: 8 / 3;
-    /* no desktop a cena não encosta na borda da tela: dissolve as laterais também */
-    -webkit-mask-image:
-      linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%),
-      linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%),
-      linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
-    mask-composite: intersect;
+    object-position: 50% 55%; /* corta mais céu que grama: a base do carro fica longe da faixa */
+    -webkit-mask-image: none;
+    mask-image: none;
   }
+  .hero__conteudo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 2rem;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-top: clamp(1rem, 2.5svh, 2.75rem);
+  }
+  .hero__topo {
+    justify-items: start;
+    text-align: left;
+    gap: 0.65rem;
+  }
+  .hero__titulo-wrap {
+    margin-left: -0.75rem;
+    padding-inline: clamp(1.6rem, 0.6rem + 2.4vw, 3.4rem);
+  }
+  .hero__nota {
+    justify-items: start;
+    max-width: 30rem;
+    padding: 0.65rem 1rem 0.7rem;
+    font-size: var(--fs-base);
+  }
+  .hero__sub { max-width: none; }
   .hero__oferta {
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: center;
-    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+    width: clamp(16rem, 26vw, 23rem);
+    max-width: none;
+    margin: 0;
+    padding: clamp(0.85rem, 0.5rem + 0.6vw, 1.1rem);
+    gap: 0.9rem;
   }
-  .hero__visor { justify-self: center; }
-  .botao--whatsapp { justify-self: start; }
+  .hero__visor {
+    --visor-fs: clamp(1.9rem, 0.9rem + 2.4vw, 2.9rem);
+    padding: 0.7rem 1.1rem 0.8rem;
+  }
+  .hero__condicao { font-size: 1rem; }
+}
+
+/* ============ Faixa de ícones (destaques) ============
+   Barra creme clara que sobe um pouco sobre a base do hero.
+   Celular: grade 4 × 2. Desktop: 8 colunas com divisórias finas. */
+.destaques {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: calc(100% - 2 * var(--gutter));
+  max-width: 72rem;
+  margin: calc(-1 * var(--sobreposicao-destaques, 1rem)) auto 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: #FFF8EE; /* creme clarinho */
+  border-radius: 1rem;
+  box-shadow: 0 0 0 1px rgb(60 81 19 / 0.12), 0 8px 22px rgb(4 15 28 / 0.14);
+}
+
+.destaque {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 0.05rem;
+  padding: 0.55rem 0.15rem 0.6rem;
+  text-align: center;
+  line-height: 1.15;
+}
+
+/* divisórias finas: entre colunas e entre as duas linhas */
+.destaque:not(:nth-child(4n + 1)) {
+  border-left: 1px solid rgb(60 81 19 / 0.18);
+}
+
+.destaque:nth-child(n + 5) {
+  border-top: 1px solid rgb(60 81 19 / 0.18);
+}
+
+.destaque__icone {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-bottom: 0.2rem;
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.destaque strong {
+  font-size: clamp(0.78rem, 0.62rem + 0.75vw, 1rem);
+  font-weight: 800;
+  color: var(--azul-marinho);
+  overflow-wrap: break-word;
+}
+
+.destaque span {
+  font-size: clamp(0.68rem, 0.6rem + 0.35vw, 0.82rem);
+  color: var(--verde-oliva);
+}
+
+@media (min-width: 52rem) {
+  .destaques {
+    --sobreposicao-destaques: 2rem;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    padding: 0.5rem;
+  }
+  .destaque {
+    padding: 0.7rem 0.35rem 0.75rem;
+  }
+  .destaque + .destaque {
+    border-left: 1px solid rgb(60 81 19 / 0.18);
+  }
+  .destaque:nth-child(n + 5) {
+    border-top: 0;
+  }
+  .destaque__icone {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
 }
 
 /* ============ Componentes compartilhados (seções 2+) ============ */
@@ -582,8 +897,6 @@ body {
 #alcoolatra {
   overflow: hidden;
   padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
-  /* link do hero (#alcoolatra) aterrissa com etiqueta + h2 inteiros no topo, sem a folga do padding */
-  scroll-margin-top: calc(-1 * clamp(2.5rem, 2rem + 3vw, 5rem) + 0.75rem);
 }
 
 .alcool__conteudo {

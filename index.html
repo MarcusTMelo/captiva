@@ -10,44 +10,75 @@
   <script src="script.js" defer></script>
 </head>
 <body>
+  <header class="barra">
+    <div class="barra__conteudo">
+      <a class="barra__marca" href="#hero">
+        <span class="barra__nome">Chevrolet Captiva</span>
+        <span class="barra__versao">2011/12 · 2.4 Ecotec · Automática</span>
+      </a>
+
+      <nav class="barra__nav" aria-label="Seções">
+        <ul role="list">
+          <li><a href="#carrao">O carrão</a></li>
+          <li><a href="#alcoolatra">Lado alcoólatra</a></li>
+          <li><a href="#fotos">Fotos</a></li>
+          <li><a href="#ficha">Manutenção</a></li>
+        </ul>
+      </nav>
+
+      <a class="barra__whatsapp"
+         href="https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20do%20Captiva%20e%20quero%20saber%20mais%20sobre%20ele%20(inclusive%20o%20lado%20alco%C3%B3latra)."
+         target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+        <svg class="botao__icone" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <path d="M3.2 20.8l1.4-4.6a8.6 8.6 0 1 1 3.3 3.2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M8.6 7.4c.3-.4.8-.4 1.1 0l1.1 1.8c.2.3.1.7-.1 1l-.6.6c.6 1.3 1.6 2.3 2.9 2.9l.6-.6c.3-.3.7-.3 1-.1l1.8 1.1c.4.3.4.8 0 1.1l-.8.8c-.6.6-1.5.7-2.3.4-2.4-1-4.3-2.9-5.3-5.3-.3-.8-.2-1.7.4-2.3z" fill="currentColor"/>
+        </svg>
+        <span class="barra__whatsapp-texto">Falar no WhatsApp</span>
+      </a>
+    </div>
+  </header>
+
   <main>
     <section id="hero" aria-labelledby="hero-titulo">
-      <div class="hero__topo">
-        <p class="hero__modelo">Chevrolet Captiva 2011/12 · 2.4 Ecotec · Automática</p>
-
-        <div class="hero__titulo-wrap">
-          <!-- rabiscos e estrelinhas (decorativos, imitando o folder) -->
-          <svg class="rabisco rabisco--esq" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
-            <path d="M30 6 L36 16 M8 22 L26 26 M10 42 L27 34"/>
-          </svg>
-          <svg class="rabisco rabisco--dir" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
-            <path d="M10 6 L4 16 M32 22 L14 26 M30 42 L13 34"/>
-          </svg>
-          <svg class="estrela estrela--1" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-          <svg class="estrela estrela--2" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-          <svg class="estrela estrela--3" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-
-          <h1 id="hero-titulo"><span class="hero__linha">Tô&nbsp;vendendo…</span> <span class="hero__linha hero__pergunta">Quer comprar?</span></h1>
-        </div>
-      </div>
-
-      <div class="hero__cena">
-        <img src="img/cartoon/folder-cena-1600.webp"
-             srcset="img/cartoon/folder-cena-800.webp 800w, img/cartoon/folder-cena-1600.webp 1600w"
-             sizes="(min-width: 52rem) min(72rem, 100vw), 100vw"
-             width="1600" height="600"
-             alt="O Captiva prata em cartoon, com cara de quem já tomou umas, estacionado num posto ao entardecer, entre galões de gasolina e uma mangueira de bomba pingando."
+      <picture class="hero__cena">
+        <source media="(max-width: 51.99rem)"
+                srcset="img/cartoon/brasilia-mobile-720.webp 720w, img/cartoon/brasilia-mobile-1080.webp 1080w"
+                sizes="100vw"
+                width="1080" height="2192">
+        <img src="img/cartoon/brasilia-desktop-1920.webp"
+             srcset="img/cartoon/brasilia-desktop-1280.webp 1280w, img/cartoon/brasilia-desktop-1920.webp 1920w"
+             sizes="100vw"
+             width="1920" height="1147"
+             alt="O Captiva prata em cartoon, todo sorridente num gramado de Brasília, com a Torre de TV ao fundo e, claro, um posto logo ali do lado."
              fetchpriority="high">
-      </div>
+      </picture>
 
-      <div class="hero__faixa">
-        <svg class="hero__onda" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path d="M0 40 C 360 4, 1080 4, 1440 40"/>
-        </svg>
+      <div class="hero__conteudo">
+        <div class="hero__topo">
+          <p class="hero__modelo">Chevrolet Captiva 2011/12 · 2.4 Ecotec · Automática</p>
+
+          <div class="hero__titulo-wrap">
+            <!-- rabiscos e estrelinhas (decorativos, imitando o folder) -->
+            <svg class="rabisco rabisco--esq" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
+              <path d="M30 6 L36 16 M8 22 L26 26 M10 42 L27 34"/>
+            </svg>
+            <svg class="rabisco rabisco--dir" viewBox="0 0 40 48" aria-hidden="true" focusable="false">
+              <path d="M10 6 L4 16 M32 22 L14 26 M30 42 L13 34"/>
+            </svg>
+            <svg class="estrela estrela--1" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+            <svg class="estrela estrela--2" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+            <svg class="estrela estrela--3" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+
+            <h1 id="hero-titulo"><span class="hero__linha">Tô&nbsp;vendendo…</span> <span class="hero__linha hero__pergunta">Quer comprar?</span></h1>
+          </div>
+
+          <div class="hero__nota">
+            <p class="hero__sub">Espaço de sobra, câmbio automático e uma sede que eu não vou esconder: 7,2&nbsp;km/l na cidade.</p>
+            <a class="hero__link" href="#alcoolatra">Ver o lado alcoólatra dele ↓</a>
+          </div>
+        </div>
 
         <div class="hero__oferta">
-          <p class="hero__sub">Espaço de sobra, câmbio automático e uma sede que eu não vou esconder: 7,2&nbsp;km/l na cidade.</p>
-
           <div class="visor hero__visor">
             <p class="visor__rotulo">Total a pagar</p>
             <p class="visor__valor">R$&nbsp;40.000</p>
@@ -64,12 +95,55 @@
               </svg>
               <span>Quero ver ele de perto</span>
             </a>
-            <p class="hero__local">Pra ver em Águas Claras, Brasília/DF</p>
-            <a class="hero__link" href="#alcoolatra">Ver o lado alcoólatra dele ↓</a>
+            <p class="hero__local">
+              <svg class="hero__pino" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M12 21.5s-6.8-6.3-6.8-11.3a6.8 6.8 0 0 1 13.6 0c0 5-6.8 11.3-6.8 11.3z"/><circle cx="12" cy="10" r="2.4"/></svg>
+              Pra ver em Águas Claras, Brasília/DF
+            </p>
           </div>
         </div>
       </div>
+
+      <!-- base do hero: a faixa ondulada do folder -->
+      <svg class="hero__onda" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="hero__onda-fundo" d="M0 40 C 360 4, 1080 4, 1440 40 L1440 48 L0 48 Z"/>
+        <path class="hero__onda-linha" d="M0 40 C 360 4, 1080 4, 1440 40"/>
+      </svg>
     </section>
+
+    <ul class="destaques" aria-label="Destaques do carro" role="list">
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.5 11v5M2.5 13.5H5M5 9.5h3.5V7h6v2.5H17l2 2.5h2.5v3.5H19L17 18H8.5L5 15z"/><path d="M9.5 7V4.8h4V7"/></svg>
+        <strong>2.4 Ecotec</strong><span>Motor</span>
+      </li>
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 17a8.5 8.5 0 1 1 17 0"/><path d="M12 17l4.6-5.2"/><circle cx="12" cy="17" r="1.3"/><path d="M6 17h1.5M16.5 17H18M12 8.5V10"/></svg>
+        <strong>185 cv</strong><span>Potência</span>
+      </li>
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6v12M12 6v12M18 6v6H6"/><circle cx="6" cy="5" r="1.6"/><circle cx="12" cy="5" r="1.6"/><circle cx="18" cy="5" r="1.6"/><circle cx="6" cy="19" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+        <strong>Automático</strong><span>6 marchas</span>
+      </li>
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="8" width="17" height="11.5" rx="2"/><path d="M9 8V5.2h6V8M8 8v11.5M16 8v11.5"/></svg>
+        <strong>821 L</strong><span>Porta-malas</span>
+      </li>
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><circle cx="16.8" cy="9" r="2.4"/><path d="M15.4 13.6a4.6 4.6 0 0 1 5.6 5.9"/></svg>
+        <strong>5</strong><span>Lugares</span>
+      </li>
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.2"/><path d="M3.8 10.6L9.9 12M14.1 12l6.1-1.4M12 14.2v6.3"/></svg>
+        <strong>Piloto</strong><span>automático</span>
+      </li>
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M9.5 4.6L12 7l2.5-2.4M9.5 19.4L12 17l2.5 2.4"/></svg>
+        <strong>Ar-condicionado</strong><span>gelando</span>
+      </li>
+      <li class="destaque">
+        <svg class="destaque__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 4.5c-1.2 0-1.9.9-1.7 2.1L6.4 15H14"/><path d="M6.4 15l-.6 4.5h8.4l.6-4.5"/><path d="M11 11h4"/><path d="M17.5 4.5c-1.1 1.2 1.1 2.4 0 3.6s1.1 2.4 0 3.6M21 4.5c-1.1 1.2 1.1 2.4 0 3.6s1.1 2.4 0 3.6"/></svg>
+        <strong>Couro</strong><span>com aquecimento</span>
+      </li>
+    </ul>
 
     <section id="carrao" aria-labelledby="carrao-titulo">
       <div class="carrao__conteudo">

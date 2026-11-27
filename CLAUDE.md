@@ -15,12 +15,17 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 ## As 6 seções (ids fixos, nesta ordem)
 | # | id | Seção | Imagem-chave | Status |
 |---|----|-------|--------------|--------|
-| 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/folder-cena-{800,1600}.webp` (cena do folder, sem texto e sem QR) | ✅ pronta |
+| 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/brasilia-desktop-{1280,1920}.webp` + `brasilia-mobile-{720,1080}.webp` (cena de Brasília com a Torre de TV, full-bleed; `folder-cena` saiu do hero mas fica no repo) | ✅ pronta (layout novo, sessão A) |
 | 2 | `carrao` | O carrão (espaço, conforto, câmbio/piloto automático, engate, ficha curta) | `img/cartoon/portas-abertas.webp` | ✅ pronta |
 | 3 | `alcoolatra` | O lado alcoólatra (confissão + consumo real) | `img/cartoon/bomba-na-boca.webp` | ✅ pronta |
 | 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` + `img/fotos/thumbs/*.webp` | ✅ pronta |
 | 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | `img/recortes/*.webp` (notas fiscais nunca entram) | ✅ pronta |
 | 6 | `fim` | Fim da história (condições + WhatsApp + "Começo da sua.") | `img/cartoon/carro-no-morro{-800,}.webp` + `img/qr-whatsapp.svg` | em validação (sessão 6) |
+
+### Decisões do layout novo (barra + hero + faixa de ícones)
+- Barra superior fixa (`.barra`, `--barra: 3.5rem`, máx. 56px) fora do `<main>`: marca em texto (sem logo/marca registrada), âncoras #carrao/#alcoolatra/#fotos/#ficha a partir de 52rem, botão de WhatsApp (só ícone, 44px, no celular; com texto a partir de 64rem). Âncoras: `html { scroll-padding-top: var(--barra) }` + `scroll-margin-top: calc(0.75rem - var(--pad-secao))` nas seções.
+- Hero: cena de Brasília full-bleed com `<picture>` (retrato até 51.99rem). Marca do gerador de IA removida cortando 180px da borda direita das artes originais. O carro nunca fica sob texto: no celular a cena sobe (`--chao`) e o painel do preço fica sobre a grama; no desktop título à esquerda no céu e oferta num painel à direita.
+- Faixa de ícones (`ul.destaques`) entre o hero e o #carrao — não é seção. 4×2 no celular, 8 colunas a partir de 52rem.
 
 ### Decisões da galeria (#fotos)
 - Filtros: **Todas (76) · Por fora (27) · Por dentro (23) · Detalhes (26)**. **"lateral" entra no filtro Por fora (27)** = `externa` (20) + `lateral` (7). Por dentro = `interna`; Detalhes = `detalhes`.
@@ -96,7 +101,7 @@ URL única do site (já codificada):
 
 ## PROIBIDO
 - Scroll-jacking.
-- Pinning / sticky de cena.
+- Pinning / sticky de cena. (**Barra superior fixa permitida** — `<header class="barra">` com `position: sticky`; pinning de cenas e scroll-jacking continuam proibidos.)
 - Bibliotecas de smooth scroll ou scroll animation (Lenis, Locomotive, GSAP ScrollTrigger etc.).
 - Qualquer framework ou build step (nada de npm, bundler, package.json).
 - APIs de terceiros — inclusive QR code: gerar SVG local.
