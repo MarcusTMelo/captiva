@@ -24,7 +24,7 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 
 ### Decisões do layout novo (barra + hero + faixa de ícones)
 - Barra superior fixa (`.barra`, `--barra: 3.5rem`, máx. 56px) fora do `<main>`: marca em texto (sem logo/marca registrada), âncoras #carrao/#alcoolatra/#fotos/#ficha a partir de 52rem, botão de WhatsApp (só ícone, 44px, no celular; com texto a partir de 64rem). Âncoras: `html { scroll-padding-top: var(--barra) }` + `scroll-margin-top: calc(0.75rem - var(--pad-secao))` nas seções.
-- Hero: cena de Brasília full-bleed com `<picture>` (retrato até 51.99rem). Marca do gerador de IA removida cortando 180px da borda direita das artes originais. O carro nunca fica sob texto: no celular a cena sobe (`--chao`) e o painel do preço fica sobre a grama; no desktop título à esquerda no céu e oferta num painel à direita.
+- Hero: cena de Brasília full-bleed com `<picture>` (retrato até 51.99rem). Marca do gerador de IA removida cortando 180px da borda direita das artes originais. O carro nunca fica sob texto. Celular: na cena só o título (céu) e o painel do preço (grama); subtítulo + link vêm logo depois do hero, no creme; a cena sobe só o necessário (`--chao`) pra mostrar o vidro da Torre inteiro. Desktop: título no céu à esquerda (a partir de 75rem desce até logo abaixo do avião, que fica inteiro), cartão do subtítulo embaixo dele, oferta num painel à direita; enquadramento calculado em `--corte-topo`/`--corte-base`. Barra com fundo creme 100% opaco.
 - Faixa de ícones (`ul.destaques`) entre o hero e o #carrao — não é seção. 4×2 no celular, 8 colunas a partir de 52rem.
 
 ### Decisões da galeria (#fotos)

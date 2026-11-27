@@ -100,7 +100,7 @@ html {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgb(249 237 222 / 0.96); /* creme quase opaco */
+  background: var(--creme); /* 100% opaco: nada da página aparece por trás */
   box-shadow: 0 1px 0 rgb(4 15 28 / 0.08), 0 4px 14px rgb(4 15 28 / 0.1);
 }
 
@@ -109,7 +109,7 @@ html {
   align-items: center;
   gap: clamp(0.75rem, 0.4rem + 1.5vw, 1.75rem);
   height: var(--barra);
-  max-width: 90rem;
+  max-width: 100rem;
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
@@ -216,26 +216,33 @@ html {
      celular 0.4927:1 — carro em x 25–80 %,    y 67–83 % */
 #hero {
   --onda: clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
-  --sobreposicao: 1rem;            /* quanto a faixa de ícones sobe no hero */
-  /* celular: a cena sobe um pouco e deixa um "chão" de grama pro painel do preço */
-  --chao: max(0px, 18rem - 35vw);
+  /* altura da cena; telas baixas (320×640): passa um pouco da dobra em vez de cobrir o carro */
+  --hero-h: max(40rem, calc(100vh - var(--barra)));
+  /* celular: a cena sobe só o necessário pra o painel do preço caber na grama
+     abaixo do carro; o resto da altura vai pro céu (Torre inteira, avião se couber) */
+  --chao: max(0px, 15.75rem - 35vw);
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--hero-h) auto; /* cena | subtítulo (celular) */
   overflow: hidden; /* rabiscos/estrelas nunca geram rolagem lateral */
-  height: calc(100vh - var(--barra));
-  height: calc(100svh - var(--barra));
-  min-height: 40rem; /* telas baixas (320×640): o hero passa um pouco da dobra em vez de cobrir o carro */
-  background: #506712; /* grama da base da cena (média medida) */
+}
+
+@supports (height: 100svh) {
+  #hero { --hero-h: max(40rem, calc(100svh - var(--barra))); }
 }
 
 .hero__cena {
   position: absolute;
-  inset: 0 0 var(--chao);
+  inset: 0 0 auto;
+  display: block;
+  height: var(--hero-h);
+  background: #506712; /* grama da base da cena (média medida) */
 }
 
 .hero__cena img {
   width: 100%;
-  height: 100%;
+  height: calc(100% - var(--chao));
   object-fit: cover;
   object-position: 50% 100%;
   /* a base da cena se dissolve no chão de grama */
@@ -244,18 +251,15 @@ html {
 }
 
 .hero__conteudo {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 100%;
-  padding: clamp(0.75rem, 0.5rem + 1.5vw, 1.75rem) var(--gutter)
-           calc(var(--onda) + var(--sobreposicao) + 0.5rem);
+  display: contents; /* celular: título, painel e subtítulo são itens da grade do #hero */
 }
 
 .hero__topo {
+  grid-area: 1 / 1;
+  align-self: start;
+  position: relative;
+  z-index: 1;
+  padding: clamp(0.75rem, 0.5rem + 1.5vw, 1.75rem) var(--gutter) 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr); /* etiqueta e cartão quebram linha em vez de esticar a coluna */
   justify-items: center;
@@ -322,18 +326,19 @@ html {
 .estrela--2 { left: 4%; bottom: 0.2rem; width: clamp(0.6rem, 0.5rem + 0.6vw, 1rem); }
 .estrela--3 { right: 0.2rem; bottom: 40%; width: clamp(0.5rem, 0.45rem + 0.4vw, 0.8rem); }
 
-/* Subtítulo + link: cartão creme por cima do céu (contraste garantido pelo cartão) */
+/* Subtítulo + link. Celular: texto normal no creme, logo depois da cena.
+   Desktop: cartão creme por cima do céu (contraste garantido pelo cartão). */
 .hero__nota {
+  grid-row: 2;
+  grid-column: 1;
   display: grid;
   justify-items: center;
-  gap: 0.2rem;
-  max-width: 24rem;
-  padding: 0.5rem 0.9rem 0.55rem;
-  border-radius: 1rem;
-  background: rgb(249 237 222 / 0.94);
-  box-shadow: 0 4px 14px rgb(4 15 28 / 0.18);
-  font-size: 0.92rem;
-  line-height: 1.4;
+  gap: 0.35rem;
+  max-width: 30rem;
+  margin-inline: auto;
+  padding: 1.1rem var(--gutter) 0;
+  text-align: center;
+  line-height: 1.45;
 }
 
 .hero__sub {
@@ -343,11 +348,15 @@ html {
 
 /* Oferta: painel creme arredondado sobre a grama (celular) / à direita (desktop) */
 .hero__oferta {
+  grid-area: 1 / 1;
+  align-self: end;
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 0.7rem;
-  width: 100%;
+  width: calc(100% - 2 * var(--gutter));
   max-width: 24rem;
-  margin-inline: auto;
+  margin: 0 auto calc(var(--onda) + 0.5rem);
   padding: 0.65rem;
   border-radius: 1.25rem;
   background: rgb(249 237 222 / 0.96);
@@ -470,7 +479,8 @@ html {
 /* Base do hero: a faixa ondulada do folder (creme por baixo, linha oliva em cima) */
 .hero__onda {
   position: absolute;
-  inset: auto 0 -1px;
+  top: calc(var(--hero-h) - var(--onda) + 1px); /* base da cena, sem fresta */
+  left: 0;
   z-index: 1;
   display: block;
   width: 100%;
@@ -492,30 +502,50 @@ html {
 /* Telas largas: título no céu à esquerda, oferta num painel à direita */
 @media (min-width: 52rem) {
   #hero {
-    --sobreposicao: 2rem;
     --chao: 0px;
     --fs-h1: clamp(2.4rem, 0.5rem + 4.4vw, 5rem);
+    --pad-topo: clamp(1rem, 2.5vh, 2.75rem);
     /* ~min(92svh, 860px); em telas muito largas cresce um pouco (49vw) pra não
        decapitar a Torre, e nunca passa da proporção da arte (62.5vw) */
-    height: min(92vh, max(860px, 49vw), 62.5vw);
-    height: min(92svh, max(860px, 49vw), 62.5vw);
-    min-height: 30rem;
+    --hero-h: max(30rem, min(92vh, max(860px, 49vw), 62.5vw));
+    grid-template-rows: var(--hero-h);
+    /* Enquadramento: com a cena mais alta que o hero (altura = 59.72vw), corta de baixo
+       só a grama que sobra abaixo do carro (17% da arte = 10.15vw) menos 4.5rem de folga
+       sobre a faixa; o resto sai do topo. Assim o avião (y 10–25%) aparece inteiro. */
+    --sobra: max(0px, 59.72vw - var(--hero-h));
+    --corte-base: min(var(--sobra), max(0px, 10.15vw - 4.5rem));
+    --corte-topo: calc(var(--sobra) - var(--corte-base));
+    --aviao-base: calc(0.252 * max(var(--hero-h), 59.72vw) - var(--corte-topo));
+  }
+  @supports (height: 100svh) {
+    #hero {
+      --pad-topo: clamp(1rem, 2.5svh, 2.75rem);
+      --hero-h: max(30rem, min(92svh, max(860px, 49vw), 62.5vw));
+    }
   }
   .hero__cena img {
-    object-position: 50% 55%; /* corta mais céu que grama: a base do carro fica longe da faixa */
+    object-position: 50% calc(-1 * var(--corte-topo));
     -webkit-mask-image: none;
     mask-image: none;
   }
   .hero__conteudo {
+    grid-area: 1 / 1;
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto 1fr;
     align-items: start;
     column-gap: 2rem;
-    max-width: 90rem;
+    row-gap: 0.65rem;
+    width: 100%;
+    max-width: 100rem;
     margin-inline: auto;
-    padding-top: clamp(1rem, 2.5svh, 2.75rem);
+    padding: var(--pad-topo) var(--gutter) 0;
   }
   .hero__topo {
+    grid-area: 1 / 1;
+    padding: 0;
     justify-items: start;
     text-align: left;
     gap: 0.65rem;
@@ -525,13 +555,23 @@ html {
     padding-inline: clamp(1.6rem, 0.6rem + 2.4vw, 3.4rem);
   }
   .hero__nota {
+    grid-area: 2 / 1;
+    justify-self: start;
     justify-items: start;
+    gap: 0.2rem;
     max-width: 30rem;
+    margin: 0;
     padding: 0.65rem 1rem 0.7rem;
-    font-size: var(--fs-base);
+    text-align: left;
+    line-height: 1.4;
+    border-radius: 1rem;
+    background: rgb(249 237 222 / 0.94);
+    box-shadow: 0 4px 14px rgb(4 15 28 / 0.18);
   }
   .hero__sub { max-width: none; }
   .hero__oferta {
+    grid-area: 1 / 2 / 4 / 3;
+    align-self: start;
     width: clamp(17rem, 26vw, 23rem);
     max-width: none;
     margin: 0;
@@ -546,6 +586,15 @@ html {
   .hero__acao .botao { font-size: clamp(0.95rem, 0.6rem + 0.7vw, 1.1rem); }
 }
 
+/* Telas largas (1200px+): o título desce até logo abaixo do avião sorridente da arte
+   (x 29–47%, y 10–25%), e o cartão do subtítulo fica estreito pra não encostar no carro */
+@media (min-width: 75rem) {
+  .hero__topo {
+    margin-top: max(0px, var(--aviao-base) + 0.5rem - var(--pad-topo));
+  }
+  .hero__nota { max-width: min(21rem, 28vw - var(--gutter) - 0.75rem); } /* o carro começa em 28vw */
+}
+
 /* ============ Faixa de ícones (destaques) ============
    Barra creme clara que sobe um pouco sobre a base do hero.
    Celular: grade 4 × 2. Desktop: 8 colunas com divisórias finas. */
@@ -557,7 +606,7 @@ html {
   grid-template-columns: repeat(4, auto);
   width: calc(100% - 2 * var(--gutter));
   max-width: 72rem;
-  margin: calc(-1 * var(--sobreposicao-destaques, 1rem)) auto 0;
+  margin: 1.25rem auto 0;
   padding: 0.35rem;
   list-style: none;
   background: #FFF8EE; /* creme clarinho */
@@ -614,7 +663,7 @@ html {
 
 @media (min-width: 52rem) {
   .destaques {
-    --sobreposicao-destaques: 2rem;
+    margin-top: -2rem; /* sobe sobre a base do hero */
     grid-template-columns: repeat(8, auto);
     padding: 0.5rem;
   }
