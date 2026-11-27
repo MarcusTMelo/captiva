@@ -11,8 +11,12 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Debochado, brasiliense, autoconsciente.
 - Regra de ouro: **a piada nunca esconde informação — todo exagero vem com um dado real.**
 - **A palavra 'bebe' aparece no máximo 2 vezes no site.**
+- **A Captiva é "ela"** (decisão do dono): toda referência ao carro vai no feminino ("ela bebe", "Mimada", "Quero ver ela de perto"). Substantivos masculinos explícitos continuam masculinos ("um carro de 2011", "1.680 kg de carro", "O carrão").
+- **Linguagem inclusiva:** nada de masculino genérico para pessoas ("pessoa compradora", "quem dirige", "oficina de confiança"); nos alts, posições neutras ("banco dianteiro esquerdo", não "do motorista").
 
-## As 6 seções (ids fixos, nesta ordem)
+## As seções (ids fixos)
+Ordem na página (reestruturação, Parte 1): `hero` → faixa de ícones → `historia` (bloco autorizado pelo dono) → `carrao` → `fotos` → `alcoolatra` → `ficha` → `fim`.
+
 | # | id | Seção | Imagem-chave | Status |
 |---|----|-------|--------------|--------|
 | 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/brasilia-desktop-{1280,1920}.webp` + `brasilia-mobile-{720,1080}.webp` (cena de Brasília com a Torre de TV, full-bleed; `folder-cena` saiu do hero mas fica no repo) | ✅ pronta (layout novo, sessão A) |
@@ -94,7 +98,9 @@ Variáveis em `:root` do `style.css` (hex medidos em `_referencia/folder.png`):
 ## WhatsApp
 URL única do site (já codificada):
 
-`https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20do%20Captiva%20e%20quero%20saber%20mais%20sobre%20ele%20(inclusive%20o%20lado%20alco%C3%B3latra).`
+`https://wa.me/5561999027520?text=Oi%2C%20Marcus!%20Vi%20o%20site%20da%20Captiva%20e%20quero%20saber%20mais%20sobre%20ela%20(inclusive%20o%20lado%20alco%C3%B3latra).`
+
+Mensagem: "Oi, Marcus! Vi o site da Captiva e quero saber mais sobre ela (inclusive o lado alcoólatra)." Mudou a URL → regenera `img/qr-whatsapp.svg` (segno, nível M, margem 4, `omitsize` pra ter viewBox) e confere decodificando localmente.
 
 - **Todo botão de WhatsApp do site usa exatamente esta URL, sem variação** (nem no texto, nem nos parâmetros).
 - **Contato só por WhatsApp; o dono não atende ligação de número desconhecido; o número não aparece escrito no site** (só dentro da URL do `wa.me` e do QR).
@@ -113,7 +119,7 @@ URL única do site (já codificada):
 - Inventar dados do carro.
 - Divulgar o final da placa.
 - Mais de uma mensagem pré-preenchida no WhatsApp.
-- Seções além das 6.
+- Seções além das 6 + `#historia` (autorizada pelo dono).
 - Novos cartoons.
 
 ## Motion permitido

@@ -125,11 +125,14 @@
     dialogo.showModal();
   }
 
+  var origem = null; // miniatura da tira que abriu o visualizador (o foco volta pra ela)
+
   dialogo.addEventListener('close', function () {
     document.documentElement.classList.remove('sem-rolagem');
     // se navegou além do lote visível, revela até a foto atual para o foco ter onde voltar
     if (atual >= mostrando) mostrarAte(atual + 1);
-    linkDe(atual).focus();
+    if (origem) { origem.focus(); origem = null; }
+    else linkDe(atual).focus();
   });
 
   foto.addEventListener('load', function () { foto.style.backgroundImage = ''; });
@@ -142,6 +145,29 @@
     e.preventDefault();
     abrir(i);
   });
+
+  // Tira: a miniatura abre a mesma foto da galeria (mesmo href); se o filtro ativo
+  // não tiver essa foto, volta pra "Todas"
+  var tiraLista = secao.querySelector('[data-tira-lista]');
+  if (tiraLista) {
+    tiraLista.addEventListener('click', function (e) {
+      var a = e.target.closest('a[data-tira]');
+      if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+      var href = a.getAttribute('href');
+      function achar() {
+        for (var k = 0; k < ativos.length; k++) {
+          if (ativos[k].querySelector('a').getAttribute('href') === href) return k;
+        }
+        return -1;
+      }
+      var i = achar();
+      if (i < 0) { aplicarFiltro('todas', false); i = achar(); }
+      if (i < 0) return;
+      e.preventDefault();
+      origem = a;
+      abrir(i);
+    });
+  }
 
   dialogo.querySelector('[data-fechar]').addEventListener('click', function () { dialogo.close(); });
   dialogo.querySelector('[data-anterior]').addEventListener('click', function () { exibir(atual - 1); });
@@ -174,4 +200,56 @@
     }
   });
   palco.addEventListener('pointercancel', function () { inicioX = null; });
+})();
+
+// (d) Tira de miniaturas (#fotos): a rolagem é nativa (scroll-snap, dedo, trackpad).
+//     O JS só liga as setas ‹ › (rolam uma "página" da tira) e os pontinhos de posição.
+(function tira() {
+  var lista = document.querySelector('[data-tira-lista]');
+  if (!lista) return;
+  var ant = document.querySelector('[data-tira-ant]');
+  var prox = document.querySelector('[data-tira-prox]');
+  var pontos = document.querySelector('[data-tira-pontos]');
+  var reduzido = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function paginas() {
+    return Math.max(1, Math.ceil((lista.scrollWidth - 2) / lista.clientWidth));
+  }
+
+  function atualizar() {
+    var max = lista.scrollWidth - lista.clientWidth;
+    var x = lista.scrollLeft;
+    ant.disabled = x <= 1;
+    prox.disabled = x >= max - 1;
+    var n = pontos.children.length;
+    var atual = max <= 0 ? 0 : Math.round((x / max) * (n - 1));
+    for (var i = 0; i < n; i++) pontos.children[i].classList.toggle('is-ativo', i === atual);
+  }
+
+  function desenhar() {
+    var n = paginas();
+    if (pontos.children.length !== n) {
+      pontos.textContent = '';
+      for (var i = 0; i < n; i++) pontos.appendChild(document.createElement('span'));
+    }
+    atualizar();
+  }
+
+  function rolar(sentido) {
+    lista.scrollBy({ left: sentido * lista.clientWidth * 0.9, behavior: reduzido ? 'auto' : 'smooth' });
+  }
+
+  ant.hidden = false;
+  prox.hidden = false;
+  ant.addEventListener('click', function () { rolar(-1); });
+  prox.addEventListener('click', function () { rolar(1); });
+
+  var pendente = false;
+  lista.addEventListener('scroll', function () {
+    if (pendente) return;
+    pendente = true;
+    window.requestAnimationFrame(function () { pendente = false; atualizar(); });
+  }, { passive: true });
+  window.addEventListener('resize', desenhar);
+  desenhar();
 })();

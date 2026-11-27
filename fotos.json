@@ -3,7 +3,7 @@
     "arquivo": "img/fotos/IMG_1136.avif",
     "thumb": "img/fotos/thumbs/IMG_1136.webp",
     "categoria": "externa",
-    "alt": "Captiva prata de frente, parado num estacionamento aberto",
+    "alt": "Captiva prata de frente, parada num estacionamento aberto",
     "largura": 2048,
     "altura": 1363
   },
@@ -395,7 +395,7 @@
     "arquivo": "img/fotos/IMG_1232.avif",
     "thumb": "img/fotos/thumbs/IMG_1232.webp",
     "categoria": "interna",
-    "alt": "Banco do motorista e volante, com a porta aberta",
+    "alt": "Banco dianteiro esquerdo e volante, com a porta aberta",
     "largura": 1363,
     "altura": 2048
   },
@@ -403,7 +403,7 @@
     "arquivo": "img/fotos/IMG_1233.avif",
     "thumb": "img/fotos/thumbs/IMG_1233.webp",
     "categoria": "interna",
-    "alt": "Posto do motorista visto pela porta aberta, com volante e painel",
+    "alt": "Posto de direção visto pela porta aberta, com volante e painel",
     "largura": 1363,
     "altura": 2048
   },
@@ -531,7 +531,7 @@
     "arquivo": "img/fotos/IMG_1278.avif",
     "thumb": "img/fotos/thumbs/IMG_1278.webp",
     "categoria": "interna",
-    "alt": "Banco do passageiro dianteiro em couro e tapete de borracha",
+    "alt": "Banco dianteiro direito em couro e tapete de borracha",
     "largura": 2048,
     "altura": 1365
   },
@@ -539,7 +539,7 @@
     "arquivo": "img/fotos/IMG_1279.avif",
     "thumb": "img/fotos/thumbs/IMG_1279.webp",
     "categoria": "interna",
-    "alt": "Forro da porta do passageiro e porta-luvas",
+    "alt": "Forro da porta dianteira direita e porta-luvas",
     "largura": 2048,
     "altura": 1365
   },
@@ -563,7 +563,7 @@
     "arquivo": "img/fotos/IMG_1285.avif",
     "thumb": "img/fotos/thumbs/IMG_1285.webp",
     "categoria": "interna",
-    "alt": "Interior visto pela porta do motorista, com painel e volante",
+    "alt": "Interior visto pela porta dianteira esquerda, com painel e volante",
     "largura": 2048,
     "altura": 1365
   },

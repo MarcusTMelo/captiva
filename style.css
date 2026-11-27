@@ -507,24 +507,15 @@ html {
   #hero {
     --chao: 0px;
     --fs-h1: clamp(2.4rem, 0.5rem + 4.4vw, 5rem);
-    --pad-topo: clamp(1rem, 2.5vh, 2.75rem);
-    /* ~min(92svh, 860px); em telas muito largas cresce um pouco (49vw) pra não
-       decapitar a Torre, e nunca passa da proporção da arte (62.5vw) */
-    --hero-h: max(30rem, min(92vh, max(860px, 49vw), 62.5vw));
+    --pad-topo: clamp(1rem, 0.5rem + 1vw, 1.75rem);
+    /* Hero compacto: 560–640px, não tela cheia */
+    --hero-h: clamp(35rem, 47vw, 40rem);
     grid-template-rows: var(--hero-h);
-    /* Enquadramento: com a cena mais alta que o hero (altura = 59.72vw), corta de baixo
-       só a grama que sobra abaixo do carro (17% da arte = 10.15vw) menos 4.5rem de folga
-       sobre a faixa; o resto sai do topo. Assim o avião (y 10–25%) aparece inteiro. */
+    /* Enquadramento: com a cena mais alta que o hero (altura = 59.72vw), corta do topo
+       só até 9% da arte (o avião começa em 10%) e o resto sai de baixo (grama). */
     --sobra: max(0px, 59.72vw - var(--hero-h));
-    --corte-base: min(var(--sobra), max(0px, 10.15vw - 4.5rem));
-    --corte-topo: calc(var(--sobra) - var(--corte-base));
+    --corte-topo: min(var(--sobra), 5.37vw);
     --aviao-base: calc(0.252 * max(var(--hero-h), 59.72vw) - var(--corte-topo));
-  }
-  @supports (height: 100svh) {
-    #hero {
-      --pad-topo: clamp(1rem, 2.5svh, 2.75rem);
-      --hero-h: max(30rem, min(92svh, max(860px, 49vw), 62.5vw));
-    }
   }
   .hero__cena img {
     object-position: 50% calc(-1 * var(--corte-topo));
@@ -578,20 +569,32 @@ html {
     width: clamp(17rem, 26vw, 23rem);
     max-width: none;
     margin: 0;
-    padding: clamp(0.85rem, 0.5rem + 0.6vw, 1.1rem);
+    padding: 0;
     gap: 0.9rem;
+    background: none;
+    box-shadow: none;
   }
+  /* visor "TOTAL A PAGAR" em fundo verde-escuro: branco 12.11:1 · amarelo 7.93:1 */
   .hero__visor {
     --visor-fs: clamp(1.9rem, 0.9rem + 2.4vw, 2.9rem);
     padding: 0.7rem 1.1rem 0.8rem;
+    background: var(--oliva-escuro);
+    text-align: center;
+  }
+  .hero__local {
+    justify-self: center;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: rgb(249 237 222 / 0.95); /* azul-marinho sobre ele: ~16:1 */
+    box-shadow: 0 3px 10px rgb(4 15 28 / 0.2);
   }
   .hero__condicao { font-size: 1rem; }
   .hero__acao .botao { font-size: clamp(0.95rem, 0.6rem + 0.7vw, 1.1rem); }
 }
 
-/* Telas largas (1200px+): o título desce até logo abaixo do avião sorridente da arte
+/* Desktop (1024px+): o título desce até logo abaixo do avião sorridente da arte
    (x 29–47%, y 10–25%), e o cartão do subtítulo fica estreito pra não encostar no carro */
-@media (min-width: 75rem) {
+@media (min-width: 64rem) {
   .hero__topo {
     margin-top: max(0px, var(--aviao-base) + 0.5rem - var(--pad-topo));
   }
@@ -599,7 +602,7 @@ html {
 }
 
 /* ============ Faixa de ícones (destaques) ============
-   Barra creme clara que sobe um pouco sobre a base do hero.
+   Barra verde-escura que sobe um pouco sobre a base do hero.
    Celular: grade 4 × 2. Desktop: 8 colunas com divisórias finas. */
 .destaques {
   position: relative;
@@ -612,9 +615,9 @@ html {
   margin: 1.25rem auto 0;
   padding: 0.35rem;
   list-style: none;
-  background: #FFF8EE; /* creme clarinho */
+  background: var(--oliva-escuro); /* barra verde-escura: branco 12.11:1 · creme 10.49:1 */
   border-radius: 1rem;
-  box-shadow: 0 0 0 1px rgb(60 81 19 / 0.12), 0 8px 22px rgb(4 15 28 / 0.14);
+  box-shadow: 0 0 0 2px rgb(249 237 222 / 0.9), 0 8px 22px rgb(4 15 28 / 0.22);
 }
 
 .destaque {
@@ -629,11 +632,11 @@ html {
 
 /* divisórias finas: entre colunas e entre as duas linhas */
 .destaque:not(:nth-child(4n + 1)) {
-  border-left: 1px solid rgb(60 81 19 / 0.18);
+  border-left: 1px solid rgb(249 237 222 / 0.22);
 }
 
 .destaque:nth-child(n + 5) {
-  border-top: 1px solid rgb(60 81 19 / 0.18);
+  border-top: 1px solid rgb(249 237 222 / 0.22);
 }
 
 .destaque__icone {
@@ -641,7 +644,7 @@ html {
   height: 1.6rem;
   margin-bottom: 0.2rem;
   fill: none;
-  stroke: var(--verde-oliva);
+  stroke: var(--creme);
   stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -650,7 +653,7 @@ html {
 .destaque strong {
   font-size: clamp(0.78rem, 0.62rem + 0.75vw, 1rem);
   font-weight: 800;
-  color: var(--azul-marinho);
+  color: var(--branco);
   overflow-wrap: break-word;
 }
 
@@ -661,7 +664,7 @@ html {
 
 .destaque span {
   font-size: clamp(0.68rem, 0.6rem + 0.35vw, 0.82rem);
-  color: var(--verde-oliva);
+  color: var(--creme);
 }
 
 @media (min-width: 52rem) {
@@ -674,7 +677,7 @@ html {
     padding: 0.7rem 0.35rem 0.75rem;
   }
   .destaque + .destaque {
-    border-left: 1px solid rgb(60 81 19 / 0.18);
+    border-left: 1px solid rgb(249 237 222 / 0.22);
   }
   .destaque:nth-child(n + 5) {
     border-top: 0;
@@ -711,15 +714,187 @@ html {
   text-shadow: 0 0.06em 0.12em rgb(4 15 28 / 0.28);
 }
 
+/* ============ Bloco verde-escuro contido (#carrao, #fotos) ============
+   Cantos arredondados, texto claro. creme / oliva-escuro 10.49:1 · branco 12.11:1 */
+.bloco-verde {
+  --pad-bloco: clamp(1.1rem, 0.7rem + 2vw, 2rem);
+  background: var(--oliva-escuro);
+  color: var(--creme);
+  border-radius: 1.5rem;
+  padding: var(--pad-bloco);
+  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+}
+
+.bloco-verde .etiqueta {
+  background: var(--creme);
+  color: var(--oliva-escuro); /* 10.49:1 */
+}
+
+.bloco-verde .rabisco {
+  stroke: var(--creme);
+}
+
+/* Seções compactas: blocos lado a lado, página curta */
+#historia,
+#carrao,
+#fotos {
+  --pad-secao: clamp(1.25rem, 0.9rem + 1.5vw, 2.25rem);
+  padding: var(--pad-secao) var(--gutter);
+}
+
+/* ============ #historia ============ */
+.historia__conteudo {
+  display: grid;
+  gap: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+  max-width: 72rem;
+  margin-inline: auto;
+  align-items: center;
+}
+
+.historia__texto {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.historia__titulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 1.4rem + 2vw, 2.6rem);
+  line-height: 1.05;
+  color: var(--azul-marinho);
+}
+
+.historia__titulo span {
+  color: var(--verde-oliva); /* 7.65:1 */
+}
+
+.historia__coracao {
+  display: block;
+  width: 5.5rem;
+  height: auto;
+  margin-top: 0.15rem;
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.historia__texto p {
+  max-width: 40ch;
+}
+
+/* Polaroid com foto real; legenda "manuscrita" em Lilita One.
+   "rotate" (e não transform) pra somar com o slide do .reveal */
+.historia__polaroid {
+  justify-self: center;
+  width: min(100%, 20rem);
+  rotate: -3deg;
+  background: var(--branco);
+  padding: 0.6rem 0.6rem 0;
+  border-radius: 0.2rem;
+  box-shadow: 0 10px 24px rgb(4 15 28 / 0.18);
+}
+
+.historia__polaroid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.historia__polaroid figcaption {
+  padding: 0.65rem 0.4rem 0.85rem;
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  line-height: 1.15;
+  text-align: center;
+  color: var(--azul-marinho);
+}
+
+/* Cartão de papel inclinado com checks verdes */
+.historia__viveu {
+  justify-self: center;
+  width: min(100%, 20rem);
+  rotate: 2deg;
+  display: grid;
+  gap: 0.6rem;
+  background: var(--creme-claro);
+  padding: 1.1rem 1.2rem 1.2rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 10px 24px rgb(4 15 28 / 0.14), 0 1px 2px rgb(4 15 28 / 0.1);
+}
+
+.historia__viveu h3 {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.historia__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.historia__lista li {
+  padding-left: 1.7rem;
+  font-weight: 600;
+  line-height: 1.35;
+  /* check verde-oliva (#3C5113) */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l4.5 4.5L19.5 6.5' fill='none' stroke='%233C5113' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") left 0.1em / 1.2rem no-repeat;
+}
+
+.historia__fecho {
+  color: var(--verde-oliva); /* 8.6:1 no creme claro */
+}
+
+.historia__cartoon {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 17rem);
+}
+
+/* rabiscos amarelos (decorativos) de "brilho" em volta da carinha */
+.historia__brilho {
+  position: absolute;
+  top: -0.6rem;
+  right: 0.2rem;
+  width: 2.2rem;
+  fill: none;
+  stroke: var(--amarelo-estrela);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  transform: scaleX(-1);
+  filter: drop-shadow(0 1px 0 rgb(4 15 28 / 0.25));
+}
+
+@media (min-width: 40rem) {
+  .historia__conteudo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .historia__conteudo {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 0.95fr) minmax(0, 0.8fr);
+    column-gap: clamp(1rem, 0.5rem + 1.2vw, 1.75rem);
+  }
+  .historia__cartoon {
+    margin-left: -1.5rem; /* encosta no cartão, como na referência */
+  }
+}
+
 /* ============ 2. #carrao ============ */
 #carrao {
   overflow: hidden;
-  padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
 }
 
 .carrao__conteudo {
   display: grid;
-  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  gap: clamp(1rem, 0.8rem + 1vw, 1.5rem);
   max-width: 72rem;
   margin-inline: auto;
 }
@@ -727,6 +902,7 @@ html {
 .carrao__topo {
   display: grid;
   justify-items: start;
+  align-content: center;
   gap: 0.75rem;
 }
 
@@ -750,15 +926,17 @@ html {
 
 .carrao__abertura {
   font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
-  max-width: 44ch;
+  max-width: 40ch;
 }
 
-/* Imagem = cena ilustrada com acabamento de adesivo */
+/* Cena em paisagem: corta céu e chão; carro e portas abertas ficam */
 .carrao__img {
   width: 100%;
-  border-radius: 1.25rem;
-  border: 6px solid var(--branco);
-  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: 50% 78%;
+  border-radius: 1rem;
+  border: 4px solid var(--creme);
 }
 
 .carrao__cards {
@@ -766,27 +944,26 @@ html {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
+/* Card creme: ícone no círculo verde em cima, tudo centrado */
 .card {
-  background: var(--branco);
-  background: color-mix(in srgb, var(--creme) 35%, var(--branco)); /* branco quente */
-  border: 1.5px solid var(--verde-oliva);
-  border-radius: 1rem;
-  box-shadow: 0 6px 18px rgb(4 15 28 / 0.08);
-  padding: 1.1rem 1.2rem 1.25rem;
   display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 0.9rem;
-  row-gap: 0.35rem;
-  align-items: center;
+  justify-items: center;
+  align-content: start;
+  gap: 0.45rem;
+  padding: 1rem 0.9rem 1.1rem;
+  text-align: center;
+  background: var(--creme-claro);
+  color: var(--azul-marinho); /* 18.64:1 */
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.22);
 }
 
 .card__icone {
-  width: 2.75rem;
-  height: 2.75rem;
-  grid-row: span 1;
+  width: 2.6rem;
+  height: 2.6rem;
 }
 
 .card__icone circle:first-child {
@@ -802,31 +979,74 @@ html {
 }
 
 .card h3 {
-  font-size: 1.15rem;
-  line-height: 1.25;
-  color: var(--verde-oliva);
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--verde-oliva); /* 8.6:1 no creme claro */
 }
 
 .card p {
-  grid-column: 1 / -1;
+  font-size: 0.92rem;
+  line-height: 1.42;
 }
 
-.card--destaque {
-  padding: 1.4rem 1.5rem 1.6rem;
-  border-width: 2.5px;
+/* "Ver completo": o resto do texto do card num <details> nativo */
+.card__mais {
+  display: grid;
+  justify-items: center;
 }
 
-.card--destaque .card__icone {
-  width: 3.5rem;
-  height: 3.5rem;
+.card__mais summary,
+.botao-ver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  list-style: none;
 }
 
-.card--destaque h3 {
-  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+.card__mais summary::-webkit-details-marker,
+.botao-ver::-webkit-details-marker {
+  display: none;
 }
 
-.card--destaque p {
-  font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.15rem);
+.card__mais summary {
+  font-size: 0.85rem;
+  border: 2px solid var(--verde-oliva);
+  color: var(--verde-oliva);
+}
+
+.card__mais summary:hover {
+  background: color-mix(in srgb, var(--verde-oliva) 10%, var(--creme-claro));
+}
+
+.card__mais[open] summary {
+  margin-bottom: 0.4rem;
+}
+
+@media (min-width: 40rem) {
+  .carrao__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 52rem) {
+  .carrao__conteudo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    grid-template-areas:
+      "topo  img"
+      "cards cards";
+    column-gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+  .carrao__topo { grid-area: topo; }
+  .carrao__img { grid-area: img; }
+  .carrao__cards { grid-area: cards; }
+}
+
+@media (min-width: 64rem) {
+  .carrao__cards { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 
 /* Cartão com cabeçalho: faixa verde-oliva (ícone + título branco, 8.83:1) e corpo creme claro.
@@ -950,54 +1170,10 @@ html {
   margin: 0;
 }
 
-@media (min-width: 52rem) {
-  .carrao__conteudo {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      "topo  topo"
-      "img   ficha"
-      "cards cards";
-    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
-  }
-  .carrao__topo { grid-area: topo; }
-  .carrao__img { grid-area: img; }
-  .ficha { grid-area: ficha; }
-  .carrao__cards {
-    grid-area: cards;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 1.25rem;
-  }
-  .card { grid-column: span 2; align-content: start; }
-  .card:nth-child(n + 5) { grid-column: span 3; }
-  .card--destaque { grid-column: 1 / -1; }
-}
-
-/* Celular/tablet estreito: imagem mais baixa, cards mais compactos */
-@media (max-width: 51.999rem) {
-  .carrao__img {
-    /* 4/3 cortaria o topo do porta-malas aberto (carro ocupa y 275–1300 de 1308);
-       5/4 é a proporção mais baixa que mantém carro e portas inteiros. Perde só céu. */
-    aspect-ratio: 5 / 4;
-    object-fit: cover;
-    object-position: 50% 100%;
-  }
-  .card {
-    padding: 0.9rem 1rem 1rem;
-    column-gap: 0.75rem;
-  }
-  .card__icone {
-    width: 36px;
-    height: 36px;
-  }
-  /* destaque: ícone em cima, título com a largura toda */
-  .card--destaque {
-    grid-template-columns: 1fr;
-    padding: 1.1rem 1.1rem 1.2rem;
-  }
-  .card--destaque .card__icone {
-    width: 36px;
-    height: 36px;
-  }
+/* Ficha técnica: provisória no fim do #ficha até a Parte 2 */
+.corrida__conteudo > .ficha {
+  justify-self: start;
+  width: min(100%, 36rem);
 }
 
 /* Celular estreito: ficha empilhada (rótulo pequeno em cima, valor embaixo) */
@@ -1127,51 +1303,169 @@ html {
 }
 
 /* ============ 4. #fotos ============ */
-/* Faixa verde-escura de ponta a ponta, com a onda do rodapé do folder em cima e embaixo.
-   Contraste no --oliva-escuro: creme 10.49:1 · branco 12.11:1 · oliva-escuro sobre creme 10.49:1 */
+/* Bloco verde-escuro contido: título + "Ver galeria completa" em cima, tira rolável,
+   e a galeria inteira (filtros, Mostrar mais, visualizador) dentro de um <details>. */
 #fotos {
-  --onda-fotos: clamp(2rem, 1.4rem + 3vw, 4rem);
   overflow: hidden;
-  scroll-margin-top: calc(0.75rem - var(--pad-secao) - var(--onda-fotos));
 }
 
-.fotos__onda {
-  display: block;
-  width: 100%;
-  height: var(--onda-fotos);
-  fill: var(--oliva-escuro);
+.fotos__conteudo {
+  position: relative; /* âncora do botão "Ver galeria completa" no desktop */
+  display: grid;
+  gap: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  max-width: 72rem;
+  margin-inline: auto;
 }
 
-.fotos__onda--topo {
-  background: var(--creme-quente); /* continua o fundo do #alcoolatra */
-  margin-bottom: -1px;
+.fotos__camera {
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  margin-right: 0.3em;
+  vertical-align: -0.1em;
+  fill: none;
+  stroke: var(--creme);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
 }
 
-.fotos__onda--base {
-  background: var(--creme); /* continua o fundo do #ficha */
-  margin-top: -1px;
-}
-
-.fotos__faixa {
-  background: var(--oliva-escuro);
+.botao-ver {
+  font-size: 1rem;
+  border: 2px solid var(--creme);
   color: var(--creme);
-  padding: var(--pad-secao) var(--gutter);
+  width: fit-content;
+  margin-inline: auto;
 }
 
-#fotos .etiqueta {
+.botao-ver:hover {
+  background: rgb(249 237 222 / 0.12);
+}
+
+.fotos__completa[open] > .botao-ver {
   background: var(--creme);
   color: var(--oliva-escuro);
 }
 
-#fotos .rabisco {
-  stroke: var(--creme);
+.fotos__completa > .fotos__filtros:not([hidden]),
+.fotos__completa > .galeria {
+  margin-top: 1.25rem;
 }
 
-.fotos__conteudo {
+.fotos__completa > .botao-mais:not([hidden]) {
+  display: block;
+  margin: 1.25rem auto 0;
+}
+
+/* Tira de miniaturas: rolagem nativa com scroll-snap */
+.tira {
+  position: relative;
   display: grid;
-  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
-  max-width: 72rem;
-  margin-inline: auto;
+  gap: 0.6rem;
+}
+
+.tira__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0.15rem 0.5rem;
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(249 237 222 / 0.5) transparent;
+}
+
+.tira__item {
+  flex: 0 0 clamp(7.5rem, 30vw, 10.5rem);
+  scroll-snap-align: start;
+}
+
+.tira__item a {
+  display: block;
+  border-radius: var(--raio);
+  border: 3px solid var(--creme);
+  background: color-mix(in srgb, var(--creme) 18%, var(--oliva-escuro));
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.28);
+  overflow: hidden;
+}
+
+.tira__item img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.tira__seta {
+  position: absolute;
+  top: calc(50% - 0.55rem);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  translate: 0 -50%;
+  border-radius: 999px;
+  border: 2px solid var(--oliva-escuro);
+  background: var(--creme);
+  color: var(--oliva-escuro); /* 10.49:1 */
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+  cursor: pointer;
+}
+
+.tira__seta[hidden] {
+  display: none;
+}
+
+.tira__seta:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.tira__seta svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tira__seta--ant { left: -0.5rem; }
+.tira__seta--prox { right: -0.5rem; }
+
+.tira__pontos {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 0.5rem;
+}
+
+.tira__pontos span {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: rgb(249 237 222 / 0.35);
+}
+
+.tira__pontos .is-ativo {
+  background: var(--creme);
+}
+
+@media (min-width: 52rem) {
+  .fotos__topo {
+    padding-right: 17rem; /* espaço do botão "Ver galeria completa" */
+  }
+  /* fechado, o <details> só tem o botão (absoluto): não deixa vão na grade */
+  .fotos__completa:not([open]) {
+    margin-top: calc(-1 * clamp(1rem, 0.8rem + 1vw, 1.5rem));
+  }
+  .fotos__completa > .botao-ver {
+    position: absolute;
+    top: var(--pad-bloco);
+    right: var(--pad-bloco);
+    margin: 0;
+  }
 }
 
 .fotos__topo {
@@ -1711,6 +2005,7 @@ html.sem-rolagem {
   .corrida__historico { grid-area: historico; }
   .corrida__papelada { grid-area: papelada; }
   .corrida__marcas { grid-area: marcas; }
+  .corrida__conteudo > .ficha { grid-column: 1 / -1; } /* provisório (Parte 2) */
   .polaroids { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
