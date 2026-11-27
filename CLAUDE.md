@@ -137,3 +137,14 @@ Mensagem: "Oi, Marcus! Vi o site da Captiva e quero saber mais sobre ela (inclus
 - Seção passou de 2 sessões → simplifica, não insiste.
 - Ideia nova vai para o **Estacionamento** do brief (seção 8), não para o código.
 - Bom e no ar > perfeito no dev.
+
+## Publicação (dev)
+1. `git push -u origin v3`
+2. Sincroniza a pasta servida (o `--delete` apaga no destino o que saiu do repo):
+   ```
+   rsync -a --delete --exclude='.git' --exclude='.gitignore' --exclude='*.md' --exclude='_referencia/' --exclude='_legado/' /home/marcus/Projetos/Captiva-v3/ /opt/captiva-dev/
+   ```
+3. Confere com curl: `https://dev.captiva.marcustmelo.com/` responde **200**; `/CLAUDE.md` e `/_referencia/brief-captiva-v3.md` respondem **404**.
+   ```
+   for p in / /CLAUDE.md /_referencia/brief-captiva-v3.md; do echo "$p $(curl -s -o /dev/null -w '%{http_code}' https://dev.captiva.marcustmelo.com$p)"; done
+   ```
