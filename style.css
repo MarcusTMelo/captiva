@@ -25,6 +25,9 @@
   --oliva-escuro: #2B3B0E;  /* verde-oliva escurecido ~30% (no folder só existe como sombra) */
   --amarelo-estrela: #FCCB42; /* estrelinhas (pedido #F5C518, medido #FCCB42) */
   --branco: #FFFFFF;
+  /* derivados (ritmo de fundos e cartões) */
+  --creme-quente: #FAE6BF;  /* color-mix(--creme 80%, --amarelo-estrela) — fundo do #alcoolatra */
+  --creme-claro: #FDFBF7;   /* color-mix(--creme 35%, --branco) — corpo dos cartões */
 
   --fonte: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --fonte-titulo: "Lilita One", system-ui, sans-serif;
@@ -826,6 +829,76 @@ html {
   font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.15rem);
 }
 
+/* Cartão com cabeçalho: faixa verde-oliva (ícone + título branco, 8.83:1) e corpo creme claro.
+   Usado no #alcoolatra, #ficha e #fim; os cards do #carrao ficam no estilo de ícone no círculo. */
+.cartao {
+  background: var(--creme-claro);
+  border: 2px solid var(--verde-oliva);
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgb(4 15 28 / 0.08);
+  overflow: hidden;
+}
+
+.cartao__cabeca {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3.25rem;
+  padding: 0.55rem 1.1rem;
+  background: var(--verde-oliva);
+  color: var(--branco);
+}
+
+.cartao__icone {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.cartao__icone circle:first-child {
+  fill: var(--oliva-escuro);
+}
+
+.cartao__icone g {
+  fill: none;
+  stroke: var(--branco);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cartao__cabeca h3 {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+/* gap mais fraco (.linha-tempo e .combinado__lista têm o próprio); padding mais forte (eles zeram) */
+.cartao__corpo {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cartao > .cartao__corpo {
+  margin: 0;
+  padding: 1rem 1.2rem 1.2rem;
+}
+
+.cartao--destaque {
+  border-width: 2.5px;
+}
+
+.cartao--destaque .cartao__cabeca h3 {
+  font-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem);
+}
+
+.cartao--destaque > .cartao__corpo {
+  display: block;
+  font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.15rem);
+}
+
 /* Ficha técnica: card oliva, rótulos amarelos (5.79:1), valores brancos (8.83:1) */
 .ficha {
   background: var(--verde-oliva);
@@ -946,6 +1019,7 @@ html {
 /* ============ 3. #alcoolatra ============ */
 #alcoolatra {
   overflow: hidden;
+  background: var(--creme-quente); /* azul-marinho 15.72:1 · verde-oliva 7.20:1 */
   padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
 }
 
@@ -1021,20 +1095,7 @@ html {
   line-height: 1.4;
 }
 
-/* Card da autonomia: ícone à esquerda, textos na coluna da direita */
-.alcool__card {
-  align-items: start;
-  row-gap: 0.75rem;
-}
-
-.alcool__card .card__icone {
-  grid-row: 1 / span 2;
-}
-
-.alcool__card p {
-  grid-column: 2;
-}
-
+/* Card da autonomia: não tem título (texto não muda) → cabeçalho só com o ícone */
 .alcool__nota {
   font-size: var(--fs-pequeno);
   font-style: italic;
@@ -1055,20 +1116,9 @@ html {
   .alcool__img { grid-area: img; align-self: center; } /* centrada na altura de placar + card */
   .alcool__placar { grid-area: placar; }
   .alcool__card { grid-area: card; align-self: start; }
-  #alcoolatra .alcool__eco { grid-area: eco; align-self: start; } /* vence o .card:nth-child(n + 5) do #carrao */
+  .alcool__eco { grid-area: eco; align-self: start; }
   .alcool__nota { grid-area: nota; }
   .alcool__visor { --visor-fs: clamp(2rem, 1rem + 2.4vw, 3rem); padding: 0.75rem 1.1rem 0.85rem; }
-}
-
-@media (max-width: 51.999rem) {
-  .alcool__card {
-    padding: 0.9rem 1rem 1rem;
-    column-gap: 0.75rem;
-  }
-  .alcool__card .card__icone {
-    width: 36px;
-    height: 36px;
-  }
 }
 
 /* Celular estreito: visor mais justo pra o número não quebrar */
@@ -1078,9 +1128,44 @@ html {
 }
 
 /* ============ 4. #fotos ============ */
+/* Faixa verde-escura de ponta a ponta, com a onda do rodapé do folder em cima e embaixo.
+   Contraste no --oliva-escuro: creme 10.49:1 · branco 12.11:1 · oliva-escuro sobre creme 10.49:1 */
 #fotos {
+  --onda-fotos: clamp(2rem, 1.4rem + 3vw, 4rem);
   overflow: hidden;
-  padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
+  scroll-margin-top: calc(0.75rem - var(--pad-secao) - var(--onda-fotos));
+}
+
+.fotos__onda {
+  display: block;
+  width: 100%;
+  height: var(--onda-fotos);
+  fill: var(--oliva-escuro);
+}
+
+.fotos__onda--topo {
+  background: var(--creme-quente); /* continua o fundo do #alcoolatra */
+  margin-bottom: -1px;
+}
+
+.fotos__onda--base {
+  background: var(--creme); /* continua o fundo do #ficha */
+  margin-top: -1px;
+}
+
+.fotos__faixa {
+  background: var(--oliva-escuro);
+  color: var(--creme);
+  padding: var(--pad-secao) var(--gutter);
+}
+
+#fotos .etiqueta {
+  background: var(--creme);
+  color: var(--oliva-escuro);
+}
+
+#fotos .rabisco {
+  stroke: var(--creme);
 }
 
 .fotos__conteudo {
@@ -1132,7 +1217,7 @@ html {
   border: 0;
 }
 
-/* Filtros: pílulas no estilo da etiqueta */
+/* Filtros: chips. Inativo = contorno e texto creme; ativo = fundo creme, texto oliva-escuro */
 .fotos__filtros {
   display: flex;
   flex-wrap: wrap;
@@ -1149,9 +1234,9 @@ html {
   min-height: 2.75rem;
   padding: 0.45em 1em;
   border-radius: 999px;
-  border: 2px solid var(--verde-oliva);
-  background: var(--branco);
-  color: var(--azul-marinho);
+  border: 2px solid var(--creme);
+  background: transparent;
+  color: var(--creme);
   font: inherit;
   font-size: var(--fs-pequeno);
   font-weight: 700;
@@ -1159,12 +1244,12 @@ html {
 }
 
 .filtro:hover {
-  background: color-mix(in srgb, var(--verde-oliva) 10%, var(--branco));
+  background: rgb(249 237 222 / 0.12);
 }
 
 .filtro[aria-pressed="true"] {
-  background: var(--verde-oliva);
-  color: var(--branco);
+  background: var(--creme);
+  color: var(--oliva-escuro);
 }
 
 /* Grade: 2 colunas no celular, 3 a partir de 40rem, 4 a partir de 64rem */
@@ -1185,13 +1270,13 @@ html {
   .galeria { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
-/* Miniatura adesivo: quadrada, contorno branco fino */
+/* Miniatura adesivo: quadrada, contorno creme */
 .galeria__item a {
   display: block;
   border-radius: var(--raio);
-  border: 3px solid var(--branco);
-  background: color-mix(in srgb, var(--azul-marinho) 8%, var(--creme)); /* enquanto carrega */
-  box-shadow: 0 4px 12px rgb(4 15 28 / 0.14);
+  border: 3px solid var(--creme);
+  background: color-mix(in srgb, var(--creme) 18%, var(--oliva-escuro)); /* enquanto carrega */
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.28);
   overflow: hidden;
 }
 
@@ -1207,16 +1292,36 @@ html {
   min-height: 3rem;
   padding: 0.7rem 1.4rem;
   border-radius: 999px;
-  border: 2px solid var(--verde-oliva);
-  background: var(--branco);
-  color: var(--azul-marinho);
+  border: 2px solid var(--creme);
+  background: transparent;
+  color: var(--creme); /* 10.5:1 */
   font: inherit;
   font-weight: 800;
   cursor: pointer;
 }
 
 .botao-mais:hover {
-  background: color-mix(in srgb, var(--verde-oliva) 10%, var(--branco));
+  background: rgb(249 237 222 / 0.12);
+}
+
+/* WhatsApp do fecho invertido: botão creme, texto oliva-escuro (10.5:1) */
+#fotos .botao--whatsapp {
+  background: var(--creme);
+  color: var(--oliva-escuro);
+  border-color: var(--creme);
+  box-shadow: 0 4px 0 #18210A, 0 8px 18px rgb(0 0 0 / 0.3);
+}
+
+#fotos .botao--whatsapp:hover {
+  background: var(--branco);
+}
+
+#fotos .botao--whatsapp:active {
+  box-shadow: 0 0 0 #18210A, 0 3px 8px rgb(0 0 0 / 0.25);
+}
+
+#fotos .botao--whatsapp:focus-visible {
+  box-shadow: 0 0 0 6px var(--azul-marinho);
 }
 
 .fotos__fecho {
@@ -1610,12 +1715,6 @@ html.sem-rolagem {
   .polaroids { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
-@media (max-width: 51.999rem) {
-  .corrida__destaque {
-    padding: 1.1rem 1.1rem 1.2rem;
-  }
-}
-
 /* Celular estreito: selos continuam lado a lado, check em cima do texto */
 @media (max-width: 25rem) {
   .selo {
@@ -1631,7 +1730,7 @@ html.sem-rolagem {
 /* ============ 6. #fim ============ */
 #fim {
   overflow: hidden; /* bilhete inclinado e rabiscos não vazam na lateral */
-  padding-top: clamp(2.5rem, 2rem + 3vw, 5rem);
+  padding-top: var(--pad-secao);
 }
 
 .fim__conteudo {
@@ -1642,15 +1741,38 @@ html.sem-rolagem {
   padding-inline: var(--gutter);
 }
 
+/* Banner em cena: carro-no-morro com acabamento de adesivo.
+   Celular: título numa faixa do próprio céu da arte, a imagem emenda por baixo (máscara),
+   painel da oferta colado embaixo. Desktop (≥ 64rem): imagem cobre o banner, título no céu
+   à esquerda, painel à direita — o carro e as duas pessoas ficam nos 55% da esquerda. */
+.fim__banner {
+  --ceu: #011439; /* céu noturno da arte (medido no topo de carro-no-morro) */
+  position: relative;
+  display: grid;
+  background: var(--ceu);
+  border: 6px solid var(--branco);
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+  overflow: hidden;
+}
+
 .fim__topo {
+  position: relative;
+  z-index: 1;
   display: grid;
   justify-items: start;
   gap: 0.75rem;
+  padding: clamp(1rem, 0.8rem + 1vw, 1.75rem) clamp(1rem, 0.8rem + 1vw, 1.75rem) 0;
 }
 
 .fim__titulo-wrap {
   position: relative;
   padding-right: 2.5rem; /* espaço do rabisco */
+}
+
+/* no céu noturno o rabisco vira creme (oliva sumiria no azul) */
+.fim__banner .rabisco {
+  stroke: var(--creme);
 }
 
 .fim__rabisco {
@@ -1666,54 +1788,76 @@ html.sem-rolagem {
   width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
 }
 
-/* Mesmo acabamento de adesivo das imagens do #carrao e do #alcoolatra */
 .fim__img {
   width: 100%;
-  border-radius: 1.25rem;
-  border: 6px solid var(--branco);
-  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
+  margin-top: -1.25rem; /* o topo da arte (céu + copa da árvore) entra por baixo do título */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%);
+  mask-image: linear-gradient(to bottom, transparent, #000 14%);
 }
 
-/* Condições: 2×2 no celular, linha de 4 no desktop. Visor (preço) + 3 selos oliva */
+/* Painel da oferta: creme, colado embaixo da imagem no celular */
+.fim__painel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+  padding: 1rem;
+  background: var(--creme);
+}
+
+.fim__visor {
+  --visor-fs: clamp(2rem, 1.6rem + 2vw, 2.6rem);
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  padding: 0.7rem 1rem 0.8rem;
+  text-align: center;
+}
+
+.fim__detalhe {
+  font-size: var(--fs-pequeno);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.fim__aviso {
+  font-size: var(--fs-pequeno);
+  text-align: center;
+  max-width: 44ch;
+  justify-self: center;
+}
+
+/* QR: só no desktop. display:none no celular → a imagem lazy nem é baixada */
+.fim__qr {
+  display: none;
+}
+
+/* Condições restantes: 3 selos oliva numa linha (empilhados abaixo de 30rem) */
 .fim__condicoes {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
-}
-
-.fim__condicao {
-  display: grid; /* visor e selo esticam até a altura da linha */
-}
-
-.fim__visor {
-  /* "R$ 40.000" inteiro numa coluna de 2×2 até em 320px */
-  --visor-fs: clamp(1.2rem, 0.55rem + 3.2vw, 2rem);
-  padding: 0.7rem 0.75rem 0.8rem;
-  display: grid;
-  align-content: center;
-  gap: 0.15rem;
-  /* contorno branco por dentro (borda), igual aos selos ao lado */
-  border: 3px solid var(--branco);
-  box-shadow: 0 6px 16px rgb(4 15 28 / 0.15);
 }
 
 .fim__selo {
   display: grid;
-  align-content: center;
-  justify-items: start;
-  gap: 0.2rem;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.6rem;
+  row-gap: 0.15rem;
+  align-items: center;
   background: var(--verde-oliva);
   color: var(--branco); /* 8.83:1 */
-  padding: 0.7rem 0.75rem 0.8rem;
+  padding: 0.7rem 0.9rem 0.8rem;
   border: 3px solid var(--branco);
   border-radius: var(--raio);
   box-shadow: 0 6px 16px rgb(4 15 28 / 0.15);
 }
 
 .fim__selo svg {
+  grid-row: span 2;
   fill: none;
   stroke: currentColor;
   stroke-width: 3;
@@ -1726,10 +1870,18 @@ html.sem-rolagem {
   line-height: 1.2;
 }
 
-.fim__detalhe {
-  font-size: var(--fs-pequeno);
-  font-weight: 600;
-  line-height: 1.3;
+@media (min-width: 30rem) {
+  .fim__condicoes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .fim__selo {
+    grid-template-columns: 1fr;
+    align-content: center;
+    justify-items: start;
+  }
+  .fim__selo svg {
+    grid-row: auto;
+  }
 }
 
 /* Bilhete do dono + combinado */
@@ -1745,8 +1897,7 @@ html.sem-rolagem {
   position: relative;
   rotate: -1.5deg;
   margin: 0.75rem 0.25rem 0;
-  background: var(--branco);
-  background: color-mix(in srgb, var(--creme) 35%, var(--branco));
+  background: var(--creme-claro);
   padding: 1.75rem 1.4rem 1.25rem;
   border-radius: 0.2rem;
   box-shadow: 0 10px 24px rgb(4 15 28 / 0.14), 0 1px 2px rgb(4 15 28 / 0.1);
@@ -1783,17 +1934,6 @@ html.sem-rolagem {
   color: var(--verde-oliva); /* ~7.5:1 no branco quente */
 }
 
-.fim__subtitulo {
-  font-family: var(--fonte-titulo);
-  font-weight: 400;
-  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
-  line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--verde-oliva);
-  margin-bottom: 0.9rem;
-}
-
 .combinado__lista {
   list-style: none;
   margin: 0;
@@ -1827,27 +1967,6 @@ html.sem-rolagem {
   stroke-linejoin: round;
 }
 
-/* Botão + aviso (+ QR no desktop) */
-.fim__chamada {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.fim__acao {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.fim__aviso {
-  font-size: var(--fs-pequeno);
-  max-width: 44ch;
-}
-
-/* QR: só no desktop. display:none no celular → a imagem lazy nem é baixada */
-.fim__qr {
-  display: none;
-}
-
 /* Fecho do folder: onda creme sobre a faixa oliva, que continua no rodapé */
 .fim__onda {
   display: block;
@@ -1870,42 +1989,22 @@ html.sem-rolagem {
   white-space: nowrap; /* se quebrar, o "·" desce junto com o domínio */
 }
 
+/* QR com legenda ao lado (tablet: coluna à direita do painel; desktop: embaixo do aviso) */
 @media (min-width: 52rem) {
-  .fim__img {
-    /* imagem larga: corta só céu e chão, carro e Brasília inteiros */
-    aspect-ratio: 2 / 1;
-    object-fit: cover;
-    object-position: 50% 72%;
-  }
-  .fim__condicoes {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
-  }
-  .fim__visor {
-    --visor-fs: clamp(1.5rem, 0.2rem + 2.4vw, 2.4rem);
-  }
-  .fim__visor,
-  .fim__selo {
-    padding: 0.9rem 1.1rem 1rem;
-  }
-  .fim__papo {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    column-gap: clamp(2rem, 1rem + 3vw, 4rem);
-  }
-  .bilhete {
-    padding: 2rem 1.9rem 1.5rem;
-  }
-  .fim__chamada {
+  .fim__painel {
     grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: clamp(2rem, 1rem + 3vw, 4rem);
+    column-gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
   }
-  .fim__acao .botao--whatsapp {
-    justify-self: start;
+  .fim__painel > :not(.fim__qr) {
+    grid-column: 1;
   }
   .fim__qr {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
     display: grid;
-    grid-template-columns: auto 12rem;
+    grid-template-columns: 11rem 9rem;
     align-items: center;
     gap: 1rem;
   }
@@ -1921,6 +2020,53 @@ html.sem-rolagem {
   .fim__qr figcaption {
     font-weight: 700;
     line-height: 1.35;
+  }
+  .fim__papo {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 1rem + 3vw, 4rem);
+  }
+  .bilhete {
+    padding: 2rem 1.9rem 1.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .fim__banner {
+    grid-template-columns: minmax(0, 1fr) min(24rem, 40%);
+    grid-template-rows: auto 1fr;
+    aspect-ratio: 16 / 9; /* altura mínima; cresce se o painel pedir */
+  }
+  .fim__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: cover;
+    object-position: 50% 52%; /* corta céu em cima e chão embaixo; rodas do carro inteiras */
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .fim__topo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .fim__painel {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: center;
+    grid-template-columns: 1fr;
+    margin: 1.5rem 1.5rem 1.5rem 0;
+    padding: 1.1rem;
+    border-radius: 1.25rem;
+    background: rgb(249 237 222 / 0.97);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+  }
+  .fim__qr {
+    grid-column: 1;
+    grid-row: auto;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    padding-top: 0.25rem;
   }
 }
 

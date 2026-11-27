@@ -38,9 +38,13 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - Polaroids inclinam com a propriedade `rotate` (não `transform`) pra não brigar com o `.reveal`.
 
 ### Decisões do fim (#fim)
-- Classes com prefixo `fim__` / `bilhete` / `combinado` / `rodape`. Condições = 1 `.visor` (preço) + 3 `.fim__selo`; 2×2 no celular, linha de 4 no desktop.
+- Classes com prefixo `fim__` / `bilhete` / `combinado` / `rodape`. Fechamento em cena: `.fim__banner` (carro-no-morro) com etiqueta + h2 no céu e `.fim__painel` (visor do preço + WhatsApp + aviso + QR). Celular: h2 numa faixa do próprio céu da arte, painel colado embaixo da imagem. ≥ 64rem: imagem cobre o banner, painel à direita (carro e pessoas ficam nos 55% da esquerda). Abaixo: 3 `.fim__selo` numa linha (empilhados < 30rem), depois bilhete + combinado.
 - QR (`img/qr-whatsapp.svg`) gerado uma vez com segno (nível M, azul-marinho sobre branco, margem de 4 módulos) e verificado decodificando para a URL exata. Só aparece no desktop (≥ 52rem); no celular fica `display:none` e não é baixado. Mudou a URL, regenera e verifica de novo.
 - O site fecha com a onda verde-oliva do folder (`.fim__onda`) emendada no `<footer class="rodape">`, que fica fora do `<main>`.
+
+### Ritmo visual (sessão B)
+- Fundos: #carrao creme · #alcoolatra `--creme-quente` · #fotos faixa `--oliva-escuro` com onda SVG em cima e embaixo · #ficha creme · #fim creme + banner.
+- `.cartao` = cabeçalho verde-oliva (ícone + h3 branco) + corpo `--creme-claro`. Usado no #alcoolatra (autonomia — só ícone, não tem título — e ECO), #ficha (arrefecimento e "Manutenção por ano") e #fim (combinado). Os cards do #carrao continuam `.card` (ícone no círculo).
 
 ## Dados oficiais (não alterar, não completar)
 - Preço: **R$ 40.000, negociável**
