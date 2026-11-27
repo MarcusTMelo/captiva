@@ -1,6 +1,6 @@
 # Captiva v3 — Brief do projeto
 
-*Atualizado em 25 de novembro de 2026 · Marcus Túlio*
+*Atualizado em 27 de novembro de 2026 · Marcus Túlio*
 
 ## 1. O que é
 
@@ -17,19 +17,29 @@ Quem escaneou o QR já está curioso. O site não precisa convencer do zero: pre
 - Debochado, brasiliense, autoconsciente. O carro sabe que bebe e não esconde.
 - A piada nunca esconde informação: todo exagero vem com um dado real logo depois.
 - **A palavra 'bebe' aparece no máximo 2 vezes no site.**
-- Estilo visual: cartoon 3D (estilo animação) do Captiva com cara, misturado com fotos reais sem maquiagem.
+- **A Captiva é "ela"** (decisão do dono, 26/11/2026): toda referência ao carro no site vai no feminino ("ela bebe", "Mimada", "Quero ver ela de perto"). Substantivo masculino explícito continua masculino ("um carro de 2011", "1.680 kg de carro", "O carrão"). A frase do folder impresso ("o lado alcoólatra dele") fica como está no papel.
+- **Linguagem inclusiva:** nada de masculino genérico para pessoas ("pessoa compradora", "quem dirige", "oficina de confiança"); nos alts, posições neutras ("banco dianteiro esquerdo").
+- Estilo visual: cartoon 3D (estilo animação) da Captiva com cara, misturado com fotos reais sem maquiagem.
 - Direção visual (decidida em 25 de novembro de 2026): o site é o folder ganhando vida: carro sempre dentro de cena ilustrada, título adesivo em Lilita One, creme + azul-marinho + verde-oliva, rabiscos à mão, faixa ondulada.
 
-## 3. Escopo da v1 (fechado — 6 seções)
+## 3. Escopo da v1 (fechado — 6 seções + bloco #historia)
 
 | # | Seção | Promessa do folder | Conteúdo | Imagem-chave | Status |
 |---|-------|--------------------|----------|--------------|--------|
 | 1 | Hero | — | "Tô vendendo... Quer comprar?" + preço + WhatsApp | Cena do folder (recorte da arte, sem texto e sem QR) | ✅ pronta |
 | 2 | O carrão | detalhes | Espaço, conforto, câmbio automático, piloto automático, engate. Ficha técnica curta | portas-abertas | ✅ pronta |
-| 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) | Foto_Principal_v2 (bomba na boca) | ✅ pronta |
+| 3 | O lado alcoólatra | lado alcoólatra | A confissão + **consumo real** (cidade/estrada) num card "Consumo (média real)" ao lado | Foto_Principal_v2 (bomba na boca) | ✅ pronta (layout final) |
 | 4 | 76 fotos, zero maquiagem | mais fotos | Galeria com filtros: Todas (76), Por fora (27), Por dentro (23), Detalhes (26). **Decisão: "lateral" entra no filtro Por fora (27)** (externa 20 + lateral 7) | fotos reais | ✅ pronta |
 | 5 | Ficha corrida | detalhes | Destaque "arrefecimento renovado em 2026", linha do tempo 2024–2026, selos IPVA/licenciamento 2026, idade com charme (sem número de donos), marcas de uso (8 recortes em polaroid). Notas disponíveis na visita | `img/recortes/*.webp` (notas fiscais ficam fora do site) | ✅ pronta |
-| 6 | Fim da história | — | Condições da venda + WhatsApp + "Começo da sua." | CarronoMorro (`carro-no-morro.webp`) + QR em SVG local (só desktop) + rodapé | em validação (sessão 6) |
+| 6 | Fim da história | — | Ficha técnica ao lado do fechamento "Começo da sua." + condições da venda + WhatsApp | CarronoMorro (`carro-no-morro.webp`) + QR em SVG local (só desktop) + rodapé | ✅ pronta (layout final) |
+
+**Bloco #historia** (autorizado pelo dono, Parte 1 da reestruturação): "A história da minha Captiva" entre a faixa de ícones e o #carrao — texto curto, polaroid com foto real, lista "O que ela já viveu" e o cartoon beberrão sem fundo. Não é uma 7ª seção de venda: não traz dado novo do carro.
+
+**Layout final do dono** (26–27/11/2026, referência `_referencia/EuQueroEhAssim.png`): barra fixa → hero (cena de Brasília, preço, WhatsApp) → faixa de 8 ícones → #historia → #carrao (bloco verde) → #fotos (tira de miniaturas + galeria completa no `details`) → três faixas com dois blocos lado a lado no desktop e empilhados no celular:
+- **#alcoolatra** (~60/40): card com a cena da bomba, h2 "O frentista já sabe o nome dela." e o "De onde vem a sede?"; "Ver o lado alcoólatra completo" abre "Tanque cheio" e "Ela até faz regime." · card "Consumo (média real)" com os visores Cidade 7,2 / Estrada 9,7.
+- **#ficha** (~60/40): "Manutenção e histórico" com 6 itens só de dados reais; "Ver ficha corrida completa" abre todo o histórico · card "Transparência sempre" com o bilhete do dono; "Ver o combinado" abre a lista.
+- **#fim** (~40/60): ficha técnica (8 itens) · "Começo da sua." em cena (preço, botão "Quero ver ela de perto", Águas Claras, aviso de ligação); embaixo os 3 selos de condição + QR (só desktop) → rodapé.
+Tudo o que estava no site continua lá (conferido por script); o que não cabe na primeira olhada fica em `<details>` nativo, que funciona sem JS.
 
 **Fora da v1** (vai para o Estacionamento): smooth scroll, pinning, cenas encadeadas, novos cartoons, versão em outro idioma, analytics.
 

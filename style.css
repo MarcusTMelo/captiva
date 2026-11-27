@@ -28,6 +28,7 @@
   /* derivados (ritmo de fundos e cartões) */
   --creme-quente: #FAE6BF;  /* color-mix(--creme 80%, --amarelo-estrela) — fundo do #alcoolatra */
   --creme-claro: #FDFBF7;   /* color-mix(--creme 35%, --branco) — corpo dos cartões */
+  --verde-claro: #D9E4BE;   /* cabeçalho do "Transparência sempre" (oliva-escuro 9.1:1) */
 
   --fonte: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --fonte-titulo: "Lilita One", system-ui, sans-serif;
@@ -89,7 +90,7 @@ html {
   scroll-padding-top: var(--barra);
 }
 
-/* Âncoras (barra e "Ver o lado alcoólatra dele ↓") aterrissam com etiqueta + h2
+/* Âncoras (barra e "Ver o lado alcoólatra dela ↓") aterrissam com etiqueta + h2
    inteiros logo abaixo da barra, sem a folga do padding da seção */
 #carrao,
 #alcoolatra,
@@ -415,7 +416,8 @@ html {
   white-space: nowrap;
 }
 
-.hero__local {
+.hero__local,
+.local {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -425,7 +427,8 @@ html {
   line-height: 1.3;
 }
 
-.hero__pino {
+.hero__pino,
+.local__pino {
   flex: none;
   fill: none;
   stroke: var(--verde-oliva);
@@ -667,6 +670,22 @@ html {
   color: var(--creme);
 }
 
+/* 320px: a 4ª coluna vazava 5px; "Ar‑condicionado" e as legendas encolhem um pouco */
+@media (max-width: 22.5rem) {
+  .destaques {
+    padding-inline: 0.2rem;
+  }
+  .destaque {
+    padding-inline: 0;
+  }
+  .destaque .destaque__longo {
+    font-size: 0.64rem;
+  }
+  .destaque span {
+    font-size: 0.64rem;
+  }
+}
+
 @media (min-width: 52rem) {
   .destaques {
     margin-top: -2rem; /* sobe sobre a base do hero */
@@ -737,7 +756,10 @@ html {
 /* Seções compactas: blocos lado a lado, página curta */
 #historia,
 #carrao,
-#fotos {
+#fotos,
+#alcoolatra,
+#ficha,
+#fim {
   --pad-secao: clamp(1.25rem, 0.9rem + 1.5vw, 2.25rem);
   padding: var(--pad-secao) var(--gutter);
 }
@@ -1119,15 +1141,17 @@ html {
   font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.15rem);
 }
 
-/* Ficha técnica: card oliva, rótulos amarelos (5.79:1), valores brancos (8.83:1) */
+/* Ficha técnica: card verde-escuro, rótulos amarelos (7.93:1), valores brancos (12.11:1).
+   No par do fim, estica até a altura do banner e as linhas dividem a sobra. */
 .ficha {
-  background: var(--verde-oliva);
+  display: flex;
+  flex-direction: column;
+  background: var(--oliva-escuro);
   color: var(--branco);
   border-radius: 1.25rem;
   border: 3px solid var(--branco);
   box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
   padding: 1.25rem 1.4rem 1.4rem;
-  align-self: center;
 }
 
 .ficha h3 {
@@ -1141,9 +1165,11 @@ html {
 
 /* Uma grade só pro <dl> inteiro: a coluna de rótulos tem a largura do maior rótulo */
 .ficha dl {
+  flex: 1;
   margin: 0;
   display: grid;
   grid-template-columns: auto 1fr;
+  align-content: stretch;
   column-gap: 1rem;
 }
 
@@ -1153,6 +1179,8 @@ html {
 
 .ficha dt,
 .ficha dd {
+  display: flex;
+  align-items: center;
   padding: 0.55rem 0;
   border-top: 1px solid rgb(255 255 255 / 0.22);
 }
@@ -1168,12 +1196,6 @@ html {
 
 .ficha dd {
   margin: 0;
-}
-
-/* Ficha técnica: provisória no fim do #ficha até a Parte 2 */
-.corrida__conteudo > .ficha {
-  justify-self: start;
-  width: min(100%, 36rem);
 }
 
 /* Celular estreito: ficha empilhada (rótulo pequeno em cima, valor embaixo) */
@@ -1192,114 +1214,234 @@ html {
   }
 }
 
-/* ============ 3. #alcoolatra ============ */
-#alcoolatra {
-  overflow: hidden;
-  background: var(--creme-quente); /* azul-marinho 15.72:1 · verde-oliva 7.20:1 */
-  padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
-}
-
-.alcool__conteudo {
+/* ============ Pares de blocos (I, J, K) ============
+   Celular: empilhados. A partir de 64rem: lado a lado, ~60/40 ou ~40/60. */
+.par {
   display: grid;
-  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  gap: clamp(1rem, 0.8rem + 1vw, 1.5rem);
   max-width: 72rem;
   margin-inline: auto;
-}
-
-.alcool__topo {
-  display: grid;
-  justify-items: start;
-  gap: 0.75rem;
-}
-
-.alcool__titulo-wrap {
-  position: relative;
-  padding-right: 2.5rem; /* espaço do rabisco */
-}
-
-.alcool__rabisco {
-  right: 0;
-  top: -0.4rem;
-  width: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
-  transform: scaleX(-1);
-}
-
-.alcool__estrela {
-  right: 0.6rem;
-  bottom: -0.5rem;
-  width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
-}
-
-.alcool__abertura {
-  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
-  max-width: 44ch;
-}
-
-/* Mesmo acabamento de adesivo da imagem do #carrao */
-.alcool__img {
-  width: 100%;
-  border-radius: 1.25rem;
-  border: 6px solid var(--branco);
-  box-shadow: 0 10px 28px rgb(4 15 28 / 0.18);
-}
-
-/* Placar: 2 visores lado a lado até em 320px (número grande, unidade menor) */
-.alcool__placar {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.75rem, 0.5rem + 1.5vw, 1.5rem);
   align-items: start;
 }
 
-.alcool__medida {
+@media (min-width: 64rem) {
+  .par--60 { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .par--40 { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: stretch; }
+}
+
+/* Bloco creme com borda oliva: o "card principal" de cada par */
+.bloco {
   display: grid;
+  gap: 1rem;
+  align-content: start;
+  background: var(--creme-claro);
+  border: 2px solid var(--verde-oliva);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 18px rgb(4 15 28 / 0.08);
+  padding: clamp(0.85rem, 0.6rem + 1.2vw, 1.5rem);
+}
+
+/* Cabeçalho do bloco: ícone no círculo + etiqueta + h2 */
+.bloco__cabeca {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.bloco__icone {
+  flex: none;
+  width: clamp(2.6rem, 2.3rem + 1vw, 3.25rem);
+  height: clamp(2.6rem, 2.3rem + 1vw, 3.25rem);
+}
+
+.bloco__icone circle:first-child {
+  fill: var(--verde-oliva);
+}
+
+.bloco__icone g {
+  fill: none;
+  stroke: var(--branco);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* pedido do dono: bomba no círculo amarelo (traço azul-marinho, 12.62:1) */
+.bloco__icone--amarelo circle:first-child {
+  fill: var(--amarelo-estrela);
+}
+
+.bloco__icone--amarelo g {
+  stroke: var(--azul-marinho);
+}
+
+.bloco__titulos {
+  display: grid;
+  justify-items: start;
+  gap: 0.4rem;
+}
+
+.titulo-adesivo--menor {
+  font-size: clamp(1.4rem, 1.05rem + 1.6vw, 2.05rem);
+}
+
+/* "Ver … completo": <details> nativo, funciona sem JS */
+.mais > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding: 0.35rem 1.1rem;
+  border: 2px solid var(--verde-oliva);
+  border-radius: 999px;
+  color: var(--verde-oliva); /* 7.65:1 no creme · 8.6:1 no creme claro */
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  list-style: none;
+}
+
+.mais > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* setinha desenhada (sem texto pra leitor de tela) */
+.mais > summary::after {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor;
+  rotate: 45deg;
+  translate: 0 -0.15em;
+}
+
+.mais[open] > summary::after {
+  rotate: -135deg;
+  translate: 0 0.15em;
+}
+
+.mais > summary:hover {
+  background: color-mix(in srgb, var(--verde-oliva) 10%, transparent);
+}
+
+.mais__corpo {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cartao__corpo > p,
+.mais__corpo p {
+  max-width: 60ch;
+}
+
+/* ============ 3. #alcoolatra (I: bloco ~60% + consumo ~40%) ============ */
+#alcoolatra {
+  background: var(--creme-quente); /* azul-marinho 15.72:1 · verde-oliva 7.20:1 */
+}
+
+.alcool__img {
+  order: -1; /* celular: a cena abre o card (no DOM vem depois do cabeçalho) */
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 6px 16px rgb(4 15 28 / 0.14);
+}
+
+.alcool__texto {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.alcool__cartoes {
+  gap: 0.75rem;
+}
+
+/* cabeçalho em cima; imagem à esquerda, texto à direita; o <details> na largura toda */
+@media (min-width: 40rem) {
+  .alcool {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 1.25rem;
+    align-items: center;
+  }
+  .alcool > .bloco__cabeca,
+  .alcool__mais {
+    grid-column: 1 / -1;
+  }
+  .alcool__img {
+    order: 0;
+  }
+  .alcool__cartoes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+/* Consumo (média real): cartão com cabeçalho verde, um visor por linha */
+.consumo__media {
+  font-family: var(--fonte);
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.consumo__corpo {
+  gap: 1rem;
+}
+
+.consumo__medida {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.consumo__linha {
+  display: flex;
+  align-items: center;
   gap: 0.7rem;
 }
 
-.alcool__visor {
-  --visor-fs: clamp(1.75rem, 1rem + 4vw, 3rem);
-  padding: 0.7rem 0.8rem 0.75rem;
+.consumo__icone {
+  flex: none;
+  width: 2.4rem;
+  height: 2.4rem;
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.consumo__visor {
+  --visor-fs: clamp(1.8rem, 1.5rem + 1.2vw, 2.4rem);
+  flex: 1;
+  padding: 0.5rem 0.9rem 0.55rem;
 }
 
 .visor__unidade {
   font-size: 0.5em;
 }
 
-.alcool__medida figcaption {
-  color: var(--azul-marinho);
-  font-size: clamp(0.92rem, 0.88rem + 0.25vw, 1.02rem);
+.consumo__medida figcaption {
+  font-size: clamp(0.92rem, 0.88rem + 0.2vw, 1rem);
   line-height: 1.4;
 }
 
-.alcool__nota {
+.consumo__nota {
   font-size: var(--fs-pequeno);
   font-style: italic;
 }
 
-@media (min-width: 52rem) {
-  .alcool__conteudo {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    grid-template-areas:
-      "topo  topo"
-      "img   placar"
-      "img   card"
-      "img   eco"
-      "nota  nota";
-    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+/* tablet (consumo em largura cheia): os dois visores lado a lado */
+@media (min-width: 30rem) and (max-width: 63.999rem) {
+  .consumo__corpo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
   }
-  .alcool__topo { grid-area: topo; }
-  .alcool__img { grid-area: img; align-self: start; } /* no topo da coluna, sem vão acima */
-  .alcool__placar { grid-area: placar; }
-  .alcool__card { grid-area: card; align-self: start; }
-  .alcool__eco { grid-area: eco; align-self: start; }
-  .alcool__nota { grid-area: nota; }
-  .alcool__visor { --visor-fs: clamp(2rem, 1rem + 2.4vw, 3rem); padding: 0.75rem 1.1rem 0.85rem; }
-}
-
-/* Celular estreito: visor mais justo pra o número não quebrar */
-@media (max-width: 22.5rem) {
-  .alcool__visor { padding-inline: 0.65rem; }
-  .alcool__visor .visor__rotulo { letter-spacing: 0.18em; }
+  .consumo__nota {
+    grid-column: 1 / -1;
+  }
 }
 
 /* ============ 4. #fotos ============ */
@@ -1784,54 +1926,63 @@ html.sem-rolagem {
   from { opacity: 0; }
 }
 
-/* ============ 5. #ficha ============ */
-/* Prefixo "corrida__": a classe .ficha já é a ficha técnica do #carrao */
+/* ============ 5. #ficha (J: manutenção ~60% + transparência ~40%) ============ */
+/* Prefixo "corrida__": a classe .ficha é a ficha técnica (no par do #fim) */
 #ficha {
   overflow: hidden; /* polaroids inclinadas não vazam na lateral */
-  padding: clamp(2.5rem, 2rem + 3vw, 5rem) var(--gutter);
 }
 
-.corrida__conteudo {
+/* 6 itens com ícone: 3×2 em todas as larguras */
+.itens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
-  max-width: 72rem;
-  margin-inline: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.4rem, 0.3rem + 0.5vw, 0.75rem);
 }
 
-.corrida__topo {
+.item {
   display: grid;
-  justify-items: start;
-  gap: 0.75rem;
-}
-
-.corrida__titulo-wrap {
-  position: relative;
-  padding-right: 2.5rem; /* espaço do rabisco */
-}
-
-.corrida__rabisco {
-  right: 0;
-  top: -0.4rem;
-  width: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
-  transform: scaleX(-1);
-}
-
-.corrida__estrela {
-  right: 0.6rem;
-  bottom: -0.5rem;
-  width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
-}
-
-.corrida__abertura {
-  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
-  max-width: 44ch;
-}
-
-.corrida__historico,
-.corrida__papelada {
-  display: grid;
-  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  justify-items: center;
   align-content: start;
+  gap: 0.1rem;
+  padding: 0.7rem 0.15rem 0.75rem;
+  text-align: center;
+  background: var(--creme);
+  border-radius: 0.75rem;
+  hyphens: manual;
+}
+
+.item__icone {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.3rem;
+  fill: none;
+  stroke: var(--verde-oliva);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.item strong {
+  font-size: clamp(0.78rem, 0.72rem + 0.3vw, 0.95rem);
+  line-height: 1.2;
+  color: var(--verde-oliva); /* 7.65:1 no creme */
+}
+
+.item span {
+  font-size: clamp(0.74rem, 0.7rem + 0.2vw, 0.85rem);
+  line-height: 1.25;
+}
+
+.corrida__completa {
+  gap: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+}
+
+.corrida__abertura,
+.corrida__donos {
+  font-size: clamp(1.02rem, 1rem + 0.25vw, 1.15rem);
 }
 
 /* Linha do tempo: selo do ano em oliva, traço oliva ligando os selos */
@@ -1916,11 +2067,6 @@ html.sem-rolagem {
   stroke-linejoin: round;
 }
 
-.corrida__donos {
-  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
-  max-width: 44ch;
-}
-
 .corrida__marcas {
   display: grid;
   gap: 0.75rem;
@@ -1929,26 +2075,21 @@ html.sem-rolagem {
 .corrida__subtitulo {
   font-family: var(--fonte-titulo);
   font-weight: 400;
-  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
+  font-size: clamp(1.3rem, 1.15rem + 0.8vw, 1.7rem);
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   color: var(--verde-oliva);
 }
 
-.corrida__marcas > p {
-  max-width: 52ch;
-}
-
-/* Polaroids: cartão branco, borda grossa, legenda embaixo, inclinação alternada.
-   "rotate" (e não transform) pra somar com o slide do .reveal sem um apagar o outro. */
+/* Polaroids: cartão branco, borda grossa, legenda embaixo, inclinação alternada */
 .polaroids {
   list-style: none;
-  margin: 0.75rem 0 0;
-  padding: 0;
+  margin: 0.5rem 0 0;
+  padding: 0.25rem;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 0.6rem + 2vw, 2rem) clamp(0.75rem, 0.5rem + 1.5vw, 1.75rem);
+  gap: clamp(1rem, 0.6rem + 1.5vw, 1.5rem) clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
 }
 
 .polaroid {
@@ -1961,10 +2102,10 @@ html.sem-rolagem {
 
 .polaroid figure {
   background: var(--branco);
-  padding: clamp(0.45rem, 0.35rem + 0.5vw, 0.75rem);
+  padding: clamp(0.4rem, 0.3rem + 0.4vw, 0.6rem);
   padding-bottom: 0;
   border-radius: 0.2rem;
-  box-shadow: 0 8px 20px rgb(4 15 28 / 0.16);
+  box-shadow: 0 6px 16px rgb(4 15 28 / 0.16);
 }
 
 .polaroid__foto {
@@ -1981,31 +2122,17 @@ html.sem-rolagem {
 }
 
 .polaroid figcaption {
-  font-size: clamp(0.82rem, 0.78rem + 0.25vw, 0.95rem);
+  font-size: clamp(0.8rem, 0.76rem + 0.2vw, 0.9rem);
   font-weight: 600;
   line-height: 1.3;
   text-align: center;
-  padding: 0.6rem 0.2rem 0.8rem;
+  padding: 0.55rem 0.2rem 0.7rem;
   min-height: 3.4em;
   display: grid;
   place-items: center;
 }
 
-@media (min-width: 52rem) {
-  .corrida__conteudo {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    grid-template-areas:
-      "topo      topo"
-      "historico papelada"
-      "marcas    marcas";
-    column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
-    row-gap: clamp(2rem, 1.5rem + 2vw, 3.5rem);
-  }
-  .corrida__topo { grid-area: topo; }
-  .corrida__historico { grid-area: historico; }
-  .corrida__papelada { grid-area: papelada; }
-  .corrida__marcas { grid-area: marcas; }
-  .corrida__conteudo > .ficha { grid-column: 1 / -1; } /* provisório (Parte 2) */
+@media (min-width: 40rem) {
   .polaroids { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
@@ -2021,28 +2148,136 @@ html.sem-rolagem {
   }
 }
 
-/* ============ 6. #fim ============ */
+/* Transparência sempre: cabeçalho verde claro, bilhete do dono, combinado no <details> */
+.cartao--claro .cartao__cabeca {
+  background: var(--verde-claro);
+  color: var(--oliva-escuro); /* 9.1:1 */
+}
+
+.cartao--claro .cartao__icone circle:first-child {
+  fill: var(--verde-oliva);
+}
+
+.transparencia {
+  background: var(--creme);
+}
+
+.transparencia__corpo {
+  gap: 1.25rem;
+}
+
+/* Bilhete: papel branco colado com fita, levemente torto.
+   "rotate" (e não transform) pra somar com o slide do .reveal. */
+.bilhete {
+  position: relative;
+  rotate: -1.5deg;
+  margin: 0.75rem 0.25rem 0;
+  background: var(--branco);
+  padding: 1.6rem 1.25rem 1.1rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 8px 20px rgb(4 15 28 / 0.12), 0 1px 2px rgb(4 15 28 / 0.1);
+}
+
+/* fita adesiva translúcida no topo */
+.bilhete::before {
+  content: "";
+  position: absolute;
+  top: -0.8rem;
+  left: 50%;
+  width: 6.5rem;
+  height: 1.6rem;
+  translate: -50% 0;
+  rotate: 2.5deg;
+  background: rgb(60 81 19 / 0.22);
+  background: color-mix(in srgb, var(--verde-oliva) 22%, transparent);
+  border-inline: 2px dashed rgb(255 255 255 / 0.6);
+  box-shadow: 0 1px 3px rgb(4 15 28 / 0.1);
+}
+
+.bilhete blockquote {
+  margin: 0;
+  font-size: clamp(1rem, 0.97rem + 0.25vw, 1.12rem);
+  line-height: 1.55;
+}
+
+.bilhete figcaption {
+  margin-top: 0.75rem;
+  text-align: right;
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.6rem);
+  line-height: 1.1;
+  color: var(--verde-oliva); /* 8.83:1 no branco */
+}
+
+.combinado__titulo {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  line-height: 1.15;
+  color: var(--verde-oliva);
+}
+
+.combinado__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.combinado__lista li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  column-gap: 0.75rem;
+  align-items: start;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.combinado__lista svg {
+  margin-top: -0.1rem;
+}
+
+.combinado__lista circle {
+  fill: var(--verde-oliva);
+}
+
+.combinado__lista path {
+  fill: none;
+  stroke: var(--branco);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ============ 6. #fim (K: ficha técnica ~40% + fechamento ~60%) ============ */
 #fim {
-  overflow: hidden; /* bilhete inclinado e rabiscos não vazam na lateral */
-  padding-top: var(--pad-secao);
+  overflow: hidden;
+  padding: var(--pad-secao) 0 0;
 }
 
 .fim__conteudo {
   display: grid;
-  gap: clamp(1.25rem, 1rem + 1.5vw, 2rem);
-  max-width: 72rem;
+  gap: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  max-width: calc(72rem + 2 * var(--gutter)); /* mesma largura útil das outras faixas */
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
 
+.fim__conteudo > .par {
+  width: 100%;
+}
+
 /* Banner em cena: carro-no-morro com acabamento de adesivo.
-   Em todas as larguras: título numa faixa do próprio céu da arte, a cena inteira emenda por
-   baixo (máscara) e o painel da oferta vem colado embaixo — nada cobre carro, pessoas, Torre
-   nem cidade. A partir de 52rem o QR fica ao lado do visor/botão/aviso. */
+   Título numa faixa do próprio céu da arte, a cena inteira emenda por baixo (máscara)
+   e o painel da oferta vem colado embaixo: nada cobre a Captiva, as pessoas, a Torre
+   nem a cidade. */
 .fim__banner {
   --ceu: #011439; /* céu noturno da arte (medido no topo de carro-no-morro) */
   position: relative;
   display: grid;
+  align-content: start;
   background: var(--ceu);
   border: 6px solid var(--branco);
   border-radius: 1.25rem;
@@ -2059,29 +2294,6 @@ html.sem-rolagem {
   padding: clamp(1rem, 0.8rem + 1vw, 1.75rem) clamp(1rem, 0.8rem + 1vw, 1.75rem) 0;
 }
 
-.fim__titulo-wrap {
-  position: relative;
-  padding-right: 2.5rem; /* espaço do rabisco */
-}
-
-/* no céu noturno o rabisco vira creme (oliva sumiria no azul) */
-.fim__banner .rabisco {
-  stroke: var(--creme);
-}
-
-.fim__rabisco {
-  right: 0;
-  top: -0.4rem;
-  width: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
-  transform: scaleX(-1);
-}
-
-.fim__estrela {
-  right: 0.6rem;
-  bottom: -0.5rem;
-  width: clamp(0.7rem, 0.6rem + 0.6vw, 1.1rem);
-}
-
 .fim__img {
   width: 100%;
   margin-top: -1.25rem; /* o topo da arte (céu + copa da árvore) entra por baixo do título */
@@ -2089,17 +2301,17 @@ html.sem-rolagem {
   mask-image: linear-gradient(to bottom, transparent, #000 14%);
 }
 
-/* Painel da oferta: creme, colado embaixo da imagem no celular */
+/* Painel da oferta: creme, colado embaixo da imagem */
 .fim__painel {
   position: relative;
   z-index: 1;
   display: grid;
   gap: 0.8rem;
-  align-content: start;
   padding: 1rem;
   background: var(--creme);
 }
 
+/* visor verde-escuro: branco 12.11:1 · amarelo 7.93:1 */
 .fim__visor {
   --visor-fs: clamp(2rem, 1.6rem + 2vw, 2.6rem);
   display: grid;
@@ -2107,6 +2319,7 @@ html.sem-rolagem {
   gap: 0.15rem;
   padding: 0.7rem 1rem 0.8rem;
   text-align: center;
+  background: var(--oliva-escuro);
 }
 
 .fim__detalhe {
@@ -2115,19 +2328,43 @@ html.sem-rolagem {
   line-height: 1.3;
 }
 
+.fim__acao {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.fim__acao .botao {
+  min-height: 3.6rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);
+}
+
 .fim__aviso {
   font-size: var(--fs-pequeno);
   text-align: center;
-  max-width: 44ch;
+  max-width: 48ch;
   justify-self: center;
 }
 
-/* QR: só no desktop. display:none no celular → a imagem lazy nem é baixada */
-.fim__qr {
-  display: none;
+/* visor ao lado do botão quando a largura deixa */
+@media (min-width: 40rem) {
+  .fim__painel {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 1.25rem;
+    padding: 1.25rem 1.5rem 1.4rem;
+  }
+  .fim__aviso {
+    grid-column: 1 / -1;
+  }
 }
 
-/* Condições restantes: 3 selos oliva numa linha (empilhados abaixo de 30rem) */
+/* Abaixo do par: 3 selos de condição numa linha (empilhados < 30rem) + QR (só desktop) */
+.fim__base {
+  display: grid;
+  gap: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  align-items: center;
+}
+
 .fim__condicoes {
   list-style: none;
   margin: 0;
@@ -2164,6 +2401,11 @@ html.sem-rolagem {
   line-height: 1.2;
 }
 
+/* QR: só no desktop. display:none no celular → a imagem lazy nem é baixada */
+.fim__qr {
+  display: none;
+}
+
 @media (min-width: 30rem) {
   .fim__condicoes {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2172,132 +2414,19 @@ html.sem-rolagem {
     grid-template-columns: 1fr;
     align-content: center;
     justify-items: start;
+    height: 100%;
   }
   .fim__selo svg {
     grid-row: auto;
   }
 }
 
-/* Bilhete do dono + combinado */
-.fim__papo {
-  display: grid;
-  gap: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
-  align-items: start;
-}
-
-/* Bilhete: papel branco quente colado com fita, levemente torto.
-   "rotate" (e não transform) pra somar com o slide do .reveal. */
-.bilhete {
-  position: relative;
-  rotate: -1.5deg;
-  margin: 0.75rem 0.25rem 0;
-  background: var(--creme-claro);
-  padding: 1.75rem 1.4rem 1.25rem;
-  border-radius: 0.2rem;
-  box-shadow: 0 10px 24px rgb(4 15 28 / 0.14), 0 1px 2px rgb(4 15 28 / 0.1);
-}
-
-/* fita adesiva translúcida no topo */
-.bilhete::before {
-  content: "";
-  position: absolute;
-  top: -0.8rem;
-  left: 50%;
-  width: 6.5rem;
-  height: 1.6rem;
-  translate: -50% 0;
-  rotate: 2.5deg;
-  background: rgb(60 81 19 / 0.22);
-  background: color-mix(in srgb, var(--verde-oliva) 22%, transparent);
-  border-inline: 2px dashed rgb(255 255 255 / 0.6);
-  box-shadow: 0 1px 3px rgb(4 15 28 / 0.1);
-}
-
-.bilhete blockquote {
-  margin: 0;
-  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.2rem);
-  line-height: 1.55;
-}
-
-.bilhete figcaption {
-  margin-top: 0.75rem;
-  text-align: right;
-  font-family: var(--fonte-titulo);
-  font-size: clamp(1.3rem, 1.15rem + 0.8vw, 1.7rem);
-  line-height: 1.1;
-  color: var(--verde-oliva); /* ~7.5:1 no branco quente */
-}
-
-.combinado__lista {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.85rem;
-}
-
-.combinado__lista li {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  column-gap: 0.75rem;
-  align-items: start;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.combinado__lista svg {
-  margin-top: -0.1rem;
-}
-
-.combinado__lista circle {
-  fill: var(--verde-oliva);
-}
-
-.combinado__lista path {
-  fill: none;
-  stroke: var(--branco);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Fecho do folder: onda creme sobre a faixa oliva, que continua no rodapé */
-.fim__onda {
-  display: block;
-  width: 100%;
-  height: clamp(2rem, 1.4rem + 3vw, 4rem);
-  margin-top: clamp(2.5rem, 2rem + 3vw, 4.5rem);
-  margin-bottom: -1px; /* sem fresta entre a onda e o rodapé */
-  fill: var(--verde-oliva);
-}
-
-.rodape {
-  background: var(--verde-oliva);
-  color: var(--branco); /* 8.83:1 */
-  padding: 0.25rem var(--gutter) 1.25rem;
-  text-align: center;
-  font-size: var(--fs-pequeno);
-}
-
-.rodape__dominio {
-  white-space: nowrap; /* se quebrar, o "·" desce junto com o domínio */
-}
-
-/* QR com legenda ao lado do visor/botão/aviso (≥ 52rem) */
 @media (min-width: 52rem) {
-  .fim__painel {
-    grid-template-columns: minmax(0, 26rem) auto;
-    justify-content: center;
+  .fim__base {
+    grid-template-columns: minmax(0, 1fr) auto;
     column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
-    padding: 1.25rem 1.5rem 1.5rem;
-  }
-  .fim__painel > :not(.fim__qr) {
-    grid-column: 1;
   }
   .fim__qr {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-    align-self: center;
     display: grid;
     grid-template-columns: 11rem 9rem;
     align-items: center;
@@ -2316,13 +2445,28 @@ html.sem-rolagem {
     font-weight: 700;
     line-height: 1.35;
   }
-  .fim__papo {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    column-gap: clamp(2rem, 1rem + 3vw, 4rem);
-  }
-  .bilhete {
-    padding: 2rem 1.9rem 1.5rem;
-  }
+}
+
+/* Fecho do folder: onda creme sobre a faixa oliva, que continua no rodapé */
+.fim__onda {
+  display: block;
+  width: 100%;
+  height: clamp(2rem, 1.4rem + 3vw, 4rem);
+  margin-top: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  margin-bottom: -1px; /* sem fresta entre a onda e o rodapé */
+  fill: var(--verde-oliva);
+}
+
+.rodape {
+  background: var(--verde-oliva);
+  color: var(--branco); /* 8.83:1 */
+  padding: 0.25rem var(--gutter) 1.25rem;
+  text-align: center;
+  font-size: var(--fs-pequeno);
+}
+
+.rodape__dominio {
+  white-space: nowrap; /* se quebrar, o "·" desce junto com o domínio */
 }
 
 /* ============ Reveal (fade + slide de entrada) ============

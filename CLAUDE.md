@@ -15,16 +15,16 @@ Objetivo único: fazer rir, provar que o carro é bom e levar ao **WhatsApp**.
 - **Linguagem inclusiva:** nada de masculino genérico para pessoas ("pessoa compradora", "quem dirige", "oficina de confiança"); nos alts, posições neutras ("banco dianteiro esquerdo", não "do motorista").
 
 ## As seções (ids fixos)
-Ordem na página (reestruturação, Parte 1): `hero` → faixa de ícones → `historia` (bloco autorizado pelo dono) → `carrao` → `fotos` → `alcoolatra` → `ficha` → `fim`.
+Ordem na página (layout final do dono, Partes 1 e 2): `hero` → faixa de ícones → `historia` (bloco autorizado pelo dono) → `carrao` → `fotos` → `alcoolatra` (par I) → `ficha` (par J) → `fim` (par K) → rodapé.
 
 | # | id | Seção | Imagem-chave | Status |
 |---|----|-------|--------------|--------|
 | 1 | `hero` | Tô vendendo... Quer comprar? + preço + WhatsApp | `img/cartoon/brasilia-desktop-{1280,1920}.webp` + `brasilia-mobile-{720,1080}.webp` (cena de Brasília com a Torre de TV, full-bleed; `folder-cena` saiu do hero mas fica no repo) | ✅ pronta (layout novo, sessão A) |
 | 2 | `carrao` | O carrão (espaço, conforto, câmbio/piloto automático, engate, ficha curta) | `img/cartoon/portas-abertas.webp` | ✅ pronta |
-| 3 | `alcoolatra` | O lado alcoólatra (confissão + consumo real) | `img/cartoon/bomba-na-boca.webp` | ✅ pronta |
+| 3 | `alcoolatra` | O lado alcoólatra (confissão + card "Consumo (média real)") | `img/cartoon/bomba-na-boca{-800,}.webp` | ✅ pronta (layout final) |
 | 4 | `fotos` | 76 fotos, zero maquiagem (galeria com filtros, lê `fotos.json`) | `img/fotos/*.avif` + `img/fotos/thumbs/*.webp` | ✅ pronta |
-| 5 | `ficha` | Ficha corrida (manutenções, IPVA/licenciamento, defeitos assumidos) | `img/recortes/*.webp` (notas fiscais nunca entram) | ✅ pronta |
-| 6 | `fim` | Fim da história (condições + WhatsApp + "Começo da sua.") | `img/cartoon/carro-no-morro{-800,}.webp` + `img/qr-whatsapp.svg` | em validação (sessão 6) |
+| 5 | `ficha` | Manutenção e histórico (6 itens + ficha corrida completa no `details`) + card "Transparência sempre" | `img/recortes/*.webp` (notas fiscais nunca entram) | ✅ pronta (layout final) |
+| 6 | `fim` | Ficha técnica + fechamento "Começo da sua." (preço + WhatsApp) + selos de condição + QR | `img/cartoon/carro-no-morro{-800,}.webp` + `img/qr-whatsapp.svg` | ✅ pronta (layout final) |
 
 ### Decisões do layout novo (barra + hero + faixa de ícones)
 - Barra superior fixa (`.barra`, `--barra: 3.5rem`, máx. 56px) fora do `<main>`: marca em texto (sem logo/marca registrada), âncoras #carrao/#alcoolatra/#fotos/#ficha a partir de 52rem, botão de WhatsApp (só ícone, 44px, no celular; com texto a partir de 64rem). Âncoras: `html { scroll-padding-top: var(--barra) }` + `scroll-margin-top: calc(0.75rem - var(--pad-secao))` nas seções.
@@ -36,19 +36,26 @@ Ordem na página (reestruturação, Parte 1): `hero` → faixa de ícones → `h
 - A grade é HTML estático gerado a partir do `fotos.json` (mesma ordem; `data-cat` = fora/dentro/detalhes). Mudou o `fotos.json`, regenera a grade.
 - Miniaturas em `img/fotos/thumbs/*.webp` (480px no lado maior, qualidade 70). A AVIF grande só baixa ao abrir o visualizador.
 
+### Layout final do dono (Parte 2): pares de blocos
+Referência: `_referencia/EuQueroEhAssim.png`. As três últimas seções são faixas com **dois blocos lado a lado a partir de 64rem** (`.par`; empilhados abaixo disso). Padding compacto como #historia/#carrao/#fotos.
+- **I · #alcoolatra** (`.par--60`): `.bloco.alcool` (card creme com borda oliva) = cabeçalho (bomba no círculo **amarelo** — exceção pedida pelo dono, traço azul-marinho — + etiqueta + h2 menor), imagem paisagem à esquerda (no celular abre o card), abertura + "De onde vem a sede?…" à direita; `details` "Ver o lado alcoólatra completo" com os cartões "Tanque cheio" e "Ela até faz regime.". Ao lado, `aside.cartao.consumo` "Consumo (média real)": visores Cidade/Estrada com ícones de prédio e estrada, as duas legendas e a nota do dono. O link do hero aponta pra `#alcoolatra`.
+- **J · #ficha** (`.par--60`): `.bloco.corrida` = chave + "Manutenção e histórico" + h2 "Mimada, e com nota fiscal." menor; 6 itens com ícone (`ul.itens`, 3×2 em todas as larguras; `&shy;` em "Arrefeci­mento" e "licencia­mento" pro 320px), só dados reais; `details` "Ver ficha corrida completa" com tudo o que havia (abertura R$ 15 mil, arrefecimento, Manutenção por ano, selos IPVA/licenciamento, skincare, Marcas de uso com polaroids). Ao lado, `aside.cartao.cartao--claro.transparencia` "Transparência sempre" (cabeçalho `--verde-claro`, aperto de mão): bilhete do dono + `details` "Ver o combinado".
+- **K · #fim** (`.par--40`, altura igualada): `aside.ficha` (ficha técnica, card `--oliva-escuro`, 8 itens) + `.fim__banner`; embaixo `.fim__base` = 3 selos numa linha + QR com legenda (só ≥ 52rem).
+- `details.mais` = "Ver … completo" nativo (funciona sem JS); setinha desenhada em CSS, sem texto. Não colocar `.reveal` dentro de `details`.
+
 ### Decisões da ficha corrida (#ficha)
-- Classes com prefixo `corrida__` / `linha-tempo` / `selo` / `polaroid` — `.ficha` já é a ficha técnica do #carrao.
+- Classes com prefixo `corrida__` / `itens` / `linha-tempo` / `selo` / `polaroid` — `.ficha` é a ficha técnica (no par do #fim).
 - Recortes: `img/recortes/*.webp` (lado maior 800px, qualidade 80, transparência preservada, recortados no conteúdo). Os PNG ficam no repo mas fora do HTML. Placa tarjada de preto (inclusive nos PNG).
 - Polaroids inclinam com a propriedade `rotate` (não `transform`) pra não brigar com o `.reveal`.
 
 ### Decisões do fim (#fim)
-- Classes com prefixo `fim__` / `bilhete` / `combinado` / `rodape`. Fechamento em cena: `.fim__banner` (carro-no-morro) com etiqueta + h2 no céu e `.fim__painel` (visor do preço + WhatsApp + aviso + QR). Em todas as larguras: h2 numa faixa do próprio céu da arte, cena inteira (nada cobre carro, pessoas, Torre nem cidade) e painel colado embaixo; a partir de 52rem o QR fica ao lado do visor/botão/aviso. Abaixo: 3 `.fim__selo` numa linha (empilhados < 30rem), depois bilhete + combinado.
-- QR (`img/qr-whatsapp.svg`) gerado uma vez com segno (nível M, azul-marinho sobre branco, margem de 4 módulos) e verificado decodificando para a URL exata. Só aparece no desktop (≥ 52rem); no celular fica `display:none` e não é baixado. Mudou a URL, regenera e verifica de novo.
+- Classes com prefixo `fim__` / `local` / `rodape` (`bilhete` e `combinado` foram pro card "Transparência sempre" do #ficha). Fechamento em cena: `.fim__banner` (carro-no-morro) com etiqueta + h2 "Começo da sua." no céu e `.fim__painel` colado embaixo: visor **verde-escuro** "R$ 40.000 / negociável · só à vista", botão grande "Quero ver ela de perto", pino "Águas Claras, Brasília/DF" e o aviso de ligação (visor ao lado do botão a partir de 40rem). Nada cobre a Captiva, as pessoas, a Torre nem a cidade. Abaixo do par: 3 `.fim__selo` numa linha (empilhados < 30rem) + QR com legenda.
+- QR (`img/qr-whatsapp.svg`) gerado uma vez com segno (nível M, azul-marinho sobre branco, margem de 4 módulos) e verificado decodificando para a URL exata (também recortado da tela a 1x). Exibido a 176px (11rem), só no desktop (≥ 52rem); no celular fica `display:none` e não é baixado. Mudou a URL, regenera e verifica de novo.
 - O site fecha com a onda verde-oliva do folder (`.fim__onda`) emendada no `<footer class="rodape">`, que fica fora do `<main>`.
 
 ### Ritmo visual (sessão B)
-- Fundos: #carrao creme · #alcoolatra `--creme-quente` · #fotos faixa `--oliva-escuro` com onda SVG em cima e embaixo · #ficha creme · #fim creme + banner.
-- `.cartao` = cabeçalho verde-oliva (ícone + h3 branco) + corpo `--creme-claro`. Usado no #alcoolatra ("Tanque cheio" e ECO), #ficha (arrefecimento e "Manutenção por ano") e #fim (combinado). Os cards do #carrao continuam `.card` (ícone no círculo).
+- Fundos: #historia creme · #carrao e #fotos `.bloco-verde` (oliva-escuro contido) · #alcoolatra `--creme-quente` · #ficha creme · #fim creme + banner.
+- `.cartao` = cabeçalho verde-oliva (ícone + h3 branco) + corpo `--creme-claro`. Usado em "Consumo (média real)", "Tanque cheio", ECO, arrefecimento, "Manutenção por ano" e "Transparência sempre" (`.cartao--claro`: cabeçalho `--verde-claro` com texto oliva-escuro). Os cards do #carrao continuam `.card` (ícone no círculo). `.bloco` = card principal de cada par (creme claro, borda oliva).
 
 ## Dados oficiais (não alterar, não completar)
 - Preço: **R$ 40.000, negociável**
@@ -90,8 +97,9 @@ Variáveis em `:root` do `style.css` (hex medidos em `_referencia/folder.png`):
 | `--oliva-escuro` | `#2B3B0E` | hover e sombra do botão |
 | `--amarelo-estrela` | `#FCCB42` | só estrelinhas, dígitos do visor e anel de foco |
 | `--branco` | `#FFFFFF` | contorno do título, texto sobre oliva/azul |
+| `--verde-claro` | `#D9E4BE` | cabeçalho do "Transparência sempre" (oliva-escuro 9.1:1) |
 
-- Amarelo nunca é texto sobre creme (1.32:1). O anel de foco amarelo leva halo azul-marinho.
+- Amarelo nunca é texto sobre creme (1.32:1). O anel de foco amarelo leva halo azul-marinho. Exceção pedida pelo dono: o círculo do ícone da bomba no #alcoolatra (traço azul-marinho por cima).
 - Título: Lilita One, caixa alta, contorno branco grosso + sombra suave. Texto corrido: fonte do sistema.
 - Fontes hospedadas no próprio repo (`fonts/*.woff2` + `fonts/OFL.txt`), nada de CDN.
 
